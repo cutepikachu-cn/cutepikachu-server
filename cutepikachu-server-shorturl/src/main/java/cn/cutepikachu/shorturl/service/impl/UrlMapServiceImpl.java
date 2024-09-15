@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import static cn.cutepikachu.shorturl.constant.ShortUrlConstant.*;
 
 /**
- * 服务实现类
+ * 短链接映射表 服务实现类
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 0.0.1-SNAPSHOT

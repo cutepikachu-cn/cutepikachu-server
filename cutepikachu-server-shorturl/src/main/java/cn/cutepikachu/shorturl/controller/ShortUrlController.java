@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 /**
+ * 短链服务 对外接口
+ *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
  * @since 2024-09-02 19:45-23

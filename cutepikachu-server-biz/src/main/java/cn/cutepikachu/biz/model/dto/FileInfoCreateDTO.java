@@ -1,11 +1,12 @@
 package cn.cutepikachu.biz.model.dto;
 
-import java.io.Serializable;
-import java.io.Serial;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
- *  创建 DTO
+ * 文件信息表 创建 DTO
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 0.0.1-SNAPSHOT

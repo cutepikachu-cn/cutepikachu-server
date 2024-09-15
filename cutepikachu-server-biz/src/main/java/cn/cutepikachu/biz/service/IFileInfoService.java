@@ -4,7 +4,7 @@ import cn.cutepikachu.biz.model.entity.FileInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * 服务类
+ * 文件信息表 服务类
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 0.0.1-SNAPSHOT
