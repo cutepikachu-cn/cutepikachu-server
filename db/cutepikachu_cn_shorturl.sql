@@ -18,4 +18,5 @@ create table `url_map`
     index `idx_short_url_long_url` (`short_url`, `long_url`)
 ) engine = InnoDB
   default charset = utf8mb4
-  collate utf8mb4_general_ci;
+  collate utf8mb4_general_ci
+    comment '短链接映射表';

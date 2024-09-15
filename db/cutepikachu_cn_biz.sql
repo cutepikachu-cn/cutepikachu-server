@@ -20,4 +20,5 @@ create table `file_info`
     primary key (`file_id`)
 ) engine = InnoDB
   default charset = utf8mb4
-  collate utf8mb4_general_ci;
+  collate utf8mb4_general_ci
+    comment '文件信息表';
