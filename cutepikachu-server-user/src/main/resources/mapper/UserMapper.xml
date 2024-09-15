@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a> -->
+<!-- @version 0.0.1-SNAPSHOT -->
+<!-- @since 2024-08-01 19:21:35 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cutepikachu.user.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.cutepikachu.common.user.model.entity.User">
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="avatar_url" property="avatarUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, nick_name, avatar_url
+    </sql>
+
+</mapper>

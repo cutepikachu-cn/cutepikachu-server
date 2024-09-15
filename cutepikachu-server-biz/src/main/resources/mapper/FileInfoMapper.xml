@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a> -->
+<!-- @version 0.0.1-SNAPSHOT -->
+<!-- @since 2024-09-13 16:23:28 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cutepikachu.biz.mapper.FileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.cutepikachu.biz.model.entity.FileInfo">
+        <id column="file_id" property="fileId" jdbcType="BIGINT"/>
+        <result column="path" property="path"
+                jdbcType="VARCHAR"/>
+        <result column="name" property="name"
+                jdbcType="VARCHAR"/>
+        <result column="size" property="size"
+                jdbcType="INTEGER"/>
+        <result column="extension" property="extension"
+                jdbcType="VARCHAR"/>
+        <result column="biz_tag" property="bizTag"
+                jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `file_id`, `path`, `name`, `size`, `extension`, `biz_tag`
+    </sql>
+
+</mapper>

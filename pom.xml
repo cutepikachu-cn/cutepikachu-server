@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.cutepikachu</groupId>
+    <artifactId>cutepikachu-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>cutepikachu-server</name>
+    <description>Cutepikachu Server 笨蛋皮卡丘的服务后端</description>
+
+    <properties>
+        <project.encoding>UTF-8</project.encoding>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <java.version>17</java.version>
+
+        <!-- 核心依赖版本 -->
+        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+
+        <!-- 其它依赖 -->
+        <guava.version>33.3.0-jre</guava.version>
+        <hutool.version>5.8.29</hutool.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <knife4j.version>4.5.0</knife4j.version>
+        <aspectjweaver.version>1.9.22.1</aspectjweaver.version>
+        <redisson.version>3.33.0</redisson.version>
+        <sa-token.version>1.38.0</sa-token.version>
+        <druid.version>1.2.20</druid.version>
+        <minio.version>8.5.12</minio.version>
+    </properties>
+
+    <modules>
+        <module>cutepikachu-server-common</module>
+        <module>cutepikachu-server-inner</module>
+        <module>cutepikachu-server-generator</module>
+        <module>cutepikachu-server-user</module>
+        <module>cutepikachu-server-auth</module>
+        <module>cutepikachu-server-gateway</module>
+        <module>cutepikachu-server-leaf</module>
+        <module>cutepikachu-server-xtimer</module>
+        <module>cutepikachu-server-shorturl</module>
+        <module>cutepikachu-server-biz</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 核心依赖 -->
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Sprint Cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring Cloud Alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 模块依赖 -->
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-database</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-user</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-inner-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-inner-user</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-inner-leaf</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 其它依赖 -->
+            <!-- Guava -->
+            <!-- <dependency> -->
+            <!--   <groupId>com.google.guava</groupId> -->
+            <!--   <artifactId>guava</artifactId> -->
+            <!--   <version>${guava.version}</version> -->
+            <!-- </dependency> -->
+            <!-- Druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!-- Hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Mybatis-Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <!-- AOP -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectjweaver.version}</version>
+            </dependency>
+            <!-- Redisson -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!-- Sa-Token -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-bom</artifactId>
+                <version>${sa-token.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- MinIO -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.encoding}</encoding>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <encoding>${project.encoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识 -->
+                <profiles.active>dev</profiles.active>
+                <!-- https://github.com/alibaba/nacos/issues/3460 -->
+                <nacos.namespace/>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <nacos.namespace>public</nacos.namespace>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+                <nacos.namespace>public</nacos.namespace>
+            </properties>
+        </profile>
+    </profiles>
+</project>

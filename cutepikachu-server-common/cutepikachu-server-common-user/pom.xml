@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>cutepikachu-server-common</artifactId>
+        <groupId>cn.cutepikachu</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <packaging>jar</packaging>
+
+    <artifactId>cutepikachu-server-common-user</artifactId>
+    <description>Cutepikachu Server 公共模块-用户</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-auth</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
