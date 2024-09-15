@@ -13,7 +13,7 @@ import lombok.Data;
 </#if>
 
 /**
- * ${table.comment!} 创建 DTO
+ * 创建 DTO
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version ${version}

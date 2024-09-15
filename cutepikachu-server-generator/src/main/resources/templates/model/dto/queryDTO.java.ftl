@@ -14,7 +14,7 @@ import lombok.Data;
 </#if>
 
 /**
- * ${table.comment!} 查询 DTO
+ * 查询 DTO
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version ${version}
