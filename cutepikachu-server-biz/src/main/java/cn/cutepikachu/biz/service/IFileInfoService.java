@@ -1,6 +1,7 @@
 package cn.cutepikachu.biz.service;
 
 import cn.cutepikachu.biz.model.entity.FileInfo;
+import cn.cutepikachu.biz.model.vo.FileInfoVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,5 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-09-13 16:23:28
  */
 public interface IFileInfoService extends IService<FileInfo> {
+
+    FileInfoVO saveFile(FileInfo fileInfo);
 
 }

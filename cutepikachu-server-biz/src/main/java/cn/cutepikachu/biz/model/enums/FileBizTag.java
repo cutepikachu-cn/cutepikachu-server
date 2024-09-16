@@ -12,11 +12,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FileBizTag implements BaseEnum<String> {
-    
-    USER_AVATAR("用户头像", "user_avatar");
+
+    USER_AVATAR("用户头像", "user_avatar", "image");
 
     private final String text;
 
     private final String value;
+
+    private final String bucket;
 
 }

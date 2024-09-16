@@ -13,8 +13,8 @@
         <result column="name" property="name"
                 jdbcType="VARCHAR"/>
         <result column="size" property="size"
-                jdbcType="INTEGER"/>
-        <result column="extension" property="extension"
+                jdbcType="BIGINT"/>
+        <result column="type" property="type"
                 jdbcType="VARCHAR"/>
         <result column="biz_tag" property="bizTag"
                 jdbcType="VARCHAR"/>
@@ -22,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        `file_id`, `path`, `name`, `size`, `extension`, `biz_tag`
+        `file_id`, `path`, `name`, `size`, `type`, `biz_tag`
     </sql>
 
 </mapper>

@@ -25,6 +25,6 @@ cutepikachu:
   biz:
     oss:
       minio:
-        endpoint: 127.0.0.1:9000
+        endpoint: http://127.0.0.1:9000
         access-key: iAm7zszjZRZpYXaLMBVP
         secret-key: ROll1R3uvTTXV0KU57w74e7wWNEVozUAqXv78S1j

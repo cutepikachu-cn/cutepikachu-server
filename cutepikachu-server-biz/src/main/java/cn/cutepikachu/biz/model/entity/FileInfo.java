@@ -2,7 +2,6 @@ package cn.cutepikachu.biz.model.entity;
 
 import cn.cutepikachu.biz.model.vo.FileInfoVO;
 import cn.cutepikachu.common.model.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +32,7 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
     /**
      * 文件 id
      */
-    @TableId(value = "`file_id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`file_id`")
     private Long fileId;
 
     /**
@@ -52,13 +51,13 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
      * 文件大小
      */
     @TableField("`size`")
-    private Integer size;
+    private Long size;
 
     /**
-     * 文件扩展名
+     * 文件类型
      */
-    @TableField("`extension`")
-    private String extension;
+    @TableField("`type`")
+    private String type;
 
     /**
      * 业务标识
@@ -74,7 +73,7 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
 
     public static final String SIZE = "size";
 
-    public static final String EXTENSION = "extension";
+    public static final String TYPE = "type";
 
     public static final String BIZ_TAG = "biz_tag";
 

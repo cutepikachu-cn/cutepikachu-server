@@ -1,37 +1,41 @@
 package cn.cutepikachu.biz.service.impl;
 
 import cn.cutepikachu.biz.config.MinIOConfiguration;
+import cn.cutepikachu.biz.model.enums.FileBizTag;
 import cn.cutepikachu.biz.service.OssService;
-import cn.cutepikachu.biz.util.OssUtils;
 import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
+import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
+import io.minio.http.Method;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
+ * Minio 对象存储服务类
+ *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
  * @since 2024-09-13 19:58-01
  */
 @Service
 @Slf4j
-public class MinIOService implements OssService, InitializingBean {
+public class MinioService implements OssService, InitializingBean {
 
     @Resource
     private MinIOConfiguration minIOConfiguration;
 
     private MinioClient minioClient;
 
-    private MinIOService() {
+    private MinioService() {
     }
 
     @Override
@@ -46,13 +50,12 @@ public class MinIOService implements OssService, InitializingBean {
     }
 
     @Override
-    public void upload(String bucketName, String objectName, MultipartFile file) {
-        try (InputStream inputStream = new ByteArrayInputStream(file.getBytes())) {
-            String filePath = OssUtils.getFilePath();
+    public void upload(byte[] bytes, FileBizTag bizTag, String path, String contentType) {
+        try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
             PutObjectArgs uploadObjectArgs = PutObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(filePath)
-                    .contentType(file.getContentType())
+                    .bucket(bizTag.getBucket())
+                    .object(path)
+                    .contentType(contentType)
                     .stream(inputStream, inputStream.available(), -1)
                     .build();
             minioClient.putObject(uploadObjectArgs);
@@ -62,11 +65,26 @@ public class MinIOService implements OssService, InitializingBean {
     }
 
     @Override
-    public void remove(String bucketName, String objectName) {
+    public String getPresignedObjectUrl(String bucketName, String objectName, String objectPath) {
+        try {
+            GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(bucketName)
+                    .object(objectPath + objectName)
+                    .expiry(1, TimeUnit.MINUTES)
+                    .build();
+            return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
+        } catch (Exception e) {
+            throw new BusinessException(ResponseCode.OPERATION_ERROR, "获取文件失败");
+        }
+    }
+
+    @Override
+    public void remove(String bucketName, String objectName, String objectPath) {
         try {
             RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                     .bucket(bucketName)
-                    .object(objectName)
+                    .object(objectPath + objectName)
                     .build();
             minioClient.removeObject(removeObjectArgs);
         } catch (Exception e) {

@@ -37,12 +37,12 @@ public class FileInfoQueryDTO extends PageDTO implements Serializable {
     /**
      * 文件大小
      */
-    private Integer size;
+    private Long size;
 
     /**
-     * 文件扩展名
+     * 文件类型
      */
-    private String extension;
+    private String type;
 
     /**
      * 业务标识

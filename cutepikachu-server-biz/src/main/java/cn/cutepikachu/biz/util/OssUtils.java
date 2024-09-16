@@ -1,5 +1,6 @@
 package cn.cutepikachu.biz.util;
 
+import cn.cutepikachu.biz.model.enums.FileBizTag;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 
@@ -12,13 +13,15 @@ import java.util.Date;
  */
 public class OssUtils {
 
-    public static String getFilePath() {
+    public static String getObjectPath(FileBizTag bizTag) {
         StringBuilder filaPath = new StringBuilder();
         // 获取今天零点时间戳
         long zero = DateUtil.beginOfDay(new Date()).getTime();
         // 生成文件名
         String fileName = IdUtil.simpleUUID();
-        filaPath.append(zero)
+        filaPath.append(bizTag.getValue())
+                .append("/")
+                .append(zero)
                 .append("/")
                 .append(fileName);
         return filaPath.toString();
