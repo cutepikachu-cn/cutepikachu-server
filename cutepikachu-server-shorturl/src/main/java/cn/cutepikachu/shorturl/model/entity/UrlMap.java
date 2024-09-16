@@ -2,7 +2,6 @@ package cn.cutepikachu.shorturl.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.shorturl.model.vo.UrlMapVO;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +32,7 @@ public class UrlMap extends BaseEntity<UrlMap, UrlMapVO> implements Serializable
     /**
      * 链接 id
      */
-    @TableId(value = "`url_id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`url_id`")
     private Long urlId;
 
     /**

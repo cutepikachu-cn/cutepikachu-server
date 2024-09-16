@@ -2,7 +2,6 @@ package cn.cutepikachu.xtimer.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.xtimer.model.vo.TimerTaskVO;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +32,7 @@ public class TimerTask extends BaseEntity<TimerTask, TimerTaskVO> implements Ser
     /**
      * 任务执行 id
      */
-    @TableId(value = "`task_id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`task_id`")
     private Long taskId;
 
     /**

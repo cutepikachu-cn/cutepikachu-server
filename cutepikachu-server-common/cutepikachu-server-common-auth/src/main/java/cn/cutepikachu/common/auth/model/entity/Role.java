@@ -2,7 +2,6 @@ package cn.cutepikachu.common.auth.model.entity;
 
 import cn.cutepikachu.common.auth.model.vo.RoleVO;
 import cn.cutepikachu.common.model.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +32,7 @@ public class Role extends BaseEntity<Role, RoleVO> implements Serializable {
     /**
      * 角色 id
      */
-    @TableId(value = "`role_id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`role_id`")
     private Long roleId;
 
     /**

@@ -4,7 +4,6 @@ import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
 import cn.cutepikachu.xtimer.model.vo.TimerVO;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -35,7 +34,7 @@ public class Timer extends BaseEntity<Timer, TimerVO> implements Serializable {
     /**
      * 定时任务 id
      */
-    @TableId(value = "`timer_id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`timer_id`")
     private Long timerId;
 
     /**

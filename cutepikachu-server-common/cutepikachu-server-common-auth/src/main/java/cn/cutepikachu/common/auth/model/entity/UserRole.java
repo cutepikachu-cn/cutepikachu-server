@@ -2,7 +2,6 @@ package cn.cutepikachu.common.auth.model.entity;
 
 import cn.cutepikachu.common.auth.model.vo.UserRoleVO;
 import cn.cutepikachu.common.model.BaseEntity;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -33,7 +32,7 @@ public class UserRole extends BaseEntity<UserRole, UserRoleVO> implements Serial
     /**
      * 关联主键 id
      */
-    @TableId(value = "`id`", type = IdType.ASSIGN_ID)
+    @TableId(value = "`id`")
     private Long id;
 
     /**

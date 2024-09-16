@@ -2,7 +2,6 @@ package cn.cutepikachu.generator;
 
 import cn.cutepikachu.common.model.BaseEntity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
@@ -81,7 +80,7 @@ public class MyBatisPlusGenerator {
                         .columnNaming(NamingStrategy.underline_to_camel) // 数据库表字段映射到实体的命名策略
                         .addIgnoreColumns("create_time", "update_time", "is_delete") // 忽略字段
                         .addTableFills(new Column("create_time", FieldFill.INSERT), new Column("update_time", FieldFill.INSERT_UPDATE)) // 添加表字段填充
-                        .idType(IdType.ASSIGN_ID) // 全局主键类型
+                        // .idType(IdType.ASSIGN_ID) // 全局主键类型
                         .enableFileOverride() // 覆盖文件
                         .javaTemplate("/templates/model/entity/entity.java") // 模板
 
