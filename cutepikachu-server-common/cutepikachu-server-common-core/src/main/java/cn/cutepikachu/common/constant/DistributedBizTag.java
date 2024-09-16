@@ -15,4 +15,6 @@ public class DistributedBizTag {
 
     public static final String SHORT_URL = "cutepikachu-server-shorturl";
 
+    public static final String FILE = "cutepikachu-server-file";
+
 }
