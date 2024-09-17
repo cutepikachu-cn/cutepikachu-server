@@ -21,15 +21,15 @@ public class PasswordUtil {
 
     private static DigestAlgorithm ALGORITHM;
 
-    private static final Digester digester;
+    private static final Digester DIGESTER;
 
     private static final SecurityConfiguration SECURITY_CONFIGURATION = SpringContextUtils.getBean(SecurityConfiguration.class);
 
     static {
         PasswordUtil.SALT = SECURITY_CONFIGURATION.getSalt();
         PasswordUtil.ALGORITHM = SECURITY_CONFIGURATION.getAlgorithm();
-        digester = DigestUtil.digester(PasswordUtil.ALGORITHM);
-        digester.setSalt(PasswordUtil.SALT.getBytes(StandardCharsets.UTF_8));
+        DIGESTER = DigestUtil.digester(PasswordUtil.ALGORITHM);
+        DIGESTER.setSalt(PasswordUtil.SALT.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -39,7 +39,7 @@ public class PasswordUtil {
      * @return 加密后的密码
      */
     public static String crypto(String password) {
-        return digester.digestHex(password);
+        return DIGESTER.digestHex(password);
     }
 
     /**
@@ -50,7 +50,7 @@ public class PasswordUtil {
      * @return 是否匹配
      */
     public static boolean matches(String password, String encodedPassword) {
-        return digester.digestHex(password).equals(encodedPassword);
+        return DIGESTER.digestHex(password).equals(encodedPassword);
     }
 
 }
