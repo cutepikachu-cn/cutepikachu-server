@@ -50,12 +50,17 @@ public class MyBatisPlusGenerator {
                 // 数据源配置
                 .create(dataSourceConfig)
                 // 全局配置
-                .globalConfig(globalConfigBuilder -> globalConfigBuilder.outputDir(OUTPUT_DIR) // 输出目录
-                        .disableOpenDir() // 禁止打开输出目录
-                        .author(AUTH) // 作者名
-                        .dateType(DateType.TIME_PACK) // 时间策略
-                        .commentDate("yyyy-MM-dd HH:mm:ss") // 注释日期时间格式
-                ).packageConfig(packageConfigBuilder -> packageConfigBuilder.parent(OUTPUT_PACKAGE) // 父包名
+                .globalConfig(globalConfigBuilder -> globalConfigBuilder
+                        .outputDir(OUTPUT_DIR) // 输出目录
+                        // 禁止打开输出目录
+                        .disableOpenDir()
+                        // 作者名
+                        .author(AUTH)
+                        // 时间策略
+                        .dateType(DateType.TIME_PACK)
+                        .commentDate("yyyy-MM-dd HH:mm:ss")
+                ).packageConfig(packageConfigBuilder -> packageConfigBuilder
+                        .parent(OUTPUT_PACKAGE) // 父包名
                         // .moduleName("application") // 父包模块名
                         .entity("model.entity") // Entity 包名
                         .service("service") // Service 包名
@@ -111,15 +116,40 @@ public class MyBatisPlusGenerator {
                 // 注入配置
                 .injectionConfig(injectionConfigBuilder -> {
                     // VO 模板
-                    CustomFile voFile = new CustomFile.Builder().fileName("VO.java").packageName("model.vo").templatePath("/templates/model/vo/vo.java.ftl").enableFileOverride().build();
+                    CustomFile voFile = new CustomFile.Builder()
+                            .fileName("VO.java")
+                            .packageName("model.vo")
+                            .templatePath("/templates/model/vo/vo.java.ftl")
+                            .enableFileOverride()
+                            .build();
                     // Controller 模板
-                    CustomFile controllerFile = new CustomFile.Builder().fileName("Controller.java").packageName("controller").templatePath("/templates/controller/controller.java.ftl").enableFileOverride().build();
+                    CustomFile controllerFile = new CustomFile.Builder()
+                            .fileName("Controller.java")
+                            .packageName("controller")
+                            .templatePath("/templates/controller/controller.java.ftl")
+                            .enableFileOverride()
+                            .build();
                     // QueryDTO 模板
-                    CustomFile queryRequestFile = new CustomFile.Builder().fileName("QueryDTO.java").packageName("model.dto").templatePath("/templates/model/dto/queryDTO.java.ftl").enableFileOverride().build();
+                    CustomFile queryRequestFile = new CustomFile.Builder()
+                            .fileName("QueryDTO.java")
+                            .packageName("model.dto")
+                            .templatePath("/templates/model/dto/queryDTO.java.ftl")
+                            .enableFileOverride()
+                            .build();
                     // CreateDTO 模板
-                    CustomFile createRequest = new CustomFile.Builder().fileName("CreateDTO.java").packageName("model.dto").templatePath("/templates/model/dto/createDTO.java.ftl").enableFileOverride().build();
+                    CustomFile createRequest = new CustomFile.Builder()
+                            .fileName("CreateDTO.java")
+                            .packageName("model.dto")
+                            .templatePath("/templates/model/dto/createDTO.java.ftl")
+                            .enableFileOverride()
+                            .build();
                     // UpdateDTO 模板
-                    CustomFile updateRequest = new CustomFile.Builder().fileName("UpdateDTO.java").packageName("model.dto").templatePath("/templates/model/dto/updateDTO.java.ftl").enableFileOverride().build();
+                    CustomFile updateRequest = new CustomFile.Builder()
+                            .fileName("UpdateDTO.java")
+                            .packageName("model.dto")
+                            .templatePath("/templates/model/dto/updateDTO.java.ftl")
+                            .enableFileOverride()
+                            .build();
                     injectionConfigBuilder.customFile(voFile);
                     injectionConfigBuilder.customFile(controllerFile);
                     injectionConfigBuilder.customFile(queryRequestFile);
