@@ -85,8 +85,8 @@ public class OssController {
         ThrowUtils.throwIf(file.isEmpty(), ResponseCode.PARAMS_ERROR, "文件为空");
         // 判断文件是否为 jpg / jpeg / png 类型图片
         ThrowUtils.throwIf(!isValidFileType(file, IMAGE_MAGIC_NUMBER), ResponseCode.PARAMS_ERROR, "文件类型错误");
-        FileInfo fileInfo = getFileInfo(file, FileBizTag.USER_AVATAR);
-        ossService.upload(file.getBytes(), FileBizTag.USER_AVATAR, fileInfo.getPath(), fileInfo.getType());
+        FileInfo fileInfo = getFileInfo(file, FileBizTag.IMAGE_OTHER);
+        ossService.upload(file.getBytes(), FileBizTag.IMAGE_OTHER, fileInfo.getPath(), fileInfo.getType());
         FileInfoVO fileInfoVO = fileInfoService.saveFile(fileInfo);
         return ResponseUtils.success(fileInfoVO);
     }
