@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "cutepikachu.biz.oss.minio")
-public class MinIOConfiguration {
+public class MinioConfiguration {
 
     private String endpoint;
 

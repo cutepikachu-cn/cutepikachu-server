@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.service.impl;
 
-import cn.cutepikachu.biz.config.MinIOConfiguration;
+import cn.cutepikachu.biz.config.MinioConfiguration;
 import cn.cutepikachu.biz.model.enums.FileBizTag;
 import cn.cutepikachu.biz.service.OssService;
 import cn.cutepikachu.common.exception.BusinessException;
@@ -11,7 +11,6 @@ import io.minio.PutObjectArgs;
 import io.minio.RemoveObjectArgs;
 import io.minio.http.Method;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +26,10 @@ import java.util.concurrent.TimeUnit;
  * @since 2024-09-13 19:58-01
  */
 @Service
-@Slf4j
 public class MinioService implements OssService, InitializingBean {
 
     @Resource
-    private MinIOConfiguration minIOConfiguration;
+    private MinioConfiguration minioConfiguration;
 
     private MinioClient minioClient;
 
@@ -40,9 +38,9 @@ public class MinioService implements OssService, InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        String endpoint = minIOConfiguration.getEndpoint();
-        String accessKey = minIOConfiguration.getAccessKey();
-        String secretKey = minIOConfiguration.getSecretKey();
+        String endpoint = minioConfiguration.getEndpoint();
+        String accessKey = minioConfiguration.getAccessKey();
+        String secretKey = minioConfiguration.getSecretKey();
         this.minioClient = MinioClient.builder()
                 .endpoint(endpoint)
                 .credentials(accessKey, secretKey)
