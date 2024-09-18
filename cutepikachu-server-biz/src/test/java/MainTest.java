@@ -41,7 +41,7 @@ public class MainTest {
 
     @Test
     void get() {
-        String url = minioService.getPresignedObjectUrl(FileBizTag.USER_AVATAR.getBucket(), "6092582639a84cb09ac83cb0c31f7fb9", "/user_avatar/1726416000000/");
+        String url = minioService.getPresignedObjectUrl(FileBizTag.IMAGE_OTHER.getBucket(), "/user_avatar/1726416000000/6092582639a84cb09ac83cb0c31f7fb9");
         System.out.println(url);
     }
 

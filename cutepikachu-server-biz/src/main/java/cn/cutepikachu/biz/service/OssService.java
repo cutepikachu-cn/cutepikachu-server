@@ -13,8 +13,8 @@ public interface OssService {
 
     void upload(byte[] bytes, FileBizTag bizTag, String path, String contentType);
 
-    String getPresignedObjectUrl(String bucketName, String objectName, String objectPath);
+    String getPresignedObjectUrl(String bucketName, String objectPath);
 
-    void remove(String bucketName, String objectName, String objectPath);
+    void remove(String bucketName, String objectPath);
 
 }

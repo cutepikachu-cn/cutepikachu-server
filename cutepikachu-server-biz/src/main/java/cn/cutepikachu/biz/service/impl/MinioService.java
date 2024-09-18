@@ -63,12 +63,12 @@ public class MinioService implements OssService, InitializingBean {
     }
 
     @Override
-    public String getPresignedObjectUrl(String bucketName, String objectName, String objectPath) {
+    public String getPresignedObjectUrl(String bucketName, String objectPath) {
         try {
             GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
                     .method(Method.GET)
                     .bucket(bucketName)
-                    .object(objectPath + objectName)
+                    .object(objectPath)
                     .expiry(1, TimeUnit.MINUTES)
                     .build();
             return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
@@ -78,11 +78,11 @@ public class MinioService implements OssService, InitializingBean {
     }
 
     @Override
-    public void remove(String bucketName, String objectName, String objectPath) {
+    public void remove(String bucketName, String objectPath) {
         try {
             RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                     .bucket(bucketName)
-                    .object(objectPath + objectName)
+                    .object(objectPath)
                     .build();
             minioClient.removeObject(removeObjectArgs);
         } catch (Exception e) {
