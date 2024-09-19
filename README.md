@@ -39,9 +39,9 @@ cutepikachu-server-biz -- 通用业务模块（暂不可用）
 
 ## 后续开发计划
 
-- 通用业务模块中的对象存储服务（开发中）
 - 搜索服务模块（Elasitcsearch ?）
 - 消息队列服务模块（RabbitMQ ?）
+- AI 模块（Spring AI ?）
 
 ## 开源协议
 

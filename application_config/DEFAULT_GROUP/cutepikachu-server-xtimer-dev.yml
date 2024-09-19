@@ -1,0 +1,41 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cutepikachu_cn_xtimer?allowMultiQueries=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: root
+    password: root
+
+# 项目配置
+cutepikachu:
+  security:
+    routers:
+      xtimer:
+        - match: /**
+  # XTimer 定时任务配置
+  xtimer:
+    scheduler:
+      bucketsNum: 5
+      tryLockSeconds: 70
+      tryLockGapMilliSeconds: 100
+      successExpireSeconds: 130
+      pool:
+        corePoolSize: 100
+        maxPoolSize: 100
+        queueCapacity: 99999
+        namePrefix: scheduler-
+
+    trigger:
+      zrangeGapSeconds: 1
+      workersNum: 10000
+      pool:
+        corePoolSize: 100
+        maxPoolSize: 100
+        queueCapacity: 99999
+        namePrefix: trigger-
+
+    migrator:
+      workersNum: 1000
+      migrateStepSeconds: 3600
+      migrateTryLockSeconds: 60
+      migrateSuccessExpireSeconds: 60
+      timerDetailCacheSeconds: 120

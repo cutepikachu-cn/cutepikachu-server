@@ -1,0 +1,143 @@
+
+spring:
+  # 环境 dev|test|prod
+  profiles:
+    active: dev
+  # 数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    # Druid 连接池配置
+    druid:
+      # 配置初始化大小、最小、最大
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 6000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 空闲连接保活
+      keep-alive: true
+      # 检测语句强制用执行SQL
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      # 打开 PSCache，并且指定每个连接上 PSCache 的大小
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      async-init: true
+  data:
+    # Redis 配置
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      # 连接池配置
+      lettuce:
+        pool:
+          enabled: true
+          # 连接池最大连接数
+          max-active: 200
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
+  # Jackson 配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 文件上传设置
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  cloud:
+    # OpenFeign 配置
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+
+# Dubbo 配置
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: nacos://${spring.cloud.nacos.config.server-addr}
+    username: ${spring.cloud.nacos.config.username}
+    password: ${spring.cloud.nacos.config.password}
+    parameters:
+      namespace: dubbo
+      group: dubbo
+  config-center:
+    address: nacos://${spring.cloud.nacos.config.server-addr}
+    username: ${spring.cloud.nacos.config.username}
+    password: ${spring.cloud.nacos.config.password}
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: cn.cutepikachu.**.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+  type-handlers-package: cn.cutepikachu.**.typehandler
+
+# 日志配置
+logging:
+  level:
+    root: info
+    com:
+      cutepikachu: debug
+
+# Sa-Token 配置
+sa-token:
+    # token 名称（同时也是 cookie 名称）
+    token-name: cutepikachu-token
+    # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+    timeout: 2592000
+    # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+    active-timeout: -1
+    # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+    is-concurrent: true
+    # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+    is-share: true
+    # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+    token-style: simple-uuid
+    # 是否输出操作日志
+    is-log: true
+    # 配置 Sa-Token 单独使用的 Redis 连接 
+    alone-redis: 
+        # Redis数据库索引（默认为0）
+        database: 1
+        # Redis服务器地址
+        host: 127.0.0.1
+        # Redis服务器连接端口
+        port: 6379
+        # Redis服务器连接用户名（默认为空）
+        username: 
+        # Redis服务器连接密码（默认为空）
+        password: 
+        # 连接超时时间
+        timeout: 10s
+
+# 项目配置
+cutepikachu:
+  security:
+    SALT: cutepikachu
+    ALGORITHM: md5

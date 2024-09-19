@@ -1,0 +1,63 @@
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allow-credentials: true
+            allowedHeaders: "*"
+            allowedOriginPatterns: "*"
+            # 30天
+            max-age: 2592000
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - OPTIONS
+              - DELETE
+      discovery:
+        locator:
+          # 启用服务发现
+          enabled: true
+      routes:
+        - id: cutepikachu-server-user
+          uri: lb://cutepikachu-server-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user(?<segment>/?.*), $\{segment}
+        - id: cutepikachu-server-auth
+          uri: lb://cutepikachu-server-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth(?<segment>/?.*), $\{segment}
+        - id: cutepikachu-server-leaf
+          uri: lb://cutepikachu-server-leaf
+          predicates:
+            - Path=/leaf/**
+          filters:
+            - RewritePath=/leaf(?<segment>/?.*), $\{segment}
+        - id: cutepikachu-server-xtimer
+          uri: lb://cutepikachu-server-xtimer
+          predicates:
+            - Path=/xtimer/**
+          filters:
+            - RewritePath=/xtimer(?<segment>/?.*), $\{segment}
+        - id: cutepikachu-server-shorturl
+          uri: lb://cutepikachu-server-shorturl
+          predicates:
+            - Path=/s/**
+          filters:
+            - RewritePath=/s(?<segment>/?.*), $\{segment}
+
+knife4j:
+  enable: true
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      version: openapi3
+      enabled: true
