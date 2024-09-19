@@ -1,5 +1,7 @@
 # 笨蛋皮卡丘的服务后端
 
+[![Readme Card](https://github-readme-stats-sand-one-31.vercel.app/api/pin/?username=cutepikachu-cn&repo=cutepikachu-server&show_owner=true)](https://github.com/cutepikachu-cn/cutepikachu-server)
+
 ## 项目简介
 
 包含一些通用的服务后端代码，方便快速开发
