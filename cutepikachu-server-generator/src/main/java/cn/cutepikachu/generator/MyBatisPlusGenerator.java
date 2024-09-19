@@ -83,7 +83,7 @@ public class MyBatisPlusGenerator {
                         .logicDeleteColumnName("is_delete") // 逻辑删除字段名(数据库字段)
                         .naming(NamingStrategy.underline_to_camel) // 数据库表映射到实体的命名策略
                         .columnNaming(NamingStrategy.underline_to_camel) // 数据库表字段映射到实体的命名策略
-                        .addIgnoreColumns("create_time", "update_time", "is_delete") // 忽略字段
+                        // .addIgnoreColumns("create_time", "update_time", "is_delete") // 忽略字段
                         .addTableFills(new Column("create_time", FieldFill.INSERT), new Column("update_time", FieldFill.INSERT_UPDATE)) // 添加表字段填充
                         // .idType(IdType.ASSIGN_ID) // 全局主键类型
                         .enableFileOverride() // 覆盖文件

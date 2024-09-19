@@ -5,6 +5,7 @@ import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.common.user.model.vo.UserInfoVO;
 import cn.cutepikachu.common.user.model.vo.UserVO;
 import cn.cutepikachu.common.util.BeanUtils;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户表
@@ -50,11 +52,35 @@ public class User extends BaseEntity<User, UserVO> implements Serializable {
     @TableField("`avatar_url`")
     private String avatarUrl;
 
+    /**
+     * 创建时间
+     */
+    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
+     * 是否删除
+     */
+    @TableField("`is_delete`")
+    private Boolean isDelete;
+
     public static final String USER_ID = "user_id";
 
     public static final String NICK_NAME = "nick_name";
 
     public static final String AVATAR_URL = "avatar_url";
+
+    public static final String CREATE_TIME = "create_time";
+
+    public static final String UPDATE_TIME = "update_time";
+
+    public static final String IS_DELETE = "is_delete";
 
     public UserInfoVO toUserInfoVO(AuthAccount authAccount) {
         UserInfoVO userInfoVO = new UserInfoVO();

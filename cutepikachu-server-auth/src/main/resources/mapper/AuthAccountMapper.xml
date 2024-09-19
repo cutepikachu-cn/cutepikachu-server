@@ -12,11 +12,14 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="TINYINT"/>
         <result column="create_ip" property="createIp" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        user_id, username, `password`, `status`, create_ip
+        `user_id`, `username`, `password`, `status`, `create_ip`, `create_time`, `update_time`, `is_delete`
     </sql>
 
 </mapper>

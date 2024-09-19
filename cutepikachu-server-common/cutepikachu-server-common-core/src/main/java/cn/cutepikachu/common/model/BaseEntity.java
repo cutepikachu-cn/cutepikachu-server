@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 基础 Entity 类
@@ -20,21 +19,6 @@ public abstract class BaseEntity<E extends BaseEntity<E, VO>, VO extends BaseVO<
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 创建时间
-     */
-    protected LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    protected LocalDateTime updateTime;
-
-    /**
-     * 逻辑删除标识
-     */
-    protected Boolean delete;
 
     public VO toVO(Class<VO> voClass) {
         VO vo = ReflectUtil.newInstance(voClass);

@@ -2,6 +2,7 @@ package cn.cutepikachu.common.auth.model.entity;
 
 import cn.cutepikachu.common.auth.model.vo.AuthAccountVO;
 import cn.cutepikachu.common.model.BaseEntity;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 认证账户表
@@ -59,6 +61,24 @@ public class AuthAccount extends BaseEntity<AuthAccount, AuthAccountVO> implemen
     @TableField("`create_ip`")
     private String createIp;
 
+    /**
+     * 创建时间
+     */
+    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
+     * 是否删除
+     */
+    @TableField("`is_delete`")
+    private Boolean isDelete;
+
     public static final String USER_ID = "user_id";
 
     public static final String USERNAME = "username";
@@ -68,5 +88,11 @@ public class AuthAccount extends BaseEntity<AuthAccount, AuthAccountVO> implemen
     public static final String STATUS = "status";
 
     public static final String CREATE_IP = "create_ip";
+
+    public static final String CREATE_TIME = "create_time";
+
+    public static final String UPDATE_TIME = "update_time";
+
+    public static final String IS_DELETE = "is_delete";
 
 }

@@ -13,11 +13,14 @@
         <result column="status" property="status" jdbcType="TINYINT"/>
         <result column="cron" property="cron" jdbcType="VARCHAR"/>
         <result column="notify_http_param" property="notifyHttpParam" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        timer_id, app, `name`, `status`, cron, notify_http_param
+        `timer_id`, `app`, `name`, `status`, `cron`, `notify_http_param`, `create_time`, `update_time`, `is_delete`
     </sql>
 
 </mapper>

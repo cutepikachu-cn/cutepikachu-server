@@ -10,11 +10,13 @@
         <id column="url_id" property="urlId" jdbcType="BIGINT"/>
         <result column="long_url" property="longUrl" jdbcType="VARCHAR"/>
         <result column="short_url" property="shortUrl" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        `url_id`, `long_url`, `short_url`
+        `url_id`, `long_url`, `short_url`, `create_time`, `update_time`
     </sql>
 
 </mapper>

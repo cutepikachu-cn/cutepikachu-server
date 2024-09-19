@@ -18,11 +18,17 @@
                 jdbcType="VARCHAR"/>
         <result column="biz_tag" property="bizTag"
                 jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime"
+                jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete"
+                jdbcType="TINYINT"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        `file_id`, `path`, `name`, `size`, `type`, `biz_tag`
+        `file_id`, `path`, `name`, `size`, `type`, `biz_tag`, `create_time`, `update_time`, `is_delete`
     </sql>
 
 </mapper>
