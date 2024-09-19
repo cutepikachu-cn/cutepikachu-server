@@ -15,10 +15,10 @@ public class Base62Utils {
 
     private static final Random RANDOM = new Random();
 
-    private static final String shuffledAlphabet;
+    private static final String SHUFFLED_ALPHABET;
 
     static {
-        shuffledAlphabet = shuffleString();
+        SHUFFLED_ALPHABET = shuffleString();
     }
 
     public static String generateBase62ShortUrl(Long urlId) {
@@ -29,7 +29,7 @@ public class Base62Utils {
         StringBuilder result = new StringBuilder();
         while (decimal > 0) {
             int remainder = (int) (decimal % 62);
-            result.append(shuffledAlphabet.charAt(remainder));
+            result.append(SHUFFLED_ALPHABET.charAt(remainder));
             decimal /= 62;
         }
         return result.reverse().toString();
@@ -38,7 +38,7 @@ public class Base62Utils {
     private static Long base62Decode(String base62) {
         long result = 0L;
         for (int i = 0; i < base62.length(); i++) {
-            result = result * 62 + shuffledAlphabet.indexOf(base62.charAt(i));
+            result = result * 62 + SHUFFLED_ALPHABET.indexOf(base62.charAt(i));
         }
         return result;
     }
