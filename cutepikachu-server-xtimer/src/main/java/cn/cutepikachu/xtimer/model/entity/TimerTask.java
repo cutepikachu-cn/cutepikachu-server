@@ -2,10 +2,7 @@ package cn.cutepikachu.xtimer.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.xtimer.model.vo.TimerTaskVO;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -89,6 +86,7 @@ public class TimerTask extends BaseEntity<TimerTask, TimerTaskVO> implements Ser
      * 是否删除
      */
     @TableField("`is_delete`")
+    @TableLogic
     private Boolean isDelete;
 
     public static final String TASK_ID = "task_id";

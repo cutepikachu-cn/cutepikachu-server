@@ -4,10 +4,7 @@ import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
 import cn.cutepikachu.xtimer.model.vo.TimerVO;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -85,6 +82,7 @@ public class Timer extends BaseEntity<Timer, TimerVO> implements Serializable {
      * 是否删除
      */
     @TableField("`is_delete`")
+    @TableLogic
     private Boolean isDelete;
 
     public static final String TIMER_ID = "timer_id";

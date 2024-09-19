@@ -5,10 +5,7 @@ import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.common.user.model.vo.UserInfoVO;
 import cn.cutepikachu.common.user.model.vo.UserVO;
 import cn.cutepikachu.common.util.BeanUtils;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -68,6 +65,7 @@ public class User extends BaseEntity<User, UserVO> implements Serializable {
      * 是否删除
      */
     @TableField("`is_delete`")
+    @TableLogic
     private Boolean isDelete;
 
     public static final String USER_ID = "user_id";

@@ -2,10 +2,7 @@ package cn.cutepikachu.common.auth.model.entity;
 
 import cn.cutepikachu.common.auth.model.vo.AuthAccountVO;
 import cn.cutepikachu.common.model.BaseEntity;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -77,6 +74,7 @@ public class AuthAccount extends BaseEntity<AuthAccount, AuthAccountVO> implemen
      * 是否删除
      */
     @TableField("`is_delete`")
+    @TableLogic
     private Boolean isDelete;
 
     public static final String USER_ID = "user_id";
