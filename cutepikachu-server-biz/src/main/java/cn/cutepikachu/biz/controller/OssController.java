@@ -80,7 +80,7 @@ public class OssController {
         return valid;
     }
 
-    @PostMapping("/upload_avatar")
+    @PostMapping("/upload_image")
     public ResponseEntity<FileInfoVO> uploadImage(@RequestParam MultipartFile file) throws IOException {
         ThrowUtils.throwIf(file.isEmpty(), ResponseCode.PARAMS_ERROR, "文件为空");
         // 判断文件是否为 jpg / jpeg / png 类型图片
