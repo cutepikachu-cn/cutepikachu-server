@@ -7,6 +7,8 @@ import lombok.Setter;
 import java.util.Random;
 
 /**
+ * 雪花算法 ID 生成器
+ *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
  * @since 2024-09-18 23:14-14

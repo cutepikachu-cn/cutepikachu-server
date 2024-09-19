@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 import static cn.cutepikachu.common.snowflake.SnowflakeIdGenerator.MAX_WORKER_ID;
 
 /**
+ * 雪花算法 ID 生成器服务
+ *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
  * @since 2024-09-18 23:32-37
