@@ -1,5 +1,6 @@
 package cn.cutepikachu.common.snowflake;
 
+import cn.cutepikachu.common.snowflake.exception.ClockGoBackException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -60,16 +61,17 @@ public class SnowflakeIdGenerator {
                     wait(offset << 1);
                     // 再次获取当前时间
                     timestamp = currentTime();
-                    // 如果等待后，时间戳仍然小于上次生成ID的时间戳，则返回错误码 -1
+                    // 如果等待后，时间戳仍然小于上次生成 ID 的时间戳，则返回时钟回拨异常
                     if (timestamp < lastTimestamp) {
-                        throw new RuntimeException("Clock moved backwards. Refusing to generate id for " + offset + " milliseconds");
+                        throw new ClockGoBackException("Clock moved backwards");
                     }
                 } catch (InterruptedException e) {
-                    throw new RuntimeException("Clock moved backwards. Refusing to generate id for " + offset + " milliseconds");
+                    // 如果等待被中断，则直接抛出异常
+                    throw new ClockGoBackException("Clock moved backwards, Wait retry interrupted");
                 }
             } else {
-                // 如果时钟回拨超过5毫秒，直接返回错误码 -3，不生成ID
-                throw new RuntimeException("Clock moved backwards. Refusing to generate id for " + offset + " milliseconds");
+                // 如果时钟回拨超过 5 毫秒，则直接抛出异常
+                throw new ClockGoBackException("Clock moved backwards");
             }
         }
 

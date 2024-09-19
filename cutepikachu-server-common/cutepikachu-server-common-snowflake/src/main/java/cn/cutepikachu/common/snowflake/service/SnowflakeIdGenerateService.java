@@ -1,5 +1,6 @@
-package cn.cutepikachu.common.snowflake;
+package cn.cutepikachu.common.snowflake.service;
 
+import cn.cutepikachu.common.snowflake.SnowflakeIdGenerator;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.nacos.api.exception.NacosException;
