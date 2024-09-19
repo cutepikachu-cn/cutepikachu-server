@@ -14,7 +14,7 @@ create table if not exists `auth_account`
     `create_ip`   varchar(15)     not null comment '创建 ip',
     `create_time` timestamp       not null default current_timestamp comment '创建时间',
     `update_time` timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`   tinyint         not null default 0 comment '是否删除',
+    `is_delete`   tinyint(1)      not null default 0 comment '是否删除',
     primary key (`user_id`) using btree,
     unique index `ux_username` (`username`) using btree
 ) engine = InnoDB
@@ -29,7 +29,7 @@ create table if not exists `role`
     `role_name`   varchar(64)     not null comment '角色名称',
     `create_time` timestamp       not null default current_timestamp comment '创建时间',
     `update_time` timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`   tinyint         not null default 0 comment '是否删除',
+    `is_delete`   tinyint(1)      not null default 0 comment '是否删除',
     primary key (`role_id`) using btree
 ) engine = InnoDB
   default charset = utf8mb4
@@ -50,7 +50,7 @@ create table if not exists `user_role`
     `role_id`     bigint unsigned not null comment '角色 id',
     `create_time` timestamp       not null default current_timestamp comment '创建时间',
     `update_time` timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`   tinyint         not null default 0 comment '是否删除',
+    `is_delete`   tinyint(1)      not null default 0 comment '是否删除',
     primary key (`id`) using btree,
     unique index `uk_user_role` (`user_id`, `role_id`) using btree
 ) engine = InnoDB

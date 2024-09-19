@@ -15,7 +15,7 @@ create table if not exists `timer`
     `notify_http_param` varchar(8192)            default null comment '回调上下文',
     `create_time`       timestamp       not null default current_timestamp comment '创建时间',
     `update_time`       timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`         tinyint         not null default 0 comment '是否删除',
+    `is_delete`         tinyint(1)      not null default 0 comment '是否删除',
     primary key (`timer_id`) using btree
 ) engine = InnoDB
   default charset = utf8mb4
@@ -34,7 +34,7 @@ create table if not exists `timer_task`
     `cost_time`   bigint unsigned not null comment '执行耗时（误差时间）',
     `create_time` timestamp       not null default current_timestamp comment '创建时间',
     `update_time` timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`   tinyint         not null default 0 comment '是否删除',
+    `is_delete`   tinyint(1)      not null default 0 comment '是否删除',
     primary key (`task_id`) using btree,
     unique index `uk_timer_id_run_time` (`timer_id`, `run_time`)
 ) engine = InnoDB

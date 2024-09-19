@@ -16,7 +16,7 @@ create table `file_info`
     `biz_tag`     varchar(128)    not null comment '业务标识',
     `create_time` timestamp       not null default current_timestamp comment '创建时间',
     `update_time` timestamp       not null default current_timestamp on update current_timestamp comment '更新时间',
-    `is_delete`   tinyint         not null default 0 comment '是否删除',
+    `is_delete`   tinyint(1)      not null default 0 comment '是否删除',
     primary key (`file_id`)
 ) engine = InnoDB
   default charset = utf8mb4
