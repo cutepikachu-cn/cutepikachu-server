@@ -82,6 +82,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-snowflake</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
