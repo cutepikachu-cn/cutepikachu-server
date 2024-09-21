@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 雪花算法 ID 生成器
@@ -35,15 +38,21 @@ public class SnowflakeIdGenerator {
     private long workerId;
     private long sequence = 0L;
     private long lastTimestamp = -1L;
+
     private static final Random RANDOM = new Random();
+    private static final ConcurrentHashMap<String, Lock> KEY_LOCKS = new ConcurrentHashMap<>();
 
     public SnowflakeIdGenerator(long workerId) {
         this.workerId = workerId;
     }
 
     public long nextId(String key) {
-        synchronized (key.intern()) {
+        Lock lock = KEY_LOCKS.computeIfAbsent(key, k -> new ReentrantLock());
+        lock.lock();
+        try {
             return generateId();
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -53,28 +62,7 @@ public class SnowflakeIdGenerator {
 
         // 如果当前时间小于上次生成 ID 的时间戳，则发生了时钟回拨
         if (timestamp < lastTimestamp) {
-            // 获取时钟回拨的时间差
-            long offset = lastTimestamp - timestamp;
-
-            // 如果时间差小于等于 5 毫秒，允许等待
-            if (offset <= 5) {
-                try {
-                    // 等待 offset * 2 毫秒后重试
-                    wait(offset << 1);
-                    // 再次获取当前时间
-                    timestamp = currentTime();
-                    // 如果等待后，时间戳仍然小于上次生成 ID 的时间戳，则返回时钟回拨异常
-                    if (timestamp < lastTimestamp) {
-                        throw new ClockGoBackException("Clock moved backwards");
-                    }
-                } catch (InterruptedException e) {
-                    // 如果等待被中断，则直接抛出异常
-                    throw new ClockGoBackException("Clock moved backwards, Wait retry interrupted");
-                }
-            } else {
-                // 如果时钟回拨超过 5 毫秒，则直接抛出异常
-                throw new ClockGoBackException("Clock moved backwards");
-            }
+            handleClockBackwards(timestamp);
         }
 
         // 如果当前时间与上次生成ID的时间相同（即在同一毫秒内）
@@ -95,12 +83,38 @@ public class SnowflakeIdGenerator {
         // 更新上次生成ID的时间戳
         lastTimestamp = timestamp;
 
-        // 根据规则组合ID
-        long id = ((timestamp - EPOCH) << TIMESTAMP_LEFT_SHIFT) | (workerId << WORKER_ID_SHIFT) | sequence;
-        return id;
+        // 组合 SnowflakeID
+        return ((timestamp - EPOCH) << TIMESTAMP_LEFT_SHIFT)
+                | (workerId << WORKER_ID_SHIFT)
+                | sequence;
     }
 
-    protected long untilNextMillis(long lastTimestamp) {
+    private void handleClockBackwards(long timestamp) {
+        // 获取时钟回拨的时间差
+        long offset = lastTimestamp - timestamp;
+
+        // 如果时间差小于等于 5 毫秒，允许等待
+        if (offset <= 5) {
+            try {
+                // 等待 offset 毫秒后重试
+                wait(offset << 1);
+                // 再次获取当前时间
+                timestamp = currentTime();
+                // 如果等待后，时间戳仍然小于上次生成 ID 的时间戳，则返回时钟回拨异常
+                if (timestamp < lastTimestamp) {
+                    throw new ClockGoBackException("Clock moved backwards");
+                }
+            } catch (InterruptedException e) {
+                // 如果等待被中断，则直接抛出异常
+                throw new ClockGoBackException("Clock moved backwards, Wait retry interrupted");
+            }
+        } else {
+            // 如果时钟回拨超过 5 毫秒，则直接抛出异常
+            throw new ClockGoBackException("Clock moved backwards");
+        }
+    }
+
+    private long untilNextMillis(long lastTimestamp) {
         long timestamp = currentTime();
         while (timestamp <= lastTimestamp) {
             timestamp = currentTime();
@@ -108,7 +122,7 @@ public class SnowflakeIdGenerator {
         return timestamp;
     }
 
-    protected long currentTime() {
+    private long currentTime() {
         return System.currentTimeMillis();
     }
 
