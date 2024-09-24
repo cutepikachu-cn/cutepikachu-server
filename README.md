@@ -18,7 +18,7 @@ cutepikachu-server-uer -- 用户服务模块
 cutepikachu-server-leaf -- 基于美团 leaf 的分布式 ID 服务模块
 cutepikachu-server-xtimer -- 定时任务服务模块
 cutepikachu-server-shorturl -- 短链接服务模块
-cutepikachu-server-biz -- 通用业务模块（暂不可用）
+cutepikachu-server-biz -- 通用业务模块
 ```
 
 ## 技术选型
