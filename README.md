@@ -9,6 +9,7 @@
 ## 项目结构
 
 ```text
+cutepikachu-server-dependencies -- Maven 依赖版本管理
 cutepikachu-server-common -- 通用公共模块
 cutepikachu-server-generator -- 代码生成器模块
 cutepikachu-server-gateway -- 网关服务模块

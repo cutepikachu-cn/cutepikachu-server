@@ -6,7 +6,7 @@
     <parent>
         <artifactId>cutepikachu-server</artifactId>
         <groupId>cn.cutepikachu</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
     <packaging>jar</packaging>
 

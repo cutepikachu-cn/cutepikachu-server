@@ -6,28 +6,32 @@
     <parent>
         <artifactId>cutepikachu-server</artifactId>
         <groupId>cn.cutepikachu</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
     <packaging>jar</packaging>
 
     <artifactId>cutepikachu-server-generator</artifactId>
     <description>Cutepikachu Server 代码生成模块</description>
 
+    <properties>
+        <mybatis-plus-generator.version>3.5.7</mybatis-plus-generator.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <version>${mybatis-plus-generator.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <version>${mybatis-plus-generator.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <version>${mybatis-plus-generator.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
