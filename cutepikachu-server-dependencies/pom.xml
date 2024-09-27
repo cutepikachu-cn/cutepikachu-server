@@ -79,7 +79,12 @@
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
-                <artifactId>cutepikachu-server-common-database</artifactId>
+                <artifactId>cutepikachu-server-common-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-common-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

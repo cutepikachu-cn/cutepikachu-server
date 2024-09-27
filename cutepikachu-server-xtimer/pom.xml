@@ -41,7 +41,11 @@
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
-            <artifactId>cutepikachu-server-common-database</artifactId>
+            <artifactId>cutepikachu-server-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>

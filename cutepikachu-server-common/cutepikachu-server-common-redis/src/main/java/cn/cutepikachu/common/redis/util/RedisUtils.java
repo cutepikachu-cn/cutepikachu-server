@@ -1,4 +1,4 @@
-package cn.cutepikachu.common.util;
+package cn.cutepikachu.common.redis.util;
 
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;

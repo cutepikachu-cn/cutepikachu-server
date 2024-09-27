@@ -1,4 +1,4 @@
-package cn.cutepikachu.common.config;
+package cn.cutepikachu.common.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

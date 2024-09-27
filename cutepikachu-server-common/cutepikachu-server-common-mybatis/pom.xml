@@ -10,7 +10,7 @@
     </parent>
     <packaging>jar</packaging>
 
-    <artifactId>cutepikachu-server-common-database</artifactId>
+    <artifactId>cutepikachu-server-common-mybatis</artifactId>
     <description>Cutepikachu Server 公共模块-数据库模块</description>
 
     <dependencies>

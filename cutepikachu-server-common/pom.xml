@@ -15,7 +15,8 @@
 
     <modules>
         <module>cutepikachu-server-common-core</module>
-        <module>cutepikachu-server-common-database</module>
+        <module>cutepikachu-server-common-mybatis</module>
+        <module>cutepikachu-server-common-redis</module>
         <module>cutepikachu-server-common-security</module>
         <module>cutepikachu-server-common-auth</module>
         <module>cutepikachu-server-common-user</module>

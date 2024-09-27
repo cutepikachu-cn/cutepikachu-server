@@ -1,4 +1,4 @@
-package cn.cutepikachu.common.database.handler;
+package cn.cutepikachu.common.mybatis.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

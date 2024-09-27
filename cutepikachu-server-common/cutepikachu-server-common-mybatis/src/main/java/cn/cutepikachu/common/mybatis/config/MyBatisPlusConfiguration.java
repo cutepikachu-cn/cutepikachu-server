@@ -1,4 +1,4 @@
-package cn.cutepikachu.common.database.config;
+package cn.cutepikachu.common.mybatis.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
