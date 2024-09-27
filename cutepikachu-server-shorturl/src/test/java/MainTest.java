@@ -1,5 +1,5 @@
-import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.ShortUrlApplication;
+import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
 import cn.cutepikachu.shorturl.util.Base62Utils;
 import jakarta.annotation.Resource;
@@ -26,6 +26,12 @@ public class MainTest {
     @Test
     public void base62() {
         System.out.println(Base62Utils.generateBase62ShortUrl(1000000000000000000L));
+    }
+
+    @Test
+    void snowflake() {
+        String shortUrl = urlMapService.createUrlMap("https://github.com/cutepikachu-cn/cutepikachu-server");
+        System.out.println(shortUrl);
     }
 
 }
