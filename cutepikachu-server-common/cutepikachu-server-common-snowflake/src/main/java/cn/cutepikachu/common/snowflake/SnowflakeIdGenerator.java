@@ -4,8 +4,8 @@ import cn.cutepikachu.common.snowflake.exception.ClockGoBackException;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -39,7 +39,7 @@ public class SnowflakeIdGenerator {
     private long sequence = 0L;
     private long lastTimestamp = -1L;
 
-    private static final Random RANDOM = new Random();
+    private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
     private static final ConcurrentHashMap<String, Lock> KEY_LOCKS = new ConcurrentHashMap<>();
 
     public SnowflakeIdGenerator(long workerId) {
