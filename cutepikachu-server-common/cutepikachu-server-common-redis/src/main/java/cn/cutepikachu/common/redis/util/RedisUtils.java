@@ -1,15 +1,14 @@
 package cn.cutepikachu.common.redis.util;
 
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2024-08-12 16:57-11
  */
 @Component
+@Slf4j
 public final class RedisUtils {
 
     @Resource
@@ -42,6 +42,7 @@ public final class RedisUtils {
             redisTemplate.opsForValue().set(key, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis for key: {}, value: {}", key, value, e);
             return Boolean.FALSE;
         }
     }
@@ -56,6 +57,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().get(key);
         } catch (Exception e) {
+            log.error("Error getting value from Redis for key: {}", key, e);
             return null;
         }
     }
@@ -74,6 +76,7 @@ public final class RedisUtils {
             redisTemplate.opsForValue().set(key, value, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis with expiration for key: {}, value: {}, time: {}, unit: {}", key, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -89,6 +92,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.getExpire(key, unit);
         } catch (Exception e) {
+            log.error("Error getting expiration time for key: {}, unit: {}", key, unit, e);
             return 0L;
         }
     }
@@ -103,6 +107,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.keys(pattern);
         } catch (Exception e) {
+            log.error("Error getting keys with pattern: {}", pattern, e);
             return null;
         }
     }
@@ -119,6 +124,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.expire(key, time, unit);
         } catch (Exception e) {
+            log.error("Error setting expiration time for key: {}, time: {}, unit: {}", key, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -133,6 +139,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
+            log.error("Error checking if key exists: {}", key, e);
             return Boolean.FALSE;
         }
     }
@@ -147,6 +154,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.delete(List.of(key));
         } catch (Exception e) {
+            log.error("Error deleting key(s): {}", key, e);
             return 0L;
         }
     }
@@ -162,6 +170,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().setIfAbsent(key, value);
         } catch (Exception e) {
+            log.error("Error setting value if absent in Redis for key: {}, value: {}", key, value, e);
             return Boolean.FALSE;
         }
     }
@@ -179,6 +188,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().setIfAbsent(key, value, time, unit);
         } catch (Exception e) {
+            log.error("Error setting value if absent in Redis with expiration for key: {}, value: {}, time: {}, unit: {}", key, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -194,6 +204,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().increment(key, delta);
         } catch (Exception e) {
+            log.error("Error incrementing value in Redis for key: {}, delta: {}", key, delta, e);
             return 0L;
         }
     }
@@ -209,6 +220,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().increment(key, delta);
         } catch (Exception e) {
+            log.error("Error incrementing value in Redis for key: {}, delta: {}", key, delta, e);
             return 0.0;
         }
     }
@@ -224,6 +236,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().increment(key, -delta);
         } catch (Exception e) {
+            log.error("Error decrementing value in Redis for key: {}, delta: {}", key, delta, e);
             return 0L;
         }
     }
@@ -239,6 +252,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForValue().increment(key, -delta);
         } catch (Exception e) {
+            log.error("Error decrementing value in Redis for key: {}, delta: {}", key, delta, e);
             return 0.0;
         }
     }
@@ -256,6 +270,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().get(key, hashKey);
         } catch (Exception e) {
+            log.error("Error getting value from Redis hash for key: {}, hashKey: {}", key, hashKey, e);
             return null;
         }
     }
@@ -270,6 +285,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().entries(key);
         } catch (Exception e) {
+            log.error("Error getting all key-value pairs from Redis hash for key: {}", key, e);
             return null;
         }
     }
@@ -286,6 +302,7 @@ public final class RedisUtils {
             redisTemplate.opsForHash().putAll(key, map);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting multiple key-value pairs in Redis hash for key: {}, map: {}", key, map, e);
             return Boolean.FALSE;
         }
     }
@@ -305,6 +322,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting multiple key-value pairs in Redis hash with expiration for key: {}, map: {}, time: {}, unit: {}", key, map, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -322,6 +340,7 @@ public final class RedisUtils {
             redisTemplate.opsForHash().put(key, hashKey, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis hash for key: {}, hashKey: {}, value: {}", key, hashKey, value, e);
             return Boolean.FALSE;
         }
     }
@@ -342,6 +361,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis hash with expiration for key: {}, hashKey: {}, value: {}, time: {}, unit: {}", key, hashKey, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -353,7 +373,12 @@ public final class RedisUtils {
      * @param hashKey hash 键，可又多个不能为 null
      */
     public Long HDEL(String key, Object... hashKey) {
-        return redisTemplate.opsForHash().delete(key, hashKey);
+        try {
+            return redisTemplate.opsForHash().delete(key, hashKey);
+        } catch (Exception e) {
+            log.error("Error deleting value from Redis hash for key: {}, hashKey(s): {}", key, hashKey, e);
+            return 0L;
+        }
     }
 
     /**
@@ -367,6 +392,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().hasKey(key, hashKey);
         } catch (Exception e) {
+            log.error("Error checking if key exists in Redis hash for key: {}, hashKey: {}", key, hashKey, e);
             return Boolean.FALSE;
         }
     }
@@ -383,6 +409,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().increment(key, hashKey, delta);
         } catch (Exception e) {
+            log.error("Error incrementing value in Redis hash for key: {}, hashKey: {}, delta: {}", key, hashKey, delta, e);
             return 0L;
         }
     }
@@ -399,6 +426,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().increment(key, hashKey, delta);
         } catch (Exception e) {
+            log.error("Error incrementing value in Redis hash for key: {}, hashKey: {}, delta: {}", key, hashKey, delta, e);
             return 0.0;
         }
     }
@@ -415,6 +443,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().increment(key, hashKey, -delta);
         } catch (Exception e) {
+            log.error("Error decrementing value in Redis hash for key: {}, hashKey: {}, delta: {}", key, hashKey, delta, e);
             return 0L;
         }
     }
@@ -431,6 +460,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForHash().increment(key, hashKey, -delta);
         } catch (Exception e) {
+            log.error("Error decrementing value in Redis hash for key: {}, hashKey: {}, delta: {}", key, hashKey, delta, e);
             return 0.0;
         }
     }
@@ -447,7 +477,8 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
-            return null;
+            log.error("Error getting members from Redis set for key: {}", key, e);
+            return new HashSet<>();
         }
     }
 
@@ -462,6 +493,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
+            log.error("Error checking if member exists in Redis set for key: {}, value: {}", key, value, e);
             return Boolean.FALSE;
         }
     }
@@ -477,6 +509,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
+            log.error("Error adding members to Redis set for key: {}, members: {}", key, values, e);
             return 0L;
         }
     }
@@ -496,6 +529,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return count;
         } catch (Exception e) {
+            log.error("Error adding member(s) to Redis set with expiration for key: {}, member(s): {}, time: {}, unit: {}", key, values, time, unit, e);
             return 0L;
         }
     }
@@ -510,6 +544,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForSet().size(key);
         } catch (Exception e) {
+            log.error("Error getting member count from Redis set for key: {}", key, e);
             return 0L;
         }
     }
@@ -525,6 +560,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForSet().remove(key, values);
         } catch (Exception e) {
+            log.error("Error removing member(s) from Redis set for key: {}, member(s): {}", key, values, e);
             return 0L;
         }
     }
@@ -543,7 +579,8 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
-            return null;
+            log.error("Error getting range of elements from Redis list for key: {}, start: {}, end: {}", key, start, end, e);
+            return new ArrayList<>();
         }
     }
 
@@ -557,6 +594,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForList().size(key);
         } catch (Exception e) {
+            log.error("Error getting length of Redis list for key: {}", key, e);
             return 0L;
         }
     }
@@ -572,6 +610,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
+            log.error("Error getting element from Redis list for key: {}, index: {}", key, index, e);
             return null;
         }
     }
@@ -588,6 +627,7 @@ public final class RedisUtils {
             redisTemplate.opsForList().leftPush(key, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting element into Redis list head for key: {}, value: {}", key, value, e);
             return Boolean.FALSE;
         }
     }
@@ -604,6 +644,7 @@ public final class RedisUtils {
             redisTemplate.opsForList().rightPush(key, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting element into Redis list tail for key: {}, value: {}", key, value, e);
             return Boolean.FALSE;
         }
     }
@@ -623,6 +664,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting element into Redis list head with expiration for key: {}, value: {}, time: {}, unit: {}", key, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -642,6 +684,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting element into Redis list tail with expiration for key: {}, value: {}, time: {}, unit: {}", key, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -658,6 +701,7 @@ public final class RedisUtils {
             redisTemplate.opsForList().leftPushAll(key, values);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting multiple elements into Redis list head for key: {}, values: {}", key, values, e);
             return Boolean.FALSE;
         }
     }
@@ -674,6 +718,7 @@ public final class RedisUtils {
             redisTemplate.opsForList().rightPushAll(key, values);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting multiple elements into Redis list tail for key: {}, values: {}", key, values, e);
             return Boolean.FALSE;
         }
     }
@@ -693,6 +738,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting multiple elements into Redis list head with expiration for key: {}, values: {}, time: {}, unit: {}", key, values, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -712,6 +758,7 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error inserting multiple elements into Redis list tail with expiration for key: {}, values: {}, time: {}, unit: {}", key, values, time, unit, e);
             return Boolean.FALSE;
         }
     }
@@ -729,6 +776,7 @@ public final class RedisUtils {
             redisTemplate.opsForList().set(key, index, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis list for key: {}, index: {}, value: {}", key, index, value, e);
             return Boolean.FALSE;
         }
     }
@@ -749,13 +797,12 @@ public final class RedisUtils {
             EXPIRE(key, time, unit);
             return Boolean.TRUE;
         } catch (Exception e) {
+            log.error("Error setting value in Redis list with expiration for key: {}, index: {}, value: {}, time: {}, unit: {}", key, index, value, time, unit, e);
             return Boolean.FALSE;
         }
     }
 
     /**
-     * 移除列表中前 count 个值为 value 的元素
-     *
      * @param key   键
      * @param count 移除个数
      * @param value 值
@@ -765,6 +812,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.opsForList().remove(key, count, value);
         } catch (Exception e) {
+            log.error("Error removing the first count elements with value from Redis list for key: {}, count: {}, value: {}", key, count, value, e);
             return 0L;
         }
     }
@@ -781,6 +829,7 @@ public final class RedisUtils {
         try {
             return redisTemplate.execute(script, keys, args);
         } catch (Exception e) {
+            log.error("Error executing Lua script: {}", script, e);
             return 0L;
         }
     }
@@ -797,6 +846,7 @@ public final class RedisUtils {
         try {
             return stringRedisTemplate.execute(new DefaultRedisScript<>(script, List.class), keys, args);
         } catch (Exception e) {
+            log.error("Error executing Lua script: {}", script, e);
             return null;
         }
     }
