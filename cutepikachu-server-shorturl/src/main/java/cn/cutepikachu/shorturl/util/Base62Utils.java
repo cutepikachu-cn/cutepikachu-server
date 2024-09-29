@@ -13,8 +13,6 @@ public class Base62Utils {
 
     private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-    private static final Random RANDOM = new Random();
-
     private static final String SHUFFLED_ALPHABET;
 
     static {
@@ -45,8 +43,9 @@ public class Base62Utils {
 
     private static String shuffleString() {
         char[] chars = ALPHABET.toCharArray();
+        Random random = new Random();
         for (int i = chars.length - 1; i > 0; i--) {
-            int j = RANDOM.nextInt(i + 1);
+            int j = random.nextInt(i + 1);
             char tmp = chars[i];
             chars[i] = chars[j];
             chars[j] = tmp;
