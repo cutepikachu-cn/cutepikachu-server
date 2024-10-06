@@ -31,6 +31,7 @@
         <sa-token.version>1.38.0</sa-token.version>
         <druid.version>1.2.20</druid.version>
         <minio.version>8.5.12</minio.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
     </properties>
 
     <dependencyManagement>
@@ -176,6 +177,11 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
