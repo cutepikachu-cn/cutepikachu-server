@@ -3,8 +3,11 @@ package cn.cutepikachu.auth.controller;
 import cn.cutepikachu.auth.service.IAuthAccountService;
 import cn.cutepikachu.common.auth.model.dto.AuthAccountUpdateDTO;
 import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.user.model.dto.UserRegisterDTO;
+import cn.cutepikachu.common.user.model.vo.UserInfoVO;
 import cn.cutepikachu.common.util.ResponseUtils;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,13 @@ public class AuthController {
     public ResponseEntity<Boolean> updateAuthPassword(@RequestBody AuthAccountUpdateDTO authAccountUpdateDTO) {
         authAccountService.updateAuthAccount(authAccountUpdateDTO);
         return ResponseUtils.success(Boolean.TRUE);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserInfoVO> register(@RequestBody UserRegisterDTO userRegisterDTO,
+                                               HttpServletRequest request) {
+        UserInfoVO userInfoVO = authAccountService.authUserRegister(userRegisterDTO, request);
+        return ResponseUtils.success(userInfoVO);
     }
 
 }

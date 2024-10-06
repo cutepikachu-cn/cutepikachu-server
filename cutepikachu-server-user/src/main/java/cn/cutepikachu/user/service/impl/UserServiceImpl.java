@@ -1,12 +1,10 @@
 package cn.cutepikachu.user.service.impl;
 
 import cn.cutepikachu.common.auth.model.entity.AuthAccount;
-import cn.cutepikachu.common.constant.CommonConstant;
 import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.security.util.PasswordUtil;
-import cn.cutepikachu.common.user.model.dto.UserRegisterDTO;
 import cn.cutepikachu.common.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.common.user.model.entity.User;
 import cn.cutepikachu.common.user.model.vo.UserInfoVO;
@@ -19,10 +17,8 @@ import cn.cutepikachu.user.mapper.UserMapper;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,48 +34,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Resource
     private AuthInnerService authInnerService;
 
-    @Override
-    public void verify(User user) {
+    /**
+     * 校验 User 对象信息
+     *
+     * @param user 用户信息
+     */
+    private void verifyUser(User user) {
         String nickName = user.getNickName();
         if (!RegularExpressionUtils.isValidNickName(nickName)) {
             throw new BusinessException(ResponseCode.PARAMS_ERROR, "昵称不合法");
         }
-    }
-
-    @Override
-    public UserInfoVO saveUser(UserRegisterDTO userRegisterDTO, HttpServletRequest request) {
-        // 验证 User 信息
-        String password = userRegisterDTO.getPassword();
-        String confirmPassword = userRegisterDTO.getConfirmPassword();
-        if (!StrUtil.equals(password, confirmPassword)) {
-            throw new BusinessException(ResponseCode.PARAMS_ERROR, "两次密码不一致");
-        }
-        User newUser = BeanUtils.copyProperties(userRegisterDTO, User.class);
-        this.verify(newUser);
-
-        // 获取注册 IP
-        String ip = request.getHeader("X-Client-IP");
-
-        // 保存账户信息
-        AuthAccount authAccount = BeanUtils.copyProperties(userRegisterDTO, AuthAccount.class);
-        authAccount.setCreateIp(ip);
-        ResponseEntity<AuthAccount> resp = authInnerService.saveAuthAccount(authAccount);
-        ResponseUtils.throwIfNotSuccess(resp);
-        AuthAccount newAuthAccount = resp.getData();
-        BeanUtils.copyProperties(newAuthAccount, newUser);
-
-        // 保存用户信息
-        if (StrUtil.isBlank(newUser.getAvatarUrl())) {
-            newUser.setAvatarUrl(CommonConstant.DEFAULT_AVATAR_URL);
-        }
-        if (!this.save(newUser)) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "注册失败");
-        }
-
-        // 返回用户和账户信息
-        UserInfoVO userInfoVO = newUser.toUserInfoVO(newAuthAccount);
-
-        return userInfoVO;
     }
 
     @Override
@@ -113,7 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 校验用户信息
         User user = BeanUtils.copyProperties(userInfo, User.class);
         BeanUtils.copyProperties(userUpdateDTO, user);
-        verify(user);
+        this.verifyUser(user);
         // 更新用户信息
         ThrowUtils.throwIf(!this.updateById(user), new BusinessException(ResponseCode.SYSTEM_ERROR, "更新用户信息失败"));
         BeanUtils.copyProperties(this.getById(user.getUserId()), userInfo);

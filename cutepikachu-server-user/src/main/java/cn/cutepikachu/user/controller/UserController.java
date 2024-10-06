@@ -4,7 +4,6 @@ import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.user.model.dto.UserLoginDTO;
-import cn.cutepikachu.common.user.model.dto.UserRegisterDTO;
 import cn.cutepikachu.common.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.common.user.model.entity.User;
 import cn.cutepikachu.common.user.model.vo.UserInfoVO;
@@ -14,7 +13,6 @@ import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,13 +27,6 @@ public class UserController {
 
     @Resource
     private IUserService userService;
-
-    @PostMapping("/register")
-    public ResponseEntity<UserInfoVO> register(@RequestBody UserRegisterDTO userRegisterDTO,
-                                               HttpServletRequest request) {
-        UserInfoVO userInfoVO = userService.saveUser(userRegisterDTO, request);
-        return ResponseUtils.success(userInfoVO);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<UserInfoVO> login(@RequestBody UserLoginDTO userLoginDTO) {

@@ -6,8 +6,6 @@ import cn.cutepikachu.common.constant.FeignConstant;
 import cn.cutepikachu.common.response.ResponseEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -40,15 +38,6 @@ public interface AuthInnerService {
      */
     @GetMapping(FeignConstant.INNER_SERVICE_PREFIX + "/get/auth/account/username_password")
     ResponseEntity<AuthAccount> getAuthAccountByUsernameAndPassword(@RequestParam String username, @RequestParam String password);
-
-    /**
-     * 保存新认证授权账户
-     *
-     * @param authAccount 认证授权账户
-     * @return 新认证授权账户
-     */
-    @PostMapping(FeignConstant.INNER_SERVICE_PREFIX + "/save/auth/account")
-    ResponseEntity<AuthAccount> saveAuthAccount(@RequestBody AuthAccount authAccount);
 
     /**
      * 根据用户 id 获取认证账户角色

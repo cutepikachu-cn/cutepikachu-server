@@ -51,15 +51,6 @@ public class AuthInnerServiceController implements AuthInnerService {
     }
 
     @Override
-    public ResponseEntity<AuthAccount> saveAuthAccount(AuthAccount authAccount) {
-
-        // 保存认证账户信息
-        AuthAccount newAuthAccount = authAccountService.saveAuthAccount(authAccount);
-
-        return ResponseUtils.success(newAuthAccount);
-    }
-
-    @Override
     public ResponseEntity<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
         ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND_ERROR, "账户不存在");
