@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Sa-Token 无权限异常
+     * Sa-Token 无权限角色异常
      */
     @ExceptionHandler({NotRoleException.class})
     public ResponseEntity<?> notRoleExceptionHandler(NotRoleException e) {
@@ -54,6 +54,9 @@ public class GlobalExceptionHandler {
         return ResponseUtils.error(ResponseCode.NOT_AUTH_ERROR);
     }
 
+    /**
+     * Sa-Token 无权限异常
+     */
     @ExceptionHandler({NotPermissionException.class})
     public ResponseEntity<?> notPermissionExceptionHandler(NotPermissionException e) {
         log.error("[NotPermissionException] ", e);
@@ -62,7 +65,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数传递格式不支持异常
-     * 415
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
@@ -72,7 +74,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数传递格式不支持异常
-     * 415
      */
     @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
     public ResponseEntity<?> httpMediaTypeNotSupportedExceptionHandler(HttpMediaTypeNotSupportedException e) {
@@ -82,7 +83,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理 SpringMVC 请求参数缺失
-     * 415
      * <p>
      * 例如说，接口上设置了 @RequestParam("xx") 参数，结果并未传递 xx 参数
      */
@@ -105,7 +105,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数校验异常 MethodArgumentNotValidException
-     * 415
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
@@ -115,7 +114,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数校验异常 BindException
-     * 415
      */
     @ExceptionHandler({BindException.class})
     public ResponseEntity<?> bindExceptionHandler(BindException e) {
@@ -125,7 +123,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 参数校验异常 ConstraintViolationException
-     * 415
      */
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<?> constraintViolationExceptionHandler(ConstraintViolationException e) {
@@ -162,7 +159,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理 SpringMVC 请求地址不存在
-     * 404
      * <p>
      * 需要设置如下两个配置项：
      * 1. spring.mvc.throw-exception-if-no-handler-found 为 true
@@ -176,7 +172,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理 SpringMVC 请求方法不正确
-     * 405
      * <p>
      * 例如说，A 接口的方法为 GET 方式，结果请求方法为 POST 方式，导致不匹配
      */
@@ -186,16 +181,15 @@ public class GlobalExceptionHandler {
         return ResponseUtils.error(ResponseCode.METHOD_NOT_ALLOW);
     }
 
-
     @ExceptionHandler({BusinessException.class})
     public ResponseEntity<?> businessExceptionHandler(BusinessException e) {
         log.error("[BusinessException] ", e);
         return ResponseUtils.error(e.getCode(), e.getMessage());
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    public ResponseEntity<?> runtimeExceptionHandler(RuntimeException e) {
-        log.error("[RuntimeException] ", e);
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<?> exceptionHandler(Exception e) {
+        log.error("[Exception] ", e);
         return ResponseUtils.error(ResponseCode.SYSTEM_ERROR);
     }
 
