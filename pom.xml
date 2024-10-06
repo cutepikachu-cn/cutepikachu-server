@@ -5,7 +5,7 @@
 
     <groupId>cn.cutepikachu</groupId>
     <artifactId>cutepikachu-server</artifactId>
-    <version>${project.version}</version>
+    <version>${rversion}</version>
     <packaging>pom</packaging>
     <name>cutepikachu-server</name>
     <description>Cutepikachu Server 笨蛋皮卡丘的服务后端</description>
@@ -37,7 +37,7 @@
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 
         <!-- 项目版本 -->
-        <project.version>0.0.1-SNAPSHOT</project.version>
+        <rversion>0.0.1-SNAPSHOT</rversion>
 
         <!-- 核心依赖版本（放不到 dependencies 中 -->
         <spring-boot.version>3.3.2</spring-boot.version>
@@ -48,7 +48,7 @@
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-dependencies</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -111,7 +111,7 @@
                     <encoding>${project.encoding}</encoding>
                 </configuration>
             </plugin>
-            <!-- 统一 project.version 版本 -->
+            <!-- 统一 rversion 版本 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>

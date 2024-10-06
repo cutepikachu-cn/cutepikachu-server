@@ -5,7 +5,7 @@
 
     <groupId>cn.cutepikachu</groupId>
     <artifactId>cutepikachu-server-dependencies</artifactId>
-    <version>${project.version}</version>
+    <version>${rversion}</version>
     <packaging>pom</packaging>
     <name>cutepikachu-server-dependencies</name>
     <description>Cutepikachu Server 依赖管理 bom 文件</description>
@@ -14,7 +14,7 @@
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 
         <!-- 项目版本 -->
-        <project.version>0.0.1-SNAPSHOT</project.version>
+        <rversion>0.0.1-SNAPSHOT</rversion>
 
         <!-- 核心依赖版本 -->
         <spring-boot.version>3.3.2</spring-boot.version>
@@ -66,52 +66,52 @@
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-core</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-snowflake</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-auth</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-mybatis</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-security</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-user</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-inner-auth</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-inner-user</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-inner-leaf</artifactId>
-                <version>${project.version}</version>
+                <version>${rversion}</version>
             </dependency>
 
             <!-- 其它依赖 -->
@@ -188,7 +188,7 @@
 
     <build>
         <plugins>
-            <!-- 统一 project.version 版本 -->
+            <!-- 统一 rversion 版本 -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
