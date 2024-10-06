@@ -5,31 +5,32 @@ spring:
     active: dev
   # 数据源
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    # Druid 连接池配置
-    druid:
-      # 配置初始化大小、最小、最大
-      initial-size: 1
-      min-idle: 1
-      max-active: 20
-      # 配置获取连接等待超时的时间
-      max-wait: 6000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
-      # 空闲连接保活
-      keep-alive: true
-      # 检测语句强制用执行SQL
-      validation-query: SELECT 1
-      test-while-idle: true
-      test-on-borrow: true
-      test-on-return: false
-      # 打开 PSCache，并且指定每个连接上 PSCache 的大小
-      pool-prepared-statements: true
-      max-open-prepared-statements: 20
-      async-init: true
+    # 多数据源配置
+    dynamic:
+      # Druid 连接池配置
+      druid:
+        # 配置初始化大小、最小、最大
+        initial-size: 1
+        min-idle: 1
+        max-active: 20
+        # 配置获取连接等待超时的时间
+        max-wait: 6000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        time-between-eviction-runs-millis: 60000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒
+        min-evictable-idle-time-millis: 300000
+        # 空闲连接保活
+        keep-alive: true
+        # 检测语句强制用执行SQL
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: true
+        test-on-return: false
+        # 打开 PSCache，并且指定每个连接上 PSCache 的大小
+        pool-prepared-statements: true
+        async-init: true
+      # 严格模式，未匹配到数据源直接报错
+      strict: true
   data:
     # Redis 配置
     redis:
@@ -68,22 +69,13 @@ spring:
             readTimeout: 5000
             loggerLevel: basic
 
-# Dubbo 配置
-dubbo:
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    address: nacos://${spring.cloud.nacos.config.server-addr}
-    username: ${spring.cloud.nacos.config.username}
-    password: ${spring.cloud.nacos.config.password}
-    parameters:
-      namespace: dubbo
-      group: dubbo
-  config-center:
-    address: nacos://${spring.cloud.nacos.config.server-addr}
-    username: ${spring.cloud.nacos.config.username}
-    password: ${spring.cloud.nacos.config.password}
+# Seata 配置
+seata:
+  service:
+    grouplist:
+      default: 127.0.0.1:8091
+    vgroupMapping:
+      default_tx_group: default
 
 # MyBatis-Plus 配置
 mybatis-plus:
@@ -141,3 +133,6 @@ cutepikachu:
   security:
     SALT: cutepikachu
     ALGORITHM: md5
+    routers:
+      common:
+        - match: /**
