@@ -42,6 +42,8 @@ cutepikachu-server-biz -- 通用业务模块
 
 ## 后续开发计划
 
+- 通用业务模块-二维码服务（Zxing ?）
+- 通用业务模块-验证码服务（AjPlus Captcha / EasyCaptcha ?）
 - 搜索服务模块（Elasitcsearch ?）
 - 消息队列服务模块（RabbitMQ ?）
 - AI 模块（Spring AI ?）
