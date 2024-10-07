@@ -58,7 +58,7 @@ public class MinioService implements OssService, InitializingBean {
                     .build();
             minioClient.putObject(uploadObjectArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.OPERATION_ERROR, "上传文件失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "上传文件失败");
         }
     }
 
@@ -73,7 +73,7 @@ public class MinioService implements OssService, InitializingBean {
                     .build();
             return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.OPERATION_ERROR, "获取文件失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "获取文件失败");
         }
     }
 
@@ -86,7 +86,7 @@ public class MinioService implements OssService, InitializingBean {
                     .build();
             minioClient.removeObject(removeObjectArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.OPERATION_ERROR, "删除文件失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "删除文件失败");
         }
     }
 

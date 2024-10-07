@@ -51,7 +51,7 @@ public class MigratorManager {
         // 校验状态定时任务
         // 是否已激活
         if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "Timer 非 Enable 状态，迁移失败，timerId:" + timer.getTimerId());
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "Timer 非 Enable 状态，迁移失败，timerId:" + timer.getTimerId());
         }
 
         // 批量获取定时任务执行时机
@@ -59,7 +59,7 @@ public class MigratorManager {
         try {
             cronExpression = new CronExpression(timer.getCron());
         } catch (ParseException e) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "解析 cron 表达式失败：" + timer.getCron());
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "解析 cron 表达式失败：" + timer.getCron());
         }
         // 获取 [当前时间, 当前时间 + 2 * migrateStepSeconds ] 之间的时间范围
         Date now = new Date();
@@ -80,7 +80,7 @@ public class MigratorManager {
         boolean cacheRes = taskCacheUtils.saveTasksToCache(taskList);
         if (!cacheRes) {
             log.error("Zset 存储 taskList 失败");
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "ZSet 存储 taskList 失败，timerId: " + timer.getTimerId());
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "ZSet 存储 taskList 失败，timerId: " + timer.getTimerId());
         }
     }
 

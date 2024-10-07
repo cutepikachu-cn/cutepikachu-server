@@ -41,7 +41,7 @@ public class ExecutorWorker {
         List<Long> timerIDUnix = TimerUtils.splitTimerIDUnix(timerIDUnixKey);
         if (timerIDUnix.size() != 2) {
             log.error("splitTimerIDUnix 错误, timerIDUnix: {}", timerIDUnixKey);
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnixKey);
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnixKey);
         }
         Long timerId = timerIDUnix.get(0);
         Long unix = timerIDUnix.get(1);
@@ -64,7 +64,7 @@ public class ExecutorWorker {
         Timer timer = timerService.getById(timerId);
         if (timer == null) {
             log.error("执行回调错误，找不到对应的 Timer, timerId: {}", timerId);
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "执行回调错误，找不到对应的 Timer, timerId: " + timerId);
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "执行回调错误，找不到对应的 Timer, timerId: " + timerId);
         }
 
         // 任务是否未激活

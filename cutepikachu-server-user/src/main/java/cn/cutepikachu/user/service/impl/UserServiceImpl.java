@@ -42,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private void verifyUser(User user) {
         String nickName = user.getNickName();
         if (!RegularExpressionUtils.isValidNickName(nickName)) {
-            throw new BusinessException(ResponseCode.PARAMS_ERROR, "昵称不合法");
+            throw new BusinessException(ResponseCode.BAD_REQUEST, "昵称不合法");
         }
     }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         BeanUtils.copyProperties(userUpdateDTO, user);
         this.verifyUser(user);
         // 更新用户信息
-        ThrowUtils.throwIf(!this.updateById(user), new BusinessException(ResponseCode.SYSTEM_ERROR, "更新用户信息失败"));
+        ThrowUtils.throwIf(!this.updateById(user), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "更新用户信息失败"));
         BeanUtils.copyProperties(this.getById(user.getUserId()), userInfo);
         // 更新登录状态
         session.set("user_info", userInfo);

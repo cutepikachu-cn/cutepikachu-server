@@ -54,9 +54,9 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
 
     private void verify(Timer timer) {
         // 校验 cron 表达式是否合法
-        ThrowUtils.throwIf(timer.getCron() == null, new BusinessException(ResponseCode.PARAMS_ERROR, "corn 表达式不能为空"));
+        ThrowUtils.throwIf(timer.getCron() == null, new BusinessException(ResponseCode.BAD_REQUEST, "corn 表达式不能为空"));
         boolean isValidCron = CronExpression.isValidExpression(timer.getCron());
-        ThrowUtils.throwIf(!isValidCron, new BusinessException(ResponseCode.PARAMS_ERROR, "corn 表达式不合法"));
+        ThrowUtils.throwIf(!isValidCron, new BusinessException(ResponseCode.BAD_REQUEST, "corn 表达式不合法"));
     }
 
     @Override
@@ -82,11 +82,11 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             timer.setStatus(0)
                     .setTimerId(resp.getData());
 
-            ThrowUtils.throwIf(!this.save(timer), new BusinessException(ResponseCode.SYSTEM_ERROR, "创建失败"));
+            ThrowUtils.throwIf(!this.save(timer), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "创建失败"));
 
             return timer.toVO(TimerVO.class);
         } catch (InterruptedException e) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "创建失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "创建失败");
         }
     }
 
@@ -101,9 +101,9 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             if (!lock.tryLock(0, defaultGapSeconds, TimeUnit.SECONDS)) {
                 throw new BusinessException(ResponseCode.TOO_MANY_REQUESTS, "操作过于频繁");
             }
-            ThrowUtils.throwIf(!this.removeById(timerId), new BusinessException(ResponseCode.SYSTEM_ERROR, "删除失败"));
+            ThrowUtils.throwIf(!this.removeById(timerId), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "删除失败"));
         } catch (InterruptedException e) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "操作失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "操作失败");
         }
     }
 
@@ -114,20 +114,20 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
         Timer timer = lambdaQuery().eq(Timer::getApp, app)
                 .eq(Timer::getTimerId, timerId)
                 .one();
-        ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.PARAMS_ERROR, "定时任务不存在"));
+        ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.BAD_REQUEST, "定时任务不存在"));
 
         BeanUtils.copyProperties(timerUpdateDTO, timer);
         // 校验参数
         verify(timer);
 
-        ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.SYSTEM_ERROR, "更新失败定时任务失败"));
+        ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "更新失败定时任务失败"));
 
     }
 
     @Override
     public TimerVO getTimer(String app, Long timerId) {
         Timer timer = getById(timerId);
-        ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND_ERROR, "定时任务不存在"));
+        ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND, "定时任务不存在"));
         return timer.toVO(TimerVO.class);
     }
 
@@ -142,21 +142,21 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
             // 获取定时任务
             Timer timer = getById(timerId);
-            ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND_ERROR, "定时任务不存在"));
+            ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND, "定时任务不存在"));
 
             // 是否已激活
             if (Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
-                throw new BusinessException(ResponseCode.PARAMS_ERROR, "定时任务已激活");
+                throw new BusinessException(ResponseCode.BAD_REQUEST, "定时任务已激活");
             }
 
             // 激活
             timer.setStatus(TimerStatus.ENABLE.getValue());
-            ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.SYSTEM_ERROR, "激活失败"));
+            ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "激活失败"));
 
             // 进行定时任务迁移工作
             migratorManager.migrateTimer(timer);
         } catch (InterruptedException e) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "激活失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "激活失败");
         }
     }
 
@@ -171,18 +171,18 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
             // 获取定时任务
             Timer timer = getById(timerId);
-            ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND_ERROR, "定时任务不存在"));
+            ThrowUtils.throwIf(timer == null, new BusinessException(ResponseCode.NOT_FOUND, "定时任务不存在"));
 
             // 是否已去激活
             if (Objects.equals(timer.getStatus(), TimerStatus.UNABLE.getValue())) {
-                throw new BusinessException(ResponseCode.PARAMS_ERROR, "定时任务已去激活");
+                throw new BusinessException(ResponseCode.BAD_REQUEST, "定时任务已去激活");
             }
 
             // 去激活
             timer.setStatus(TimerStatus.UNABLE.getValue());
-            ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.SYSTEM_ERROR, "去激活失败"));
+            ThrowUtils.throwIf(!this.updateById(timer), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "去激活失败"));
         } catch (InterruptedException e) {
-            throw new BusinessException(ResponseCode.SYSTEM_ERROR, "去激活失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "去激活失败");
         }
     }
 

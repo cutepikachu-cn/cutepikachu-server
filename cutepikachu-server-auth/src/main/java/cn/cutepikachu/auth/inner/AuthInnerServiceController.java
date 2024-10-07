@@ -35,7 +35,7 @@ public class AuthInnerServiceController implements AuthInnerService {
     @Override
     public ResponseEntity<AuthAccount> getAuthAccountByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND_ERROR, "账户不存在");
+        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
         return ResponseUtils.success(authAccount);
     }
 
@@ -45,15 +45,15 @@ public class AuthInnerServiceController implements AuthInnerService {
         AuthAccount authAccount = authAccountService.lambdaQuery()
                 .eq(AuthAccount::getUsername, username)
                 .one();
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND_ERROR, "账户不存在");
-        ThrowUtils.throwIf(!authAccount.getPassword().equals(password), ResponseCode.PARAMS_ERROR, "密码错误");
+        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
+        ThrowUtils.throwIf(!authAccount.getPassword().equals(password), ResponseCode.BAD_REQUEST, "密码错误");
         return ResponseUtils.success(authAccount);
     }
 
     @Override
     public ResponseEntity<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND_ERROR, "账户不存在");
+        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
         List<RoleEnum> roleList = userRoleService.lambdaQuery()
                 .eq(UserRole::getUserId, userId)
                 .list()

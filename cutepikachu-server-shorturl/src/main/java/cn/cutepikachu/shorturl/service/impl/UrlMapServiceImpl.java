@@ -107,7 +107,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
             urlMap.setUrlId(urlId)
                     .setLongUrl(longUrl)
                     .setShortUrl(shortUrl);
-            ThrowUtils.throwIf(!save(urlMap), ResponseCode.SYSTEM_ERROR, "创建短链失败");
+            ThrowUtils.throwIf(!save(urlMap), ResponseCode.INTERNAL_SERVER_ERROR, "创建短链失败");
         }
         shortUrl = urlMap.getShortUrl();
 

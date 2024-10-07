@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/info")
     public ResponseEntity<UserVO> info(@RequestParam Long userId) {
         User user = userService.getById(userId);
-        ThrowUtils.throwIf(user == null, new BusinessException(ResponseCode.NOT_FOUND_ERROR, "用户不存在"));
+        ThrowUtils.throwIf(user == null, new BusinessException(ResponseCode.NOT_FOUND, "用户不存在"));
         return ResponseUtils.success(user.toVO(UserVO.class));
     }
 

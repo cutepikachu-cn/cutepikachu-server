@@ -28,7 +28,7 @@ public class DistributedIDInnerServiceController implements DistributedIDInnerSe
     public ResponseEntity<Long> getDistributedID(String bizTag) {
         Result result = segmentService.getId(bizTag);
         if (result.getStatus() == Status.EXCEPTION) {
-            throw new BusinessException(ResponseCode.PARAMS_ERROR, result.toString());
+            throw new BusinessException(ResponseCode.BAD_REQUEST, result.toString());
         }
         return ResponseUtils.success(result.getId());
     }

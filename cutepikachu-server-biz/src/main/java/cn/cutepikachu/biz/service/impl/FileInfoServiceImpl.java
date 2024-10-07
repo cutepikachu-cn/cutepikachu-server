@@ -32,7 +32,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.FILE);
         ResponseUtils.throwIfNotSuccess(resp);
         fileInfo.setFileId(resp.getData());
-        ThrowUtils.throwIf(!save(fileInfo), ResponseCode.SYSTEM_ERROR, "保存文件信息失败");
+        ThrowUtils.throwIf(!save(fileInfo), ResponseCode.INTERNAL_SERVER_ERROR, "保存文件信息失败");
         return fileInfo.toVO(FileInfoVO.class);
     }
 

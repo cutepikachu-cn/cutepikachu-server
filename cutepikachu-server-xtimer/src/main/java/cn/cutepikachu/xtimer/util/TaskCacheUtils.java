@@ -86,7 +86,7 @@ public class TaskCacheUtils {
             List<Long> longSet = TimerUtils.splitTimerIDUnix(timerIDUnix);
             if (longSet.size() != 2) {
                 log.error("splitTimerIDUnix 错误, timerIDUnix:{}", timerIDUnix);
-                throw new BusinessException(ResponseCode.SYSTEM_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnix);
+                throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnix);
             }
             task.setTimerId(longSet.get(0));
             task.setRunTime(longSet.get(1));

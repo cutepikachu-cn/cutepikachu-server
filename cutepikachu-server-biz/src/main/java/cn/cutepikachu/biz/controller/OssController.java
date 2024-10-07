@@ -82,9 +82,9 @@ public class OssController {
 
     @PostMapping("/upload_image")
     public ResponseEntity<FileInfoVO> uploadImage(@RequestParam MultipartFile file) throws IOException {
-        ThrowUtils.throwIf(file.isEmpty(), ResponseCode.PARAMS_ERROR, "文件为空");
+        ThrowUtils.throwIf(file.isEmpty(), ResponseCode.BAD_REQUEST, "文件为空");
         // 判断文件是否为 jpg / jpeg / png 类型图片
-        ThrowUtils.throwIf(!isValidFileType(file, IMAGE_MAGIC_NUMBER), ResponseCode.PARAMS_ERROR, "文件类型错误");
+        ThrowUtils.throwIf(!isValidFileType(file, IMAGE_MAGIC_NUMBER), ResponseCode.BAD_REQUEST, "文件类型错误");
         FileInfo fileInfo = getFileInfo(file, FileBizTag.IMAGE_OTHER);
         ossService.upload(file.getBytes(), FileBizTag.IMAGE_OTHER, fileInfo.getPath(), fileInfo.getType());
         FileInfoVO fileInfoVO = fileInfoService.saveFile(fileInfo);
