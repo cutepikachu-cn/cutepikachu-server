@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-
-import java.lang.reflect.Field;
 
 /**
  * Redis 配置
@@ -21,7 +20,7 @@ import java.lang.reflect.Field;
 public class RedisConfiguration {
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) throws NoSuchFieldException, IllegalAccessException {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         // 创建 RedisTemplate 对象
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         // 设置 RedisConnection 工厂
@@ -39,14 +38,11 @@ public class RedisConfiguration {
         return template;
     }
 
-    private static RedisSerializer<?> buildJsonRedisSerializer() throws NoSuchFieldException, IllegalAccessException {
-        RedisSerializer<Object> json = RedisSerializer.json();
+    private static RedisSerializer<?> buildJsonRedisSerializer() {
+        ObjectMapper objectMapper = new ObjectMapper();
         // 解决 LocalDateTime 的序列化
-        Class<?> aClass = json.getClass();
-        Field field = aClass.getField("mapper");
-        field.setAccessible(true);
-        ObjectMapper objectMapper = (ObjectMapper) field.get(json);
         objectMapper.registerModules(new JavaTimeModule());
-        return json;
+        objectMapper.findAndRegisterModules();
+        return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
 }
