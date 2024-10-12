@@ -1,7 +1,7 @@
 package cn.cutepikachu.common.security.util;
 
 import cn.cutepikachu.common.security.config.SecurityConfiguration;
-import cn.cutepikachu.common.util.SpringContextUtils;
+import cn.cutepikachu.common.util.SpringUtils;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
@@ -23,7 +23,7 @@ public class PasswordUtil {
 
     private static final Digester DIGESTER;
 
-    private static final SecurityConfiguration SECURITY_CONFIGURATION = SpringContextUtils.getBean(SecurityConfiguration.class);
+    private static final SecurityConfiguration SECURITY_CONFIGURATION = SpringUtils.getBean(SecurityConfiguration.class);
 
     static {
         PasswordUtil.SALT = SECURITY_CONFIGURATION.getSalt();
