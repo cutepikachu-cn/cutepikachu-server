@@ -32,6 +32,7 @@
         <druid.version>1.2.20</druid.version>
         <minio.version>8.5.12</minio.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
+        <zxing.version>3.5.3</zxing.version>
     </properties>
 
     <dependencyManagement>
@@ -178,10 +179,22 @@
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
+            <!-- Dynamic Datasource -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
+            </dependency>
+            <!-- ZXing 谷歌条形码/二维码 -->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
