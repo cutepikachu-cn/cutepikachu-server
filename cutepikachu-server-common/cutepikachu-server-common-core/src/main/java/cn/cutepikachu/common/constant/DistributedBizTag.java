@@ -17,4 +17,6 @@ public class DistributedBizTag {
 
     public static final String FILE = "cutepikachu-server-file";
 
+    public static final String AI_IMAGE = "cutepikachu-server-ai-image";
+
 }

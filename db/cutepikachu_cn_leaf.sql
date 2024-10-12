@@ -28,4 +28,6 @@ VALUES ('cutepikachu-server-auth-account', 10000000000, 100, 10,
        ('cutepikachu-server-shorturl', 10000000000, 100, 10,
         'cutepikachu_cn_shorturl 数据库中 url_map 表的 url_id'),
        ('cutepikachu-server-file', 10000000000, 100, 10,
-        'cutepikachu_cn_biz 数据库中 file_info 表的 file_id');
+        'cutepikachu_cn_biz 数据库中 file_info 表的 file_id'),
+       ('cutepikachu-server-ai-image', 10000000000, 100, 10,
+        'cutepikachu_cn_ai 数据库中 ai_image 表的 id');
