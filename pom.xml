@@ -23,6 +23,7 @@
         <module>cutepikachu-server-xtimer</module>
         <module>cutepikachu-server-shorturl</module>
         <module>cutepikachu-server-biz</module>
+        <module>cutepikachu-server-ai</module>
     </modules>
 
     <properties>
@@ -175,4 +176,34 @@
             </properties>
         </profile>
     </profiles>
+
+    <!-- 使用 aliyun / huawei 的 Maven 源 -->
+    <repositories>
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>huaweicloud</id>
+            <name>huawei</name>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
 </project>

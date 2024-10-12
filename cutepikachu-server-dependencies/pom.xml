@@ -19,7 +19,8 @@
         <!-- 核心依赖版本 -->
         <spring-boot.version>3.3.2</spring-boot.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
+        <spring-ai.version>1.1.0</spring-ai.version>
 
         <!-- 其它依赖 -->
         <guava.version>33.3.0-jre</guava.version>
@@ -59,6 +60,14 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- Spring AI -->
+            <dependency>
+                <groupId>group.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -122,13 +131,13 @@
             <!--   <artifactId>guava</artifactId> -->
             <!--   <version>${guava.version}</version> -->
             <!-- </dependency> -->
-            <!-- Druid -->
+            <!-- Druid 数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-            <!-- Hutool -->
+            <!-- Hutool 工具库 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
@@ -142,7 +151,7 @@
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- knife4j -->
+            <!-- knife4j 接口文档 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -159,13 +168,13 @@
                 <artifactId>aspectjweaver</artifactId>
                 <version>${aspectjweaver.version}</version>
             </dependency>
-            <!-- Redisson -->
+            <!-- Redisson Redis 客户端 -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
-            <!-- Sa-Token -->
+            <!-- Sa-Token 验证鉴权 -->
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-bom</artifactId>
@@ -173,13 +182,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- MinIO -->
+            <!-- MinIO 对象存储 -->
             <dependency>
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
-            <!-- Dynamic Datasource -->
+            <!-- Dynamic Datasource 动态数据源 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
