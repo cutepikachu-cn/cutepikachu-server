@@ -29,11 +29,6 @@ public class FileSaveDTO {
     String fileName;
 
     /**
-     * 文件路径
-     */
-    String path;
-
-    /**
      * 文件类型
      */
     String contentType;

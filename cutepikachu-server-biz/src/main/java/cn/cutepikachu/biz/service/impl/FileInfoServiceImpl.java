@@ -71,7 +71,8 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         // 保存文件信息
         ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE);
         ResponseUtils.throwIfNotSuccess(resp);
-        fileInfo.setFileId(resp.getData());
+        fileInfo.setFileId(resp.getData())
+                .setEndpoint(ossService.getEndpoint());
         ThrowUtils.throwIf(!save(fileInfo), ResponseCode.INTERNAL_SERVER_ERROR, "保存文件信息失败");
         return fileInfo;
     }

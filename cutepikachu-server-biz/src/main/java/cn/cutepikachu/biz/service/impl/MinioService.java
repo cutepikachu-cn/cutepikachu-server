@@ -24,7 +24,10 @@ public class MinioService implements OssService {
 
     private final MinioClient minioClient;
 
+    private final MinioConfiguration minioConfiguration;
+
     public MinioService(MinioConfiguration minioConfiguration, OssServiceFactory ossServiceFactory) {
+        this.minioConfiguration = minioConfiguration;
         String endpoint = minioConfiguration.getEndpoint();
         String accessKey = minioConfiguration.getAccessKey();
         String secretKey = minioConfiguration.getSecretKey();
@@ -38,6 +41,11 @@ public class MinioService implements OssService {
     @Override
     public OssType getSelfOssType() {
         return OssType.MINIO;
+    }
+
+    @Override
+    public String getEndpoint() {
+        return minioConfiguration.getEndpoint();
     }
 
     @Override

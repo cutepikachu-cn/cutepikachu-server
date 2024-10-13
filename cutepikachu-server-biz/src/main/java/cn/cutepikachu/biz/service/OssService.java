@@ -13,6 +13,8 @@ public interface OssService {
 
     OssType getSelfOssType();
 
+    String getEndpoint();
+
     void upload(byte[] bytes, String bucket, String path, String contentType);
 
     boolean remove(String bucket, String objectPath);
