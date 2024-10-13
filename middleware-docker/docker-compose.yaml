@@ -5,7 +5,9 @@ services:
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    # network_mode: "host"
+    #    network_mode: "host"
+    #    expose:
+    #      - 3306
     ports:
       - "3306:3306"
     volumes:
@@ -17,7 +19,9 @@ services:
     image: redis/redis-stack-server:7.4.0-v0
     container_name: cutepikachu-server-redis-stack-server
     restart: always
-    # network_mode: "host"
+    #    network_mode: "host"
+    #    expose:
+    #      - 6379
     ports:
       - "6379:6379"
 
@@ -27,7 +31,10 @@ services:
     restart: always
     depends_on:
       - cutepikachu-server-mysql
-    # network_mode: "host"
+    #    network_mode: "host"
+    #    expose:
+    #      - 8848
+    #      - 9848
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -54,7 +61,10 @@ services:
     container_name: cutepikachu-server-minio
     restart: always
     command: server /data --console-address ":9001"
-    # network_mode: "host"
+    #    network_mode: "host"
+    #    expose:
+    #      - 9000
+    #      - 9001
     ports:
       - "9000:9000"
       - "9001:9001"
