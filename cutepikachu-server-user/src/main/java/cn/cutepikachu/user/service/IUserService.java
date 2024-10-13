@@ -1,8 +1,8 @@
 package cn.cutepikachu.user.service;
 
-import cn.cutepikachu.common.user.model.dto.UserUpdateDTO;
-import cn.cutepikachu.common.user.model.entity.User;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.User;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 

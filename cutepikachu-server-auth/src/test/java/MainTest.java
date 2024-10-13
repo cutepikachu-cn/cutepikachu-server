@@ -1,7 +1,7 @@
 import cn.cutepikachu.auth.AuthApplication;
-import cn.cutepikachu.common.auth.model.entity.AuthAccount;
-import cn.cutepikachu.common.user.model.entity.User;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
+import cn.cutepikachu.common.model.auth.entity.AuthAccount;
+import cn.cutepikachu.common.model.user.entity.User;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.util.BeanUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,19 +1,19 @@
 package cn.cutepikachu.user.service.impl;
 
-import cn.cutepikachu.common.auth.model.entity.AuthAccount;
 import cn.cutepikachu.common.exception.BusinessException;
+import cn.cutepikachu.common.model.auth.entity.AuthAccount;
+import cn.cutepikachu.common.model.user.entity.User;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.security.util.PasswordUtil;
-import cn.cutepikachu.common.user.model.dto.UserUpdateDTO;
-import cn.cutepikachu.common.user.model.entity.User;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
 import cn.cutepikachu.user.mapper.UserMapper;
+import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;

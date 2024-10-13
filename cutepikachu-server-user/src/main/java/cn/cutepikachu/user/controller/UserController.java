@@ -1,15 +1,15 @@
 package cn.cutepikachu.user.controller;
 
 import cn.cutepikachu.common.exception.BusinessException;
+import cn.cutepikachu.common.model.user.entity.User;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
-import cn.cutepikachu.common.user.model.dto.UserLoginDTO;
-import cn.cutepikachu.common.user.model.dto.UserUpdateDTO;
-import cn.cutepikachu.common.user.model.entity.User;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
-import cn.cutepikachu.common.user.model.vo.UserVO;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
+import cn.cutepikachu.user.model.dto.UserLoginDTO;
+import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;

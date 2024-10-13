@@ -2,7 +2,7 @@ package cn.cutepikachu.auth.service.impl;
 
 import cn.cutepikachu.auth.mapper.UserRoleMapper;
 import cn.cutepikachu.auth.service.IUserRoleService;
-import cn.cutepikachu.common.auth.model.entity.UserRole;
+import cn.cutepikachu.common.model.auth.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

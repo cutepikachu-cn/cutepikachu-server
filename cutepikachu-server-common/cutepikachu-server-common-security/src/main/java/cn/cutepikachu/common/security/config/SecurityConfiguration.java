@@ -1,6 +1,6 @@
 package cn.cutepikachu.common.security.config;
 
-import cn.cutepikachu.common.auth.model.enums.RoleEnum;
+import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

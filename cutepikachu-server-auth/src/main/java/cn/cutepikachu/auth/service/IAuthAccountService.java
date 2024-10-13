@@ -1,9 +1,9 @@
 package cn.cutepikachu.auth.service;
 
-import cn.cutepikachu.common.auth.model.dto.AuthAccountUpdateDTO;
-import cn.cutepikachu.common.auth.model.entity.AuthAccount;
-import cn.cutepikachu.common.user.model.dto.UserRegisterDTO;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
+import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
+import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
+import cn.cutepikachu.common.model.auth.entity.AuthAccount;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletRequest;

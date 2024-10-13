@@ -49,7 +49,7 @@
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
-            <artifactId>cutepikachu-server-common-auth</artifactId>
+            <artifactId>cutepikachu-server-common-model</artifactId>
         </dependency>
     </dependencies>
 

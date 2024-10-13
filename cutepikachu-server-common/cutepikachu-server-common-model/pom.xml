@@ -4,19 +4,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>cutepikachu-server-inner</artifactId>
+        <artifactId>cutepikachu-server-common</artifactId>
         <groupId>cn.cutepikachu</groupId>
         <version>${rversion}</version>
     </parent>
     <packaging>jar</packaging>
 
-    <artifactId>cutepikachu-server-inner-auth</artifactId>
-    <description>Cutepikachu Server 内部认证鉴权服务</description>
+    <artifactId>cutepikachu-server-common-model</artifactId>
+    <description>Cutepikachu Server 公共模块-Model</description>
 
     <dependencies>
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cn.cutepikachu</groupId>
-            <artifactId>cutepikachu-server-common-model</artifactId>
+            <artifactId>cutepikachu-server-common-core</artifactId>
         </dependency>
     </dependencies>
 

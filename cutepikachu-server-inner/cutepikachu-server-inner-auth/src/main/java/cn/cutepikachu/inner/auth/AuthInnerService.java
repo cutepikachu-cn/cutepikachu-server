@@ -1,8 +1,8 @@
 package cn.cutepikachu.inner.auth;
 
-import cn.cutepikachu.common.auth.model.entity.AuthAccount;
-import cn.cutepikachu.common.auth.model.enums.RoleEnum;
 import cn.cutepikachu.common.constant.FeignConstant;
+import cn.cutepikachu.common.model.auth.entity.AuthAccount;
+import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.response.ResponseEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

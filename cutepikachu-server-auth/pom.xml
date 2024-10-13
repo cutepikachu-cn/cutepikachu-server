@@ -45,11 +45,7 @@
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
-            <artifactId>cutepikachu-server-common-auth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.cutepikachu</groupId>
-            <artifactId>cutepikachu-server-common-user</artifactId>
+            <artifactId>cutepikachu-server-common-model</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>

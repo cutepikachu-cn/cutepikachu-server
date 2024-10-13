@@ -1,6 +1,6 @@
 package cn.cutepikachu.auth.service;
 
-import cn.cutepikachu.common.auth.model.entity.UserRole;
+import cn.cutepikachu.common.model.auth.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -2,10 +2,10 @@ package cn.cutepikachu.auth.inner;
 
 import cn.cutepikachu.auth.service.IAuthAccountService;
 import cn.cutepikachu.auth.service.IUserRoleService;
-import cn.cutepikachu.common.auth.model.entity.AuthAccount;
-import cn.cutepikachu.common.auth.model.entity.UserRole;
-import cn.cutepikachu.common.auth.model.enums.RoleEnum;
 import cn.cutepikachu.common.model.BaseEnum;
+import cn.cutepikachu.common.model.auth.entity.AuthAccount;
+import cn.cutepikachu.common.model.auth.entity.UserRole;
+import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.util.ResponseUtils;

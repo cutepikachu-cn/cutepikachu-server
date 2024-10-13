@@ -1,10 +1,10 @@
 package cn.cutepikachu.auth.controller;
 
+import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
+import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
 import cn.cutepikachu.auth.service.IAuthAccountService;
-import cn.cutepikachu.common.auth.model.dto.AuthAccountUpdateDTO;
+import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.ResponseEntity;
-import cn.cutepikachu.common.user.model.dto.UserRegisterDTO;
-import cn.cutepikachu.common.user.model.vo.UserInfoVO;
 import cn.cutepikachu.common.util.ResponseUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

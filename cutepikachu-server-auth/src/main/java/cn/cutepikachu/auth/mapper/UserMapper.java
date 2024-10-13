@@ -1,6 +1,6 @@
 package cn.cutepikachu.auth.mapper;
 
-import cn.cutepikachu.common.user.model.entity.User;
+import cn.cutepikachu.common.model.user.entity.User;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

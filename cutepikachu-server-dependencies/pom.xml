@@ -85,7 +85,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
-                <artifactId>cutepikachu-server-common-auth</artifactId>
+                <artifactId>cutepikachu-server-common-model</artifactId>
                 <version>${rversion}</version>
             </dependency>
             <dependency>
@@ -101,11 +101,6 @@
             <dependency>
                 <groupId>cn.cutepikachu</groupId>
                 <artifactId>cutepikachu-server-common-security</artifactId>
-                <version>${rversion}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.cutepikachu</groupId>
-                <artifactId>cutepikachu-server-common-user</artifactId>
                 <version>${rversion}</version>
             </dependency>
             <dependency>
