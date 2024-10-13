@@ -1,6 +1,5 @@
 package cn.cutepikachu.inner.auth;
 
-import cn.cutepikachu.common.constant.FeignConstant;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.response.ResponseEntity;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+import static cn.cutepikachu.common.constant.FeignConstant.INNER_SERVICE_PREFIX;
 
 /**
  * 认证鉴权内部服务接口
@@ -26,7 +27,7 @@ public interface AuthInnerService {
      * @param userId 用户 id
      * @return 证授权账户
      */
-    @GetMapping(FeignConstant.INNER_SERVICE_PREFIX + "/get/auth/account/user_id")
+    @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/user_id")
     ResponseEntity<AuthAccount> getAuthAccountByUserId(@RequestParam Long userId);
 
     /**
@@ -36,7 +37,7 @@ public interface AuthInnerService {
      * @param password 密码
      * @return 证授权账户
      */
-    @GetMapping(FeignConstant.INNER_SERVICE_PREFIX + "/get/auth/account/username_password")
+    @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/username_password")
     ResponseEntity<AuthAccount> getAuthAccountByUsernameAndPassword(@RequestParam String username, @RequestParam String password);
 
     /**
@@ -45,7 +46,7 @@ public interface AuthInnerService {
      * @param userId 用户 id
      * @return 认证账户角色
      */
-    @GetMapping(FeignConstant.INNER_SERVICE_PREFIX + "/get/auth/account/role")
+    @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/role")
     ResponseEntity<List<RoleEnum>> getAuthAccountRoleByUserId(@RequestParam Long userId);
 
 }

@@ -4,7 +4,7 @@ import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.inner.leaf.DistributedIDInnerService;
+import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.leaf.common.Result;
 import cn.cutepikachu.leaf.common.Status;
 import cn.cutepikachu.leaf.service.SegmentService;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2024-08-03 18:58-08
  */
 @RestController
-public class DistributedIDInnerServiceController implements DistributedIDInnerService {
+public class DistributedIdInnerServiceController implements DistributedIdInnerService {
 
     @Resource
     private SegmentService segmentService;

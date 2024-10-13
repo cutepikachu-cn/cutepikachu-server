@@ -4,7 +4,7 @@ import cn.cutepikachu.common.redis.util.RedisUtils;
 import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.snowflake.service.SnowflakeIdGenerateService;
 import cn.cutepikachu.common.util.ThrowUtils;
-import cn.cutepikachu.inner.leaf.DistributedIDInnerService;
+import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.shorturl.mapper.UrlMapMapper;
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
@@ -39,7 +39,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
     private RBloomFilter<String> bloomFilter;
 
     @Resource
-    private DistributedIDInnerService distributedIDInnerService;
+    private DistributedIdInnerService distributedIdInnerService;
 
     @Resource
     private SnowflakeIdGenerateService snowflakeIdGenerateService;
@@ -95,7 +95,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
                 .one();
         if (urlMap == null) {
             // 不存在，新建短链
-            // ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
+            // ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
             // ResponseUtils.throwIfNotSuccess(resp);
             // Long urlId = resp.getData();
             long urlId = snowflakeIdGenerateService.nextId("short_url");

@@ -21,7 +21,7 @@ import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
-import cn.cutepikachu.inner.leaf.DistributedIDInnerService;
+import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
@@ -47,7 +47,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     private IUserService userService;
 
     @Resource
-    private DistributedIDInnerService distributedIDInnerService;
+    private DistributedIdInnerService distributedIdInnerService;
 
     /**
      * 校验 AuthAccount 对象信息
@@ -103,7 +103,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         ThrowUtils.throwIf(count != 0, ResponseCode.BAD_REQUEST, "账户已存在");
 
         // 获取分布式用户 ID
-        ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
+        ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
         ResponseUtils.throwIfNotSuccess(resp);
         authAccount.setUserId(resp.getData());
 

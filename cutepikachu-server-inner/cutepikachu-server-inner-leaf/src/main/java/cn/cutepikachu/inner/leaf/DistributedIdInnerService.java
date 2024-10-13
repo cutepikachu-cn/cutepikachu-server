@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @since 2024-08-03 18:51-59
  */
 @FeignClient(value = "cutepikachu-server-leaf")
-public interface DistributedIDInnerService {
+public interface DistributedIdInnerService {
 
     /**
      * 获取分布式 ID

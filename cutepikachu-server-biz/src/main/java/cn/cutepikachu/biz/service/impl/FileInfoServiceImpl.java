@@ -15,7 +15,7 @@ import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
-import cn.cutepikachu.inner.leaf.DistributedIDInnerService;
+import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ import java.util.Map;
 public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> implements IFileInfoService {
 
     @Resource
-    private DistributedIDInnerService distributedIDInnerService;
+    private DistributedIdInnerService distributedIdInnerService;
 
     @Resource
     private OssServiceFactory ossServiceFactory;
@@ -69,7 +69,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         ossService.upload(bytes, fileInfo.getBucket(), fileInfo.getPath(), fileInfo.getType());
 
         // 保存文件信息
-        ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.FILE);
+        ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE);
         ResponseUtils.throwIfNotSuccess(resp);
         fileInfo.setFileId(resp.getData());
         ThrowUtils.throwIf(!save(fileInfo), ResponseCode.INTERNAL_SERVER_ERROR, "保存文件信息失败");

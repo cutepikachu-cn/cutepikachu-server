@@ -7,7 +7,7 @@ import cn.cutepikachu.common.response.ResponseEntity;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
-import cn.cutepikachu.inner.leaf.DistributedIDInnerService;
+import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.xtimer.manager.MigratorManager;
 import cn.cutepikachu.xtimer.mapper.TimerMapper;
 import cn.cutepikachu.xtimer.model.dto.TimerCreateDTO;
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements ITimerService {
 
     @Resource
-    private DistributedIDInnerService distributedIDInnerService;
+    private DistributedIdInnerService distributedIdInnerService;
 
     @Resource
     private RedissonClient redissonClient;
@@ -76,7 +76,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             verify(timer);
 
             // 获取任务分布式 ID
-            ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.TIMER);
+            ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER);
             ResponseUtils.throwIfNotSuccess(resp);
 
             timer.setStatus(0)
