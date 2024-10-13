@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.util;
 
-import cn.cutepikachu.biz.model.enums.FileBizTag;
+import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 

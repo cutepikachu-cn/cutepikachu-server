@@ -1,6 +1,6 @@
 import cn.cutepikachu.biz.BizApplication;
-import cn.cutepikachu.biz.model.enums.FileBizTag;
 import cn.cutepikachu.biz.service.OssService;
+import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

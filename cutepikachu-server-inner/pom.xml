@@ -17,6 +17,7 @@
         <module>cutepikachu-server-inner-auth</module>
         <module>cutepikachu-server-inner-user</module>
         <module>cutepikachu-server-inner-leaf</module>
+        <module>cutepikachu-server-inner-biz</module>
     </modules>
 
     <dependencies>

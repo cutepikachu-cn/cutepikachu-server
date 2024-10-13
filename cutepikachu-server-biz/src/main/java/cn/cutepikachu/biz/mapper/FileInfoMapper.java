@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.mapper;
 
-import cn.cutepikachu.biz.model.entity.FileInfo;
+import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

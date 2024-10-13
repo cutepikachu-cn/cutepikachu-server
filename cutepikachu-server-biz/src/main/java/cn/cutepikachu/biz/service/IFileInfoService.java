@@ -1,8 +1,10 @@
 package cn.cutepikachu.biz.service;
 
-import cn.cutepikachu.biz.model.entity.FileInfo;
-import cn.cutepikachu.biz.model.vo.FileInfoVO;
+import cn.cutepikachu.common.model.biz.entity.FileInfo;
+import cn.cutepikachu.common.model.biz.enums.FileBizTag;
+import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件信息表 服务类
@@ -13,6 +15,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFileInfoService extends IService<FileInfo> {
 
-    FileInfoVO saveFileInfo(FileInfo fileInfo);
+    FileInfoVO uploadFile(MultipartFile file, FileBizTag bizTag);
+
+    FileInfo uploadFile(byte[] bytes, FileBizTag bizTag, String fileName, String contentType);
 
 }

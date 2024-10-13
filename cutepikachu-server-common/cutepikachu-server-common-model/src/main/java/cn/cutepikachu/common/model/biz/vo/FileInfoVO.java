@@ -1,7 +1,7 @@
-package cn.cutepikachu.biz.model.vo;
+package cn.cutepikachu.common.model.biz.vo;
 
-import cn.cutepikachu.biz.model.entity.FileInfo;
 import cn.cutepikachu.common.model.BaseVO;
+import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

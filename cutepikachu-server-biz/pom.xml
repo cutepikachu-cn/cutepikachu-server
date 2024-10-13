@@ -47,6 +47,10 @@
             <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-inner-leaf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-inner-biz</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.minio</groupId>

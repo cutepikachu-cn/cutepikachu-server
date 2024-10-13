@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.service;
 
-import cn.cutepikachu.biz.model.enums.FileBizTag;
+import cn.cutepikachu.biz.model.enums.OssType;
 
 /**
  * 对象存储服务接口
@@ -11,17 +11,15 @@ import cn.cutepikachu.biz.model.enums.FileBizTag;
  */
 public interface OssService {
 
+    OssType getSelfOssType();
+
     void upload(byte[] bytes, String bucket, String path, String contentType);
 
-    default void upload(byte[] bytes, FileBizTag bizTag, String path, String contentType) {
-        upload(bytes, bizTag.getBucket(), path, contentType);
-    }
+    boolean remove(String bucket, String objectPath);
 
-    void remove(String bucket, String objectPath);
+    boolean makeBucket(String bucket);
 
-    void makeBucket(String bucket);
-
-    boolean existsBucket(String bucket, boolean makeIfNotExists);
+    boolean existsBucket(String bucket);
 
     String getPresignedObjectUrl(String bucketName, String objectPath);
 

@@ -36,8 +36,13 @@ public class MinioService implements OssService {
     }
 
     @Override
+    public OssType getSelfOssType() {
+        return OssType.MINIO;
+    }
+
+    @Override
     public void upload(byte[] bytes, String bucket, String path, String contentType) {
-        this.existsBucket(bucket, true);
+        this.existsBucket(bucket);
         try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
             PutObjectArgs uploadObjectArgs = PutObjectArgs.builder()
                     .bucket(bucket)
@@ -52,42 +57,42 @@ public class MinioService implements OssService {
     }
 
     @Override
-    public void remove(String bucket, String objectPath) {
-        this.existsBucket(bucket, true);
+    public boolean remove(String bucket, String objectPath) {
         try {
             RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                     .bucket(bucket)
                     .object(objectPath)
                     .build();
             minioClient.removeObject(removeObjectArgs);
+            return true;
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "删除文件失败");
+            return false;
         }
     }
 
     @Override
-    public void makeBucket(String bucket) {
+    public boolean makeBucket(String bucket) {
+        if (this.existsBucket(bucket)) {
+            return true;
+        }
         try {
             MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder()
                     .bucket(bucket)
                     .build();
             minioClient.makeBucket(makeBucketArgs);
+            return true;
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR);
+            return false;
         }
     }
 
     @Override
-    public boolean existsBucket(String bucket, boolean makeIfNotExists) {
+    public boolean existsBucket(String bucket) {
         try {
             BucketExistsArgs bucketExistsArgs = BucketExistsArgs.builder()
                     .bucket(bucket)
                     .build();
-            boolean exists = minioClient.bucketExists(bucketExistsArgs);
-            if (!exists && makeIfNotExists) {
-                makeBucket(bucket);
-            }
-            return makeIfNotExists || exists;
+            return minioClient.bucketExists(bucketExistsArgs);
         } catch (Exception e) {
             throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR);
         }
@@ -104,7 +109,7 @@ public class MinioService implements OssService {
                     .build();
             return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "获取文件失败");
+            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "获取预签名 URL 失败");
         }
     }
 

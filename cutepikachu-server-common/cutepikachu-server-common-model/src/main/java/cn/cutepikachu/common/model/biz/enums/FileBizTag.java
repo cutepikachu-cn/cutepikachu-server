@@ -1,4 +1,4 @@
-package cn.cutepikachu.biz.model.enums;
+package cn.cutepikachu.common.model.biz.enums;
 
 import cn.cutepikachu.common.model.BaseEnum;
 import lombok.AllArgsConstructor;

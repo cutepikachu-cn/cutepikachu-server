@@ -118,6 +118,11 @@
                 <artifactId>cutepikachu-server-inner-leaf</artifactId>
                 <version>${rversion}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.cutepikachu</groupId>
+                <artifactId>cutepikachu-server-inner-biz</artifactId>
+                <version>${rversion}</version>
+            </dependency>
 
             <!-- 其它依赖 -->
             <!-- Guava -->

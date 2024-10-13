@@ -1,7 +1,7 @@
-package cn.cutepikachu.biz.model.entity;
+package cn.cutepikachu.common.model.biz.entity;
 
-import cn.cutepikachu.biz.model.vo.FileInfoVO;
 import cn.cutepikachu.common.model.BaseEntity;
+import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
