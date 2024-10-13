@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>cutepikachu-server</artifactId>
+        <groupId>cn.cutepikachu</groupId>
+        <version>${rversion}</version>
+    </parent>
+    <packaging>jar</packaging>
+
+    <artifactId>cutepikachu-server-ai</artifactId>
+    <description>Cutepikachu Server AI 服务模块</description>
+
+    <properties>
+        <spring-ai.version>1.1.0</spring-ai.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-ai</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>group.springframework.ai</groupId>
+            <artifactId>spring-ai-zhipuai-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-inner-leaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-inner-biz</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

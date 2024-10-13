@@ -19,7 +19,8 @@ public enum FileBizTag implements BaseEnum<String> {
             "jpg", "FFD8FF",
             "jpeg", "FFD8FF",
             "png", "89504E47"
-    ));
+    )),
+    IMAGE_AI("AI 文生图", "ai", "image", Map.of());
 
     private final String text;
 

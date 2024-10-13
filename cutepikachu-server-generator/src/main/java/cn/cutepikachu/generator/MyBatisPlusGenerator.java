@@ -35,7 +35,7 @@ public class MyBatisPlusGenerator {
 
     private static final String PROJECT_PACKAGE = "cn.cutepikachu";
 
-    private static final String DATABASE = "cutepikachu_cn_biz";
+    private static final String DATABASE = "cutepikachu_cn_ai";
 
     private static final String USERNAME = "root";
 
