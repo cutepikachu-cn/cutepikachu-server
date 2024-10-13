@@ -1,6 +1,6 @@
 package cn.cutepikachu.xtimer.controller;
 
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.xtimer.model.dto.TimerCreateDTO;
 import cn.cutepikachu.xtimer.model.vo.TimerVO;
@@ -22,26 +22,26 @@ public class TimerController {
     private ITimerService timerService;
 
     @PostMapping("/test")
-    public ResponseEntity<?> test() {
+    public BaseResponse<?> test() {
         return ResponseUtils.success("Hello, XTimer!");
     }
 
     @PostMapping("/create")
-    public ResponseEntity<TimerVO> create(@RequestBody TimerCreateDTO timerCreateDTO) {
+    public BaseResponse<TimerVO> create(@RequestBody TimerCreateDTO timerCreateDTO) {
         TimerVO timerVO = timerService.createTimer(timerCreateDTO);
         return ResponseUtils.success(timerVO);
     }
 
     @GetMapping("/enable")
-    public ResponseEntity<Boolean> enable(@RequestParam String app,
-                                          @RequestParam Long timerId) {
+    public BaseResponse<Boolean> enable(@RequestParam String app,
+                                        @RequestParam Long timerId) {
         timerService.enableTimer(app, timerId);
         return ResponseUtils.success(Boolean.TRUE);
     }
 
     @GetMapping("/unable")
-    public ResponseEntity<Boolean> unable(@RequestParam String app,
-                                          @RequestParam Long timerId) {
+    public BaseResponse<Boolean> unable(@RequestParam String app,
+                                        @RequestParam Long timerId) {
         timerService.unableTimer(app, timerId);
         return ResponseUtils.success(Boolean.TRUE);
     }

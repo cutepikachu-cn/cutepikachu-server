@@ -14,7 +14,7 @@ import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.SpringUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
@@ -74,7 +74,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                 .setOptions(aiImageDrawDTO.getOptions())
                 .setStatus(AiImageStatus.IN_PROGRESS.getValue());
         // 获取分布式 ID
-        ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
         ResponseUtils.throwIfNotSuccess(resp);
         aiImage.setId(resp.getData());
         this.save(aiImage);
@@ -112,7 +112,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                     .setFileBizTag(FileBizTag.IMAGE_AI)
                     .setContentType(contentType)
                     .setFileName(aiImage.getId().toString());
-            ResponseEntity<FileInfo> resp = fileInnerService.saveFile(fileSaveDTO);
+            BaseResponse<FileInfo> resp = fileInnerService.saveFile(fileSaveDTO);
             ResponseUtils.throwIfNotSuccess(resp);
             FileInfo fileInfo = resp.getData();
 

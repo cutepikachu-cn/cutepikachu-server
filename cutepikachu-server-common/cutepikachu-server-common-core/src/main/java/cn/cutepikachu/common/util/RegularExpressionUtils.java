@@ -3,6 +3,8 @@ package cn.cutepikachu.common.util;
 import cn.cutepikachu.common.constant.RegularExpressionConstant;
 import cn.hutool.core.util.ReUtil;
 
+import static cn.cutepikachu.common.constant.RegularExpressionConstant.*;
+
 /**
  * 正则表达式工具
  *
@@ -19,7 +21,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidUsername(String value) {
-        return isMatching(RegularExpressionConstant.USERNAME_REGEXP, value);
+        return isMatch(USERNAME_REGEXP, value);
     }
 
     /**
@@ -29,7 +31,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidPassword(String value) {
-        return isMatching(RegularExpressionConstant.PASSWORD_REGEXP, value);
+        return isMatch(PASSWORD_REGEXP, value);
     }
 
     /**
@@ -39,7 +41,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidNickName(String value) {
-        return isMatching(RegularExpressionConstant.NICK_NAME_REGEXP, value);
+        return isMatch(NICK_NAME_REGEXP, value);
     }
 
     /**
@@ -49,7 +51,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidField(String value) {
-        return isMatching(RegularExpressionConstant.FIELD_REGEXP, value);
+        return isMatch(FIELD_REGEXP, value);
     }
 
     /**
@@ -59,7 +61,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidMobile(String value) {
-        return isMatching(RegularExpressionConstant.MOBILE_REGEXP, value);
+        return isMatch(MOBILE_REGEXP, value);
     }
 
     /**
@@ -69,7 +71,7 @@ public class RegularExpressionUtils {
      * @return 匹配结果
      */
     public static boolean isValidEmail(String value) {
-        return isMatching(RegularExpressionConstant.EMAIL_REGEXP, value);
+        return isMatch(EMAIL_REGEXP, value);
     }
 
     /**
@@ -79,7 +81,7 @@ public class RegularExpressionUtils {
      * @param value  输入值
      * @return 匹配结果
      */
-    public static boolean isMatching(String regexp, String value) {
+    public static boolean isMatch(String regexp, String value) {
         return ReUtil.isMatch(regexp, value);
     }
 
@@ -93,4 +95,5 @@ public class RegularExpressionUtils {
     public static boolean isFind(String regexp, String value) {
         return ReUtil.contains(regexp, value);
     }
+
 }

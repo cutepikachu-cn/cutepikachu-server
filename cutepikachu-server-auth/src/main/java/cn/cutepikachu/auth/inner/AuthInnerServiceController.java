@@ -7,7 +7,7 @@ import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
@@ -33,14 +33,14 @@ public class AuthInnerServiceController implements AuthInnerService {
     private IUserRoleService userRoleService;
 
     @Override
-    public ResponseEntity<AuthAccount> getAuthAccountByUserId(Long userId) {
+    public BaseResponse<AuthAccount> getAuthAccountByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
         ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
         return ResponseUtils.success(authAccount);
     }
 
     @Override
-    public ResponseEntity<AuthAccount> getAuthAccountByUsernameAndPassword(String username, String password) {
+    public BaseResponse<AuthAccount> getAuthAccountByUsernameAndPassword(String username, String password) {
         // 根据用户名和加密后的密码查询账户信息
         AuthAccount authAccount = authAccountService.lambdaQuery()
                 .eq(AuthAccount::getUsername, username)
@@ -51,7 +51,7 @@ public class AuthInnerServiceController implements AuthInnerService {
     }
 
     @Override
-    public ResponseEntity<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
+    public BaseResponse<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
         ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
         List<RoleEnum> roleList = userRoleService.lambdaQuery()

@@ -1,6 +1,6 @@
 package cn.cutepikachu.shorturl.controller;
 
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.shorturl.model.dto.UrlMapCreateDTO;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
@@ -30,7 +30,7 @@ public class ShortUrlController {
     }
 
     @PostMapping("/v1/shorten")
-    public ResponseEntity<String> createShortUrl(@RequestBody UrlMapCreateDTO urlMapCreateDTO) {
+    public BaseResponse<String> createShortUrl(@RequestBody UrlMapCreateDTO urlMapCreateDTO) {
         String shortUrl = urlMapService.createUrlMap(urlMapCreateDTO.getLongUrl());
         return ResponseUtils.success("ok", shortUrl);
     }

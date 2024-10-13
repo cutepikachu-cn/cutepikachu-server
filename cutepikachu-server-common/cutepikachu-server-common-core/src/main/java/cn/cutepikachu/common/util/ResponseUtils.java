@@ -1,8 +1,8 @@
 package cn.cutepikachu.common.util;
 
 import cn.cutepikachu.common.exception.BusinessException;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
 
 /**
  * 响应工具
@@ -16,14 +16,14 @@ public class ResponseUtils {
     /**
      * 如果响应码不是成功，则抛出异常
      *
-     * @param responseEntity 响应对象
+     * @param response 响应对象
      */
-    public static void throwIfNotSuccess(ResponseEntity<?> responseEntity) {
-        if (responseEntity.isSuccess()) {
+    public static void throwIfNotSuccess(BaseResponse<?> response) {
+        if (response.isSuccess()) {
             return;
         }
-        ResponseCode responseCode = ResponseCode.getByCode(responseEntity.getCode());
-        ThrowUtils.throwIf(responseCode != null, new BusinessException(responseCode, responseEntity.getMessage()));
+        ResponseCode responseCode = ResponseCode.getByCode(response.getCode());
+        ThrowUtils.throwIf(responseCode != null, new BusinessException(responseCode, response.getMessage()));
     }
 
     /**
@@ -31,8 +31,8 @@ public class ResponseUtils {
      *
      * @return 响应对象
      */
-    public static ResponseEntity<?> success() {
-        return new ResponseEntity<>(ResponseCode.SUCCESS);
+    public static BaseResponse<?> success() {
+        return new BaseResponse<>(ResponseCode.SUCCESS);
     }
 
     /**
@@ -42,8 +42,8 @@ public class ResponseUtils {
      * @param <T>  数据类型
      * @return 响应对象
      */
-    public static <T> ResponseEntity<T> success(T data) {
-        return new ResponseEntity<>(ResponseCode.SUCCESS, data);
+    public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(ResponseCode.SUCCESS, data);
     }
 
     /**
@@ -51,8 +51,8 @@ public class ResponseUtils {
      *
      * @return 响应对象
      */
-    public static ResponseEntity<?> success(String message) {
-        return new ResponseEntity<>(ResponseCode.SUCCESS, message);
+    public static BaseResponse<?> success(String message) {
+        return new BaseResponse<>(ResponseCode.SUCCESS, message);
     }
 
     /**
@@ -63,8 +63,8 @@ public class ResponseUtils {
      * @param <T>     数据类型
      * @return 响应对象
      */
-    public static <T> ResponseEntity<T> success(String message, T data) {
-        return new ResponseEntity<>(ResponseCode.SUCCESS, data, message);
+    public static <T> BaseResponse<T> success(String message, T data) {
+        return new BaseResponse<>(ResponseCode.SUCCESS, data, message);
     }
 
     /**
@@ -73,8 +73,8 @@ public class ResponseUtils {
      * @param responseCode 响应码
      * @return 响应对象
      */
-    public static ResponseEntity<?> error(ResponseCode responseCode) {
-        return new ResponseEntity<>(responseCode);
+    public static BaseResponse<?> error(ResponseCode responseCode) {
+        return new BaseResponse<>(responseCode);
     }
 
     /**
@@ -84,8 +84,8 @@ public class ResponseUtils {
      * @param message      信息
      * @return 响应对象
      */
-    public static ResponseEntity<?> error(ResponseCode responseCode, String message) {
-        return new ResponseEntity<>(responseCode, message);
+    public static BaseResponse<?> error(ResponseCode responseCode, String message) {
+        return new BaseResponse<>(responseCode, message);
     }
 
     /**
@@ -95,8 +95,8 @@ public class ResponseUtils {
      * @param message      信息
      * @return 响应对象
      */
-    public static ResponseEntity<?> error(Integer responseCode, String message) {
-        return new ResponseEntity<>(responseCode, message);
+    public static BaseResponse<?> error(Integer responseCode, String message) {
+        return new BaseResponse<>(responseCode, message);
     }
 
 }

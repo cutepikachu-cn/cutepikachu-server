@@ -1,7 +1,7 @@
 package cn.cutepikachu.inner.biz;
 
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.inner.biz.dto.FileSaveDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +20,6 @@ import static cn.cutepikachu.common.constant.FeignConstant.INNER_SERVICE_PREFIX;
 public interface FileInnerService {
 
     @PostMapping(INNER_SERVICE_PREFIX + "/file/save")
-    ResponseEntity<FileInfo> saveFile(@RequestBody FileSaveDTO fileSaveDTO);
+    BaseResponse<FileInfo> saveFile(@RequestBody FileSaveDTO fileSaveDTO);
 
 }

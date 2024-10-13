@@ -1,7 +1,7 @@
 package cn.cutepikachu.inner.leaf;
 
 import cn.cutepikachu.common.constant.FeignConstant;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +23,6 @@ public interface DistributedIdInnerService {
      * @return 分布式 ID
      */
     @GetMapping(FeignConstant.INNER_SERVICE_PREFIX + "/get/distributed/id")
-    ResponseEntity<Long> getDistributedID(@RequestParam String bizTag);
+    BaseResponse<Long> getDistributedID(@RequestParam String bizTag);
 
 }

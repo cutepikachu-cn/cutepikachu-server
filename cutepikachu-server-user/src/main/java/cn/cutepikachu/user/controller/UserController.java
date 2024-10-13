@@ -5,7 +5,7 @@ import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.user.model.dto.UserLoginDTO;
@@ -29,7 +29,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserInfoVO> login(@RequestBody UserLoginDTO userLoginDTO) {
+    public BaseResponse<UserInfoVO> login(@RequestBody UserLoginDTO userLoginDTO) {
         String username = userLoginDTO.getUsername();
         String password = userLoginDTO.getPassword();
         UserInfoVO loginUserInfo = userService.getLoginUserInfo(username, password);
@@ -37,25 +37,25 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Boolean> logout() {
+    public BaseResponse<Boolean> logout() {
         StpUtil.logout();
         return ResponseUtils.success(Boolean.TRUE);
     }
 
     @PostMapping("/update_self_info")
-    public ResponseEntity<UserInfoVO> update(@RequestBody UserUpdateDTO userUpdateDTO) {
+    public BaseResponse<UserInfoVO> update(@RequestBody UserUpdateDTO userUpdateDTO) {
         UserInfoVO userInfoVO = userService.updateUserInfo(userUpdateDTO);
         return ResponseUtils.success(userInfoVO);
     }
 
     @GetMapping("/self_info")
-    public ResponseEntity<UserInfoVO> selfInfo() {
+    public BaseResponse<UserInfoVO> selfInfo() {
         UserInfoVO loginUserInfo = userService.getLoginUserInfo(null, null);
         return ResponseUtils.success(loginUserInfo);
     }
 
     @GetMapping("/info")
-    public ResponseEntity<UserVO> info(@RequestParam Long userId) {
+    public BaseResponse<UserVO> info(@RequestParam Long userId) {
         User user = userService.getById(userId);
         ThrowUtils.throwIf(user == null, new BusinessException(ResponseCode.NOT_FOUND, "用户不存在"));
         return ResponseUtils.success(user.toVO(UserVO.class));

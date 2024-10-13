@@ -5,7 +5,7 @@ import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
@@ -56,7 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         // 未登录
         String cryptoPassword = PasswordUtil.crypto(password);
-        ResponseEntity<AuthAccount> resp = authInnerService.getAuthAccountByUsernameAndPassword(username, cryptoPassword);
+        BaseResponse<AuthAccount> resp = authInnerService.getAuthAccountByUsernameAndPassword(username, cryptoPassword);
         ResponseUtils.throwIfNotSuccess(resp);
         AuthAccount authAccount = resp.getData();
         Long userId = authAccount.getUserId();

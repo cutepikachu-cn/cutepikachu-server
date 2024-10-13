@@ -2,7 +2,7 @@ package cn.cutepikachu.inner.auth;
 
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +28,7 @@ public interface AuthInnerService {
      * @return 证授权账户
      */
     @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/user_id")
-    ResponseEntity<AuthAccount> getAuthAccountByUserId(@RequestParam Long userId);
+    BaseResponse<AuthAccount> getAuthAccountByUserId(@RequestParam Long userId);
 
     /**
      * 根据用户账号密码获取认证授权账户
@@ -38,7 +38,7 @@ public interface AuthInnerService {
      * @return 证授权账户
      */
     @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/username_password")
-    ResponseEntity<AuthAccount> getAuthAccountByUsernameAndPassword(@RequestParam String username, @RequestParam String password);
+    BaseResponse<AuthAccount> getAuthAccountByUsernameAndPassword(@RequestParam String username, @RequestParam String password);
 
     /**
      * 根据用户 id 获取认证账户角色
@@ -47,6 +47,6 @@ public interface AuthInnerService {
      * @return 认证账户角色
      */
     @GetMapping(INNER_SERVICE_PREFIX + "/get/auth/account/role")
-    ResponseEntity<List<RoleEnum>> getAuthAccountRoleByUserId(@RequestParam Long userId);
+    BaseResponse<List<RoleEnum>> getAuthAccountRoleByUserId(@RequestParam Long userId);
 
 }

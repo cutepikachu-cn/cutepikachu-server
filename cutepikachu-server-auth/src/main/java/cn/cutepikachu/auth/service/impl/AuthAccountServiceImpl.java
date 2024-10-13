@@ -15,7 +15,7 @@ import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
@@ -103,7 +103,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         ThrowUtils.throwIf(count != 0, ResponseCode.BAD_REQUEST, "账户已存在");
 
         // 获取分布式用户 ID
-        ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
         ResponseUtils.throwIfNotSuccess(resp);
         authAccount.setUserId(resp.getData());
 

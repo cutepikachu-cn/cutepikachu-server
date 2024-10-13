@@ -3,7 +3,7 @@ package cn.cutepikachu.xtimer.service.impl;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
@@ -76,7 +76,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             verify(timer);
 
             // 获取任务分布式 ID
-            ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER);
+            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER);
             ResponseUtils.throwIfNotSuccess(resp);
 
             timer.setStatus(0)

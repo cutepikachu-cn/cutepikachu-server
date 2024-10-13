@@ -2,7 +2,7 @@ package cn.cutepikachu.leaf.inner;
 
 import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.leaf.common.Result;
@@ -25,7 +25,7 @@ public class DistributedIdInnerServiceController implements DistributedIdInnerSe
     private SegmentService segmentService;
 
     @Override
-    public ResponseEntity<Long> getDistributedID(String bizTag) {
+    public BaseResponse<Long> getDistributedID(String bizTag) {
         Result result = segmentService.getId(bizTag);
         if (result.getStatus() == Status.EXCEPTION) {
             throw new BusinessException(ResponseCode.BAD_REQUEST, result.toString());

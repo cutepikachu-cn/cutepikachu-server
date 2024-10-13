@@ -8,7 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 基础响应包装类
+ * 通用响应包装类
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseEntity<T> implements Serializable {
+public class BaseResponse<T> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class ResponseEntity<T> implements Serializable {
      *
      * @param responseCode 响应码
      */
-    public ResponseEntity(ResponseCode responseCode) {
+    public BaseResponse(ResponseCode responseCode) {
         this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), null, responseCode.getMessage());
     }
 
@@ -57,7 +57,7 @@ public class ResponseEntity<T> implements Serializable {
      * @param responseCode 响应码
      * @param data         数据
      */
-    public ResponseEntity(ResponseCode responseCode, T data) {
+    public BaseResponse(ResponseCode responseCode, T data) {
         this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), data, responseCode.getMessage());
     }
 
@@ -67,7 +67,7 @@ public class ResponseEntity<T> implements Serializable {
      * @param responseCode 响应码
      * @param message      信息
      */
-    public ResponseEntity(ResponseCode responseCode, String message) {
+    public BaseResponse(ResponseCode responseCode, String message) {
         this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), null, message);
     }
 
@@ -78,7 +78,7 @@ public class ResponseEntity<T> implements Serializable {
      * @param data         数据
      * @param message      信息
      */
-    public ResponseEntity(ResponseCode responseCode, T data, String message) {
+    public BaseResponse(ResponseCode responseCode, T data, String message) {
         this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), data, message);
     }
 
@@ -88,7 +88,7 @@ public class ResponseEntity<T> implements Serializable {
      * @param responseCode 响应码
      * @param message      信息
      */
-    public ResponseEntity(int responseCode, String message) {
+    public BaseResponse(int responseCode, String message) {
         this(responseCode == 0, responseCode, null, message);
     }
 

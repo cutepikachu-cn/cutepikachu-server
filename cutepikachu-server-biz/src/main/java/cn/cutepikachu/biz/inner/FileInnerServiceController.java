@@ -2,7 +2,7 @@ package cn.cutepikachu.biz.inner;
 
 import cn.cutepikachu.biz.service.IFileInfoService;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.inner.biz.FileInnerService;
 import cn.cutepikachu.inner.biz.dto.FileSaveDTO;
@@ -23,7 +23,7 @@ public class FileInnerServiceController implements FileInnerService {
     private IFileInfoService fileInfoService;
 
     @Override
-    public ResponseEntity<FileInfo> saveFile(FileSaveDTO fileSaveDTO) {
+    public BaseResponse<FileInfo> saveFile(FileSaveDTO fileSaveDTO) {
         FileInfo fileInfo = fileInfoService.uploadFile(fileSaveDTO.getBytes(), fileSaveDTO.getFileBizTag(), fileSaveDTO.getFileName(), fileSaveDTO.getContentType());
         return ResponseUtils.success(fileInfo);
     }

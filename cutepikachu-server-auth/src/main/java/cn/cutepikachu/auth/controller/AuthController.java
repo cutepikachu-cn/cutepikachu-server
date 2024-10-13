@@ -4,7 +4,7 @@ import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
 import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
 import cn.cutepikachu.auth.service.IAuthAccountService;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +26,14 @@ public class AuthController {
     private IAuthAccountService authAccountService;
 
     @PostMapping("/update_password")
-    public ResponseEntity<Boolean> updateAuthPassword(@RequestBody AuthAccountUpdateDTO authAccountUpdateDTO) {
+    public BaseResponse<Boolean> updateAuthPassword(@RequestBody AuthAccountUpdateDTO authAccountUpdateDTO) {
         authAccountService.updateAuthAccount(authAccountUpdateDTO);
         return ResponseUtils.success(Boolean.TRUE);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserInfoVO> register(@RequestBody UserRegisterDTO userRegisterDTO,
-                                               HttpServletRequest request) {
+    public BaseResponse<UserInfoVO> register(@RequestBody UserRegisterDTO userRegisterDTO,
+                                             HttpServletRequest request) {
         UserInfoVO userInfoVO = authAccountService.authUserRegister(userRegisterDTO, request);
         return ResponseUtils.success(userInfoVO);
     }

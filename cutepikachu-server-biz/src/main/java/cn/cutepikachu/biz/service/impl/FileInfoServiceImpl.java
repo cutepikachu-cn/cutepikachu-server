@@ -12,7 +12,7 @@ import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
@@ -69,7 +69,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         ossService.upload(bytes, fileInfo.getBucket(), fileInfo.getPath(), fileInfo.getType());
 
         // 保存文件信息
-        ResponseEntity<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE);
         ResponseUtils.throwIfNotSuccess(resp);
         fileInfo.setFileId(resp.getData())
                 .setEndpoint(ossService.getEndpoint());

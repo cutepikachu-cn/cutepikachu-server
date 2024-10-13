@@ -4,7 +4,7 @@ import cn.cutepikachu.biz.service.IFileInfoService;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
 import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.response.ResponseEntity;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.common.util.ThrowUtils;
 import jakarta.annotation.Resource;
@@ -27,7 +27,7 @@ public class OssController {
     private IFileInfoService fileInfoService;
 
     @PostMapping("/upload_image")
-    public ResponseEntity<FileInfoVO> uploadImage(@RequestParam MultipartFile file) {
+    public BaseResponse<FileInfoVO> uploadImage(@RequestParam MultipartFile file) {
         ThrowUtils.throwIf(file.isEmpty(), ResponseCode.BAD_REQUEST, "文件为空");
         // 上传文件并保存文件信息
         FileInfoVO fileInfoVO = fileInfoService.uploadFile(file, FileBizTag.IMAGE_OTHER);
