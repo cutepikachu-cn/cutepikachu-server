@@ -35,6 +35,18 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
     private Long fileId;
 
     /**
+     * OSS 类型
+     */
+    @TableField("`oss_type`")
+    private String ossType;
+
+    /**
+     * bucket 名称
+     */
+    @TableField("`bucket`")
+    private String bucket;
+
+    /**
      * 文件路径
      */
     @TableField("`path`")
@@ -100,5 +112,12 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
     public static final String UPDATE_TIME = "update_time";
 
     public static final String IS_DELETE = "is_delete";
+
+    @Override
+    public FileInfoVO toVO(Class<FileInfoVO> voClass) {
+        FileInfoVO vo = super.toVO(voClass);
+        vo.setPath("/" + this.getBucket() + this.getPath());
+        return vo;
+    }
 
 }

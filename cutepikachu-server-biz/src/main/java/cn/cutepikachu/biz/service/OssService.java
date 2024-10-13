@@ -11,10 +11,18 @@ import cn.cutepikachu.biz.model.enums.FileBizTag;
  */
 public interface OssService {
 
-    void upload(byte[] bytes, FileBizTag bizTag, String path, String contentType);
+    void upload(byte[] bytes, String bucket, String path, String contentType);
+
+    default void upload(byte[] bytes, FileBizTag bizTag, String path, String contentType) {
+        upload(bytes, bizTag.getBucket(), path, contentType);
+    }
+
+    void remove(String bucket, String objectPath);
+
+    void makeBucket(String bucket);
+
+    boolean existsBucket(String bucket, boolean makeIfNotExists);
 
     String getPresignedObjectUrl(String bucketName, String objectPath);
-
-    void remove(String bucketName, String objectPath);
 
 }

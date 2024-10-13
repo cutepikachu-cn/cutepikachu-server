@@ -9,6 +9,8 @@ drop table if exists `file_info`;
 create table `file_info`
 (
     `file_id`     bigint unsigned not null comment '文件 id',
+    `oss_type`    varchar(16)     not null comment 'oss 类型',
+    `bucket`      varchar(128)    not null comment 'bucket 名称',
     `path`        varchar(256)    not null comment '文件路径',
     `name`        varchar(256)    not null comment '文件名',
     `size`        bigint unsigned not null comment '文件大小',

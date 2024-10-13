@@ -19,7 +19,8 @@ public class OssUtils {
         long zero = DateUtil.beginOfDay(new Date()).getTime();
         // 生成文件名
         String fileName = IdUtil.simpleUUID();
-        filaPath.append(bizTag.getValue())
+        filaPath.append("/")
+                .append(bizTag.getValue())
                 .append("/")
                 .append(zero)
                 .append("/")

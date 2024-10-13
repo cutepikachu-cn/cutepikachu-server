@@ -35,23 +35,24 @@ public class OssController {
     private IFileInfoService fileInfoService;
 
     @Resource
+    private OssServiceFactory ossServiceFactory;
+
     private OssService ossService;
 
-    // 文件魔数
-    private static final Map<String, String> IMAGE_MAGIC_NUMBER = Map.of(
-            "jpg", "FFD8FF",
-            "jpeg", "FFD8FF",
-            "png", "89504E47"
-    );
-
-    public OssController(OssServiceFactory ossServiceFactory) {
-        this.ossService = ossServiceFactory.getOssService(OssType.MINIO);
-    }
-
-    private FileInfo getFileInfo(MultipartFile file, FileBizTag bizTag) {
+    /**
+     * 构建文件信息
+     *
+     * @param file    文件
+     * @param bizTag  文件业务标签
+     * @param ossType 文件存储类型
+     * @return 文件信息
+     */
+    private FileInfo buildFileInfo(MultipartFile file, FileBizTag bizTag, OssType ossType) {
         FileInfo fileInfo = new FileInfo();
         String path = OssUtils.getObjectPath(bizTag);
-        fileInfo.setName(file.getName())
+        fileInfo.setOssType(ossType.getValue())
+                .setBucket(bizTag.getBucket())
+                .setName(file.getOriginalFilename())
                 .setBizTag(bizTag.getValue())
                 .setSize(file.getSize())
                 .setType(file.getContentType())
@@ -59,13 +60,21 @@ public class OssController {
         return fileInfo;
     }
 
-    private boolean isValidFileType(MultipartFile file, Map<String, String> magicNumberMap) throws IOException {
+    /**
+     * 校验文件类型
+     *
+     * @param file       文件
+     * @param fileBizTag 文件业务标签
+     * @return 是否是有效的文件类型
+     */
+    private boolean isValidFileType(MultipartFile file, FileBizTag fileBizTag) throws IOException {
         // 校验 Content-Type
         String contentType = file.getContentType();
         if (contentType == null) {
             return false;
         }
-        boolean valid = magicNumberMap.keySet().stream().anyMatch(contentType::contains);
+        Map<String, String> fileMagicNumberMap = fileBizTag.getFileMagicNumberMap();
+        boolean valid = fileMagicNumberMap.keySet().stream().anyMatch(contentType::contains);
         if (!valid) {
             return false;
         }
@@ -76,18 +85,25 @@ public class OssController {
             headerHex.append(String.format("%02X", bytes[i]));
         }
         String headerHexString = headerHex.toString();
-        valid = magicNumberMap.values().stream().anyMatch(headerHexString::startsWith);
+        valid = fileMagicNumberMap.values().stream().anyMatch(headerHexString::startsWith);
         return valid;
     }
 
     @PostMapping("/upload_image")
     public ResponseEntity<FileInfoVO> uploadImage(@RequestParam MultipartFile file) throws IOException {
         ThrowUtils.throwIf(file.isEmpty(), ResponseCode.BAD_REQUEST, "文件为空");
-        // 判断文件是否为 jpg / jpeg / png 类型图片
-        ThrowUtils.throwIf(!isValidFileType(file, IMAGE_MAGIC_NUMBER), ResponseCode.BAD_REQUEST, "文件类型错误");
-        FileInfo fileInfo = getFileInfo(file, FileBizTag.IMAGE_OTHER);
-        ossService.upload(file.getBytes(), FileBizTag.IMAGE_OTHER, fileInfo.getPath(), fileInfo.getType());
-        FileInfoVO fileInfoVO = fileInfoService.saveFile(fileInfo);
+        // 文件类型校验
+        ThrowUtils.throwIf(!isValidFileType(file, FileBizTag.IMAGE_OTHER), ResponseCode.BAD_REQUEST, "文件类型错误");
+        // 创建文件信息
+        FileBizTag fileBizTag = FileBizTag.IMAGE_OTHER;
+        // todo 临时
+        OssType ossType = OssType.MINIO;
+        FileInfo fileInfo = buildFileInfo(file, fileBizTag, ossType);
+        // 上传文件到 OSS
+        ossService = ossServiceFactory.getDefaultOssService();
+        ossService.upload(file.getBytes(), fileBizTag, fileInfo.getPath(), fileInfo.getType());
+        // 保存文件信息
+        FileInfoVO fileInfoVO = fileInfoService.saveFileInfo(fileInfo);
         return ResponseUtils.success(fileInfoVO);
     }
 

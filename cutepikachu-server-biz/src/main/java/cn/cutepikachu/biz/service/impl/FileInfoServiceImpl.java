@@ -28,7 +28,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
     private DistributedIDInnerService distributedIDInnerService;
 
     @Override
-    public FileInfoVO saveFile(FileInfo fileInfo) {
+    public FileInfoVO saveFileInfo(FileInfo fileInfo) {
         ResponseEntity<Long> resp = distributedIDInnerService.getDistributedID(DistributedBizTag.FILE);
         ResponseUtils.throwIfNotSuccess(resp);
         fileInfo.setFileId(resp.getData());

@@ -13,6 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFileInfoService extends IService<FileInfo> {
 
-    FileInfoVO saveFile(FileInfo fileInfo);
+    FileInfoVO saveFileInfo(FileInfo fileInfo);
 
 }

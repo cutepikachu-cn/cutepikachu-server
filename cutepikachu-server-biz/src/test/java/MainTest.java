@@ -45,4 +45,9 @@ public class MainTest {
         System.out.println(url);
     }
 
+    @Test
+    void remove() {
+        minioService.remove("image", "/other/1728748800000/d208e27fc55647a1bb8c212f66d88865");
+    }
+
 }
