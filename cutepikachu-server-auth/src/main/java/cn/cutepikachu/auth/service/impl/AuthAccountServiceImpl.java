@@ -14,8 +14,8 @@ import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
+import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
@@ -45,6 +45,9 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private PasswordUtil passwordUtil;
 
     @Resource
     private DistributedIdInnerService distributedIdInnerService;
@@ -111,7 +114,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         authAccount.setStatus((byte) 1);
 
         // 加密密码
-        String cryptoPassword = PasswordUtil.crypto(authAccount.getPassword());
+        String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
         authAccount.setPassword(cryptoPassword);
 
         // 保存账户信息
@@ -142,7 +145,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         AuthAccount authAccount = BeanUtils.copyProperties(userInfo, AuthAccount.class);
         BeanUtils.copyProperties(authAccountUpdateDTO, authAccount);
         this.verifyAuthAccount(authAccount);
-        String cryptoPassword = PasswordUtil.crypto(authAccount.getPassword());
+        String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
         authAccount.setPassword(cryptoPassword);
         ThrowUtils.throwIf(!this.updateById(authAccount), ResponseCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");
         StpUtil.kickout(userInfo.getUserId());

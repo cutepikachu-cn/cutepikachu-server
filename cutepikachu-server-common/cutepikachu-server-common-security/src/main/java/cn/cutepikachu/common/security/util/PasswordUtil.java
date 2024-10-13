@@ -1,12 +1,9 @@
 package cn.cutepikachu.common.security.util;
 
 import cn.cutepikachu.common.security.config.SecurityConfiguration;
-import cn.cutepikachu.common.util.SpringUtils;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.digest.Digester;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * 密码工具类
@@ -17,19 +14,12 @@ import java.nio.charset.StandardCharsets;
  */
 public class PasswordUtil {
 
-    private static String SALT;
+    private final Digester digester;
 
-    private static DigestAlgorithm ALGORITHM;
-
-    private static final Digester DIGESTER;
-
-    private static final SecurityConfiguration SECURITY_CONFIGURATION = SpringUtils.getBean(SecurityConfiguration.class);
-
-    static {
-        PasswordUtil.SALT = SECURITY_CONFIGURATION.getSalt();
-        PasswordUtil.ALGORITHM = SECURITY_CONFIGURATION.getAlgorithm();
-        DIGESTER = DigestUtil.digester(PasswordUtil.ALGORITHM);
-        DIGESTER.setSalt(PasswordUtil.SALT.getBytes(StandardCharsets.UTF_8));
+    public PasswordUtil(SecurityConfiguration securityConfiguration) {
+        DigestAlgorithm algorithm = securityConfiguration.getAlgorithm();
+        this.digester = DigestUtil.digester(algorithm)
+                .setSalt(securityConfiguration.getSalt().getBytes());
     }
 
     /**
@@ -38,8 +28,8 @@ public class PasswordUtil {
      * @param password 密码
      * @return 加密后的密码
      */
-    public static String crypto(String password) {
-        return DIGESTER.digestHex(password);
+    public String crypto(String password) {
+        return digester.digestHex(password);
     }
 
     /**
@@ -49,8 +39,8 @@ public class PasswordUtil {
      * @param encodedPassword 加密后的密码
      * @return 是否匹配
      */
-    public static boolean matches(String password, String encodedPassword) {
-        return DIGESTER.digestHex(password).equals(encodedPassword);
+    public boolean matches(String password, String encodedPassword) {
+        return digester.digestHex(password).equals(encodedPassword);
     }
 
 }

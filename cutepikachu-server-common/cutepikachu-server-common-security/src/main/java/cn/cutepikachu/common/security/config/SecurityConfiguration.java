@@ -1,10 +1,12 @@
 package cn.cutepikachu.common.security.config;
 
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
+import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
@@ -32,6 +34,11 @@ public class SecurityConfiguration {
      * 加密算法
      */
     private DigestAlgorithm algorithm;
+
+    @Bean
+    public PasswordUtil passwordUtil() {
+        return new PasswordUtil(this);
+    }
 
     /**
      * 路由配置

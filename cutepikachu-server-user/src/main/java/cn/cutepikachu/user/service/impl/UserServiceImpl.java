@@ -4,8 +4,8 @@ import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
+import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
@@ -34,6 +34,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Resource
     private AuthInnerService authInnerService;
 
+    @Resource
+    private PasswordUtil passwordUtil;
+
     /**
      * 校验 User 对象信息
      *
@@ -55,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return userInfo;
         }
         // 未登录
-        String cryptoPassword = PasswordUtil.crypto(password);
+        String cryptoPassword = passwordUtil.crypto(password);
         BaseResponse<AuthAccount> resp = authInnerService.getAuthAccountByUsernameAndPassword(username, cryptoPassword);
         ResponseUtils.throwIfNotSuccess(resp);
         AuthAccount authAccount = resp.getData();
