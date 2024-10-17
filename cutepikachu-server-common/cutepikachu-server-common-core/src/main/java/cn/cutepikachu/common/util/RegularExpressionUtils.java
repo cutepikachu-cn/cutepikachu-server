@@ -1,6 +1,5 @@
 package cn.cutepikachu.common.util;
 
-import cn.cutepikachu.common.constant.RegularExpressionConstant;
 import cn.hutool.core.util.ReUtil;
 
 import static cn.cutepikachu.common.constant.RegularExpressionConstant.*;
