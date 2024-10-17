@@ -1,7 +1,6 @@
 package cn.cutepikachu.xtimer.manager;
 
-import cn.cutepikachu.common.exception.BusinessException;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.MigratorConfiguration;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * 迁移管理器
@@ -51,7 +52,7 @@ public class MigratorManager {
         // 校验状态定时任务
         // 是否已激活
         if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "Timer 非 Enable 状态，迁移失败，timerId:" + timer.getTimerId());
+            throw sysException(ErrorCode.INTERNAL_WARN, "Timer 非 Enable 状态，迁移失败，timerId:" + timer.getTimerId());
         }
 
         // 批量获取定时任务执行时机
@@ -59,7 +60,7 @@ public class MigratorManager {
         try {
             cronExpression = new CronExpression(timer.getCron());
         } catch (ParseException e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "解析 cron 表达式失败：" + timer.getCron());
+            throw sysException(ErrorCode.INTERNAL_ERROR, "解析 cron 表达式失败：" + timer.getCron());
         }
         // 获取 [当前时间, 当前时间 + 2 * migrateStepSeconds ] 之间的时间范围
         Date now = new Date();
@@ -80,7 +81,7 @@ public class MigratorManager {
         boolean cacheRes = taskCacheUtils.saveTasksToCache(taskList);
         if (!cacheRes) {
             log.error("Zset 存储 taskList 失败");
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "ZSet 存储 taskList 失败，timerId: " + timer.getTimerId());
+            throw sysException(ErrorCode.INTERNAL_ERROR, "ZSet 存储 taskList 失败，timerId: " + timer.getTimerId());
         }
     }
 

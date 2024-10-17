@@ -2,7 +2,6 @@ package cn.cutepikachu.biz.util;
 
 import cn.cutepikachu.biz.model.enums.QrCodeFormat;
 import cn.cutepikachu.biz.model.enums.QrCodeType;
-import cn.cutepikachu.common.util.ThrowUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -62,7 +61,9 @@ public class QrCodeUtils {
      */
     public static String generateAsBase64(String content, QrConfig config) throws WriterException, IOException {
         QrCodeType type = config.getType();
-        ThrowUtils.throwIf(type != QrCodeType.BASE64, new IllegalArgumentException("必须为 BASE64 类型"));
+        if (QrCodeType.IMAGE != type) {
+            throw new IllegalArgumentException("必须为 BASE64 类型");
+        }
         QrCodeFormat format = config.getFormat();
         byte[] qrCodeBytes = generate(content, config);
         String base64 = Base64.getEncoder().encodeToString(qrCodeBytes);

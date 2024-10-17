@@ -1,6 +1,5 @@
 package cn.cutepikachu.common.exception;
 
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.dev33.satoken.exception.NotLoginException;
@@ -23,6 +22,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.nio.file.AccessDeniedException;
 
+import static cn.cutepikachu.common.response.ErrorCode.*;
+
 /**
  * 全局异常处理器
  *
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NotLoginException.class})
     public BaseResponse<?> notLoginExceptionHandler(NotLoginException e) {
         log.error("[NotLoginException] ", e);
-        return ResponseUtils.error(ResponseCode.UNAUTHORIZED);
+        return ResponseUtils.error(UNAUTHORIZED);
     }
 
     /**
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NotRoleException.class})
     public BaseResponse<?> notRoleExceptionHandler(NotRoleException e) {
         log.error("[NotRoleException] ", e);
-        return ResponseUtils.error(ResponseCode.FORBIDDEN);
+        return ResponseUtils.error(FORBIDDEN);
     }
 
     /**
@@ -60,7 +61,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NotPermissionException.class})
     public BaseResponse<?> notPermissionExceptionHandler(NotPermissionException e) {
         log.error("[NotPermissionException] ", e);
-        return ResponseUtils.error(ResponseCode.FORBIDDEN);
+        return ResponseUtils.error(FORBIDDEN);
     }
 
     /**
@@ -69,7 +70,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
     public BaseResponse<?> httpMediaTypeNotSupportedExceptionHandler(HttpMediaTypeNotSupportedException e) {
         log.error("[HttpMediaTypeNotSupportedException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "参数格式错误");
+        return ResponseUtils.error(BAD_REQUEST, "参数格式错误");
     }
 
     /**
@@ -80,7 +81,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public BaseResponse<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException e) {
         log.error("[MissingServletRequestParameterException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数缺失");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数缺失");
     }
 
     /**
@@ -91,7 +92,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public BaseResponse<?> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
         log.error("[MethodArgumentTypeMismatchException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数类型错误");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数类型错误");
     }
 
     /**
@@ -100,7 +101,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public BaseResponse<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.error("[MethodArgumentNotValidException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数不正确");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数不正确");
     }
 
     /**
@@ -109,7 +110,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BindException.class})
     public BaseResponse<?> bindExceptionHandler(BindException e) {
         log.error("[BindException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数不正确");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数不正确");
     }
 
     /**
@@ -120,7 +121,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public BaseResponse<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
         log.error("[HttpMessageNotReadableException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数类型错误");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数类型错误");
     }
 
     /**
@@ -129,7 +130,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ConstraintViolationException.class})
     public BaseResponse<?> constraintViolationExceptionHandler(ConstraintViolationException e) {
         log.error("[ConstraintViolationException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST, "请求参数不正确");
+        return ResponseUtils.error(BAD_REQUEST, "请求参数不正确");
     }
 
     /**
@@ -138,7 +139,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ValidationException.class})
     public BaseResponse<?> validationExceptionHandler(ValidationException e) {
         log.error("[ValidationException] ", e);
-        return ResponseUtils.error(ResponseCode.BAD_REQUEST);
+        return ResponseUtils.error(BAD_REQUEST);
     }
 
     /**
@@ -151,7 +152,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoHandlerFoundException.class})
     public BaseResponse<?> noHandlerFoundExceptionHandler(NoHandlerFoundException e) {
         log.error("[NoHandlerFoundException] ", e);
-        return ResponseUtils.error(ResponseCode.NOT_FOUND, "请求地址不存在");
+        return ResponseUtils.error(NOT_FOUND, "请求地址不存在");
     }
 
     /**
@@ -160,7 +161,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoResourceFoundException.class})
     public BaseResponse<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("[NoResourceFoundException] ", e);
-        return ResponseUtils.error(ResponseCode.NOT_FOUND, "请求地址不存在");
+        return ResponseUtils.error(NOT_FOUND, "请求地址不存在");
     }
 
     /**
@@ -171,7 +172,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public BaseResponse<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e) {
         log.error("[HttpRequestMethodNotSupportedException] ", e);
-        return ResponseUtils.error(ResponseCode.METHOD_NOT_ALLOWED);
+        return ResponseUtils.error(METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -180,25 +181,34 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = AccessDeniedException.class)
     public BaseResponse<?> accessDeniedExceptionHandler(AccessDeniedException e) {
         log.error("[AccessDeniedException] ", e);
-        return ResponseUtils.error(ResponseCode.FORBIDDEN);
+        return ResponseUtils.error(FORBIDDEN);
     }
 
     /**
      * 处理业务异常
      */
-    @ExceptionHandler({BusinessException.class})
-    public BaseResponse<?> businessExceptionHandler(BusinessException e) {
-        log.error("[BusinessException] ", e);
-        return ResponseUtils.error(e.getCode(), e.getMessage());
+    @ExceptionHandler({BizException.class})
+    public BaseResponse<?> businessExceptionHandler(BizException e) {
+        log.error("[BizException] ", e);
+        return ResponseUtils.error(e.getErrorCode(), e.getMessage());
     }
 
     /**
-     * 处理系统异常，兜底一切异常
+     * 处理系统异常
+     */
+    @ExceptionHandler({SysException.class})
+    public BaseResponse<?> systemExceptionHandler(SysException e) {
+        log.error("[SysException] ", e);
+        return ResponseUtils.error(e.getErrorCode(), e.getMessage());
+    }
+
+    /**
+     * 兜底处理一切其它异常
      */
     @ExceptionHandler({Exception.class})
     public BaseResponse<?> defaultExceptionHandler(Exception e) {
         log.error("[Exception] ", e);
-        return ResponseUtils.error(ResponseCode.INTERNAL_SERVER_ERROR);
+        return ResponseUtils.error(INTERNAL_SERVER_ERROR);
     }
 
 }

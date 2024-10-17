@@ -1,7 +1,6 @@
 package cn.cutepikachu.xtimer.service.executor;
 
-import cn.cutepikachu.common.exception.BusinessException;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
@@ -20,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
@@ -41,7 +42,7 @@ public class ExecutorWorker {
         List<Long> timerIDUnix = TimerUtils.splitTimerIDUnix(timerIDUnixKey);
         if (timerIDUnix.size() != 2) {
             log.error("splitTimerIDUnix 错误, timerIDUnix: {}", timerIDUnixKey);
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnixKey);
+            throw sysException(ErrorCode.INTERNAL_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnixKey);
         }
         Long timerId = timerIDUnix.get(0);
         Long unix = timerIDUnix.get(1);
@@ -64,7 +65,7 @@ public class ExecutorWorker {
         Timer timer = timerService.getById(timerId);
         if (timer == null) {
             log.error("执行回调错误，找不到对应的 Timer, timerId: {}", timerId);
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "执行回调错误，找不到对应的 Timer, timerId: " + timerId);
+            throw sysException(ErrorCode.INTERNAL_ERROR, "执行回调错误，找不到对应的 Timer, timerId: " + timerId);
         }
 
         // 任务是否未激活

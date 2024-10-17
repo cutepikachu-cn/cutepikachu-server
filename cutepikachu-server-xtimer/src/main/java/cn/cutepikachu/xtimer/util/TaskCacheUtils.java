@@ -1,7 +1,6 @@
 package cn.cutepikachu.xtimer.util;
 
-import cn.cutepikachu.common.exception.BusinessException;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.SchedulerConfiguration;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import cn.hutool.core.collection.CollUtil;
@@ -18,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
@@ -86,7 +87,7 @@ public class TaskCacheUtils {
             List<Long> longSet = TimerUtils.splitTimerIDUnix(timerIDUnix);
             if (longSet.size() != 2) {
                 log.error("splitTimerIDUnix 错误, timerIDUnix:{}", timerIDUnix);
-                throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnix);
+                throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "splitTimerIDUnix 错误, timerIDUnix: " + timerIDUnix);
             }
             task.setTimerId(longSet.get(0));
             task.setRunTime(longSet.get(1));

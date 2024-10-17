@@ -6,15 +6,16 @@ import cn.cutepikachu.common.model.BaseEnum;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 
 /**
  * 认证鉴权内部服务实现
@@ -35,7 +36,9 @@ public class AuthInnerServiceController implements AuthInnerService {
     @Override
     public BaseResponse<AuthAccount> getAuthAccountByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
+        if (authAccount == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "账户不存在");
+        }
         return ResponseUtils.success(authAccount);
     }
 
@@ -45,15 +48,23 @@ public class AuthInnerServiceController implements AuthInnerService {
         AuthAccount authAccount = authAccountService.lambdaQuery()
                 .eq(AuthAccount::getUsername, username)
                 .one();
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
-        ThrowUtils.throwIf(!authAccount.getPassword().equals(password), ResponseCode.BAD_REQUEST, "密码错误");
+
+        if (authAccount == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "账户不存在");
+        }
+        if (!authAccount.getPassword().equals(password)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "密码错误");
+        }
+
         return ResponseUtils.success(authAccount);
     }
 
     @Override
     public BaseResponse<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
         AuthAccount authAccount = authAccountService.getById(userId);
-        ThrowUtils.throwIf(authAccount == null, ResponseCode.NOT_FOUND, "账户不存在");
+        if (authAccount == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "账户不存在");
+        }
         List<RoleEnum> roleList = userRoleService.lambdaQuery()
                 .eq(UserRole::getUserId, userId)
                 .list()

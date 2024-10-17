@@ -8,19 +8,16 @@ import cn.cutepikachu.auth.service.IUserRoleService;
 import cn.cutepikachu.auth.service.IUserService;
 import cn.cutepikachu.common.constant.CommonConstant;
 import cn.cutepikachu.common.constant.DistributedBizTag;
-import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.BaseResponse;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
-import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
@@ -29,6 +26,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 
 /**
  * 认证账户表 服务实现类
@@ -60,11 +61,12 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     private void verifyAuthAccount(AuthAccount authAccount) {
         String username = authAccount.getUsername();
         if (StrUtil.isBlank(username) || !RegularExpressionUtils.isValidUsername(username)) {
-            throw new BusinessException(ResponseCode.BAD_REQUEST, "账户名不合法");
+            throw bizException(ErrorCode.BAD_REQUEST, "账户名不能为空");
         }
+
         String password = authAccount.getPassword();
         if (StrUtil.isBlank(password) || !RegularExpressionUtils.isValidPassword(password)) {
-            throw new BusinessException(ResponseCode.BAD_REQUEST, "密码不合法");
+            throw bizException(ErrorCode.BAD_REQUEST, "密码不合法");
         }
     }
 
@@ -75,8 +77,8 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
      */
     private void verifyUser(User user) {
         String nickName = user.getNickName();
-        if (!RegularExpressionUtils.isValidNickName(nickName)) {
-            throw new BusinessException(ResponseCode.BAD_REQUEST, "昵称不合法");
+        if (StrUtil.isBlank(nickName) || !RegularExpressionUtils.isValidNickName(nickName)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "昵称不合法");
         }
     }
 
@@ -85,8 +87,8 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         // 验证 User 信息
         String password = userRegisterDTO.getPassword();
         String confirmPassword = userRegisterDTO.getConfirmPassword();
-        if (!StrUtil.equals(password, confirmPassword)) {
-            throw new BusinessException(ResponseCode.BAD_REQUEST, "两次密码不一致");
+        if (Objects.equals(password, confirmPassword)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "两次密码不一致");
         }
         User newUser = BeanUtils.copyProperties(userRegisterDTO, User.class);
         this.verifyUser(newUser);
@@ -103,11 +105,14 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         Long count = lambdaQuery()
                 .eq(AuthAccount::getUsername, authAccount.getUsername())
                 .count();
-        ThrowUtils.throwIf(count != 0, ResponseCode.BAD_REQUEST, "账户已存在");
+
+        if (count != 0) {
+            throw bizException(ErrorCode.BAD_REQUEST, "账户已存在");
+        }
 
         // 获取分布式用户 ID
         BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
-        ResponseUtils.throwIfNotSuccess(resp);
+        resp.check();
         authAccount.setUserId(resp.getData());
 
         // 设置默认状态
@@ -118,20 +123,29 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         authAccount.setPassword(cryptoPassword);
 
         // 保存账户信息
-        ThrowUtils.throwIf(!this.save(authAccount), ResponseCode.INTERNAL_SERVER_ERROR, "保存认证账户信息失败");
+        boolean saveAuthAccountSuccess = this.save(authAccount);
+        if (!saveAuthAccountSuccess) {
+            throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存认证账户信息失败");
+        }
 
         // 保存用户角色信息
         UserRole userRole = new UserRole()
                 .setUserId(authAccount.getUserId())
                 .setRoleId(RoleEnum.USER.getValue());
-        ThrowUtils.throwIf(!userRoleService.save(userRole), ResponseCode.INTERNAL_SERVER_ERROR, "保存用户角色信息失败");
+        boolean saveUserRoleSuccess = userRoleService.save(userRole);
+        if (!saveUserRoleSuccess) {
+            throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户角色信息失败");
+        }
 
         // 保存用户信息
         newUser.setUserId(authAccount.getUserId());
         if (StrUtil.isBlank(newUser.getAvatarUrl())) {
             newUser.setAvatarUrl(CommonConstant.DEFAULT_AVATAR_URL);
         }
-        ThrowUtils.throwIf(!userService.save(newUser), ResponseCode.INTERNAL_SERVER_ERROR, "保存用户信息失败");
+        boolean saveUserSuccess = userService.save(newUser);
+        if (!saveUserSuccess) {
+            throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户信息失败");
+        }
 
         UserInfoVO userInfoVO = newUser.toUserInfoVO(authAccount);
 
@@ -147,7 +161,10 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         this.verifyAuthAccount(authAccount);
         String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
         authAccount.setPassword(cryptoPassword);
-        ThrowUtils.throwIf(!this.updateById(authAccount), ResponseCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");
+        boolean updateSuccess = this.updateById(authAccount);
+        if (!updateSuccess) {
+            throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");
+        }
         StpUtil.kickout(userInfo.getUserId());
     }
 

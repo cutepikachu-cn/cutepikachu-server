@@ -1,19 +1,19 @@
 package cn.cutepikachu.user.controller;
 
-import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.model.user.vo.UserVO;
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.user.model.dto.UserLoginDTO;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 
 /**
  * 用户服务 对外接口
@@ -57,7 +57,9 @@ public class UserController {
     @GetMapping("/info")
     public BaseResponse<UserVO> info(@RequestParam Long userId) {
         User user = userService.getById(userId);
-        ThrowUtils.throwIf(user == null, new BusinessException(ResponseCode.NOT_FOUND, "用户不存在"));
+        if (user == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "用户不存在");
+        }
         return ResponseUtils.success(user.toVO(UserVO.class));
     }
 

@@ -6,8 +6,7 @@ import cn.cutepikachu.biz.model.enums.QrCodeType;
 import cn.cutepikachu.biz.util.QrCodeUtils;
 import cn.cutepikachu.biz.util.QrCodeUtils.QrConfig;
 import cn.cutepikachu.common.model.BaseEnum;
-import cn.cutepikachu.common.response.ResponseCode;
-import cn.cutepikachu.common.util.ThrowUtils;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.net.HttpHeaders;
 import com.google.zxing.WriterException;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 
 /**
  * 二维码服务 对外接口
@@ -34,7 +35,9 @@ public class QrCodeController {
 
         // 内容不能为空
         String content = qrCodeGenerateDTO.getContent();
-        ThrowUtils.throwIf(StrUtil.isBlank(content), ResponseCode.BAD_REQUEST, "内容不能为空");
+        if (StrUtil.isBlank(content)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "内容不能为空");
+        }
 
         // 构建二维码配置
         QrConfig config = buildConfig(qrCodeGenerateDTO);
@@ -71,10 +74,14 @@ public class QrCodeController {
         QrConfig config = new QrConfig();
 
         QrCodeType type = BaseEnum.getEnumByValue(QrCodeType.class, qrCodeGenerateDTO.getType());
-        ThrowUtils.throwIf(type == null, ResponseCode.BAD_REQUEST, "二维码类型错误");
+        if (type == null) {
+            throw bizException(ErrorCode.BAD_REQUEST, "二维码类型错误");
+        }
 
         QrCodeFormat format = BaseEnum.getEnumByValue(QrCodeFormat.class, qrCodeGenerateDTO.getFormat());
-        ThrowUtils.throwIf(format == null, ResponseCode.BAD_REQUEST, "二维码格式错误");
+        if (format == null) {
+            throw bizException(ErrorCode.BAD_REQUEST, "二维码格式错误");
+        }
 
         config.setType(type).setFormat(format);
         return config;

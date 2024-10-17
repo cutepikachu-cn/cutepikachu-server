@@ -4,14 +4,15 @@ import cn.cutepikachu.biz.config.MinioConfiguration;
 import cn.cutepikachu.biz.model.enums.OssType;
 import cn.cutepikachu.biz.service.OssService;
 import cn.cutepikachu.biz.service.factory.OssServiceFactory;
-import cn.cutepikachu.common.exception.BusinessException;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import io.minio.*;
 import io.minio.http.Method;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * Minio 对象存储服务类
@@ -60,7 +61,7 @@ public class MinioService implements OssService {
                     .build();
             minioClient.putObject(uploadObjectArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "上传文件失败");
+            throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "上传文件失败");
         }
     }
 
@@ -102,7 +103,7 @@ public class MinioService implements OssService {
                     .build();
             return minioClient.bucketExists(bucketExistsArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR);
+            throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "检查 Bucket 是否存在失败");
         }
     }
 
@@ -117,7 +118,7 @@ public class MinioService implements OssService {
                     .build();
             return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
         } catch (Exception e) {
-            throw new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "获取预签名 URL 失败");
+            throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "获取预签名 URL 失败");
         }
     }
 

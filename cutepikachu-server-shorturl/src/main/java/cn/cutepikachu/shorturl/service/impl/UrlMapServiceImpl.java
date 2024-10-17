@@ -1,9 +1,8 @@
 package cn.cutepikachu.shorturl.service.impl;
 
 import cn.cutepikachu.common.redis.util.RedisUtils;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.snowflake.service.SnowflakeIdGenerateService;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.shorturl.mapper.UrlMapMapper;
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
@@ -18,6 +17,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 import static cn.cutepikachu.shorturl.constant.ShortUrlConstant.*;
 
 /**
@@ -96,7 +96,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
         if (urlMap == null) {
             // 不存在，新建短链
             // BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
-            // ResponseUtils.throwIfNotSuccess(resp);
+            // resp.check();
             // Long urlId = resp.getData();
             long urlId = snowflakeIdGenerateService.nextId("short_url");
             // 利用 Base62 编码生成短链接
@@ -107,7 +107,10 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
             urlMap.setUrlId(urlId)
                     .setLongUrl(longUrl)
                     .setShortUrl(shortUrl);
-            ThrowUtils.throwIf(!save(urlMap), ResponseCode.INTERNAL_SERVER_ERROR, "创建短链失败");
+            boolean saveUrlMapSuccess = this.save(urlMap);
+            if (!saveUrlMapSuccess) {
+                throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "创建短链映射失败");
+            }
         }
         shortUrl = urlMap.getShortUrl();
 

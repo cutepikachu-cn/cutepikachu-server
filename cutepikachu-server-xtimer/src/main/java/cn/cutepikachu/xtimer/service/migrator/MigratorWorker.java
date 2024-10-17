@@ -1,5 +1,6 @@
 package cn.cutepikachu.xtimer.service.migrator;
 
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.MigratorConfiguration;
 import cn.cutepikachu.xtimer.manager.MigratorManager;
 import cn.cutepikachu.xtimer.model.entity.Timer;
@@ -20,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * 任务迁移器（定时生成任务分片）
@@ -68,7 +71,7 @@ public class MigratorWorker {
             lock.lock(2L * migrateSuccessExpireSeconds, TimeUnit.SECONDS);
 
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw sysException(ErrorCode.INTERNAL_ERROR, e);
         }
     }
 
@@ -77,7 +80,7 @@ public class MigratorWorker {
         try {
             return sdf.parse(sdf.format(date));
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw sysException(ErrorCode.INTERNAL_ERROR, e);
         }
     }
 

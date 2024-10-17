@@ -13,11 +13,9 @@ import cn.cutepikachu.common.model.BaseEnum;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.response.ResponseCode;
 import cn.cutepikachu.common.response.BaseResponse;
-import cn.cutepikachu.common.util.ResponseUtils;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.SpringUtils;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.biz.FileInnerService;
 import cn.cutepikachu.inner.biz.dto.FileSaveDTO;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
@@ -36,6 +34,8 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.net.URLConnection;
 import java.time.LocalDateTime;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 
 /**
  * AI 文生图表 服务实现类
@@ -75,7 +75,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                 .setStatus(AiImageStatus.IN_PROGRESS.getValue());
         // 获取分布式 ID
         BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
-        ResponseUtils.throwIfNotSuccess(resp);
+        resp.check();
         aiImage.setId(resp.getData());
         this.save(aiImage);
 
@@ -113,7 +113,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                     .setContentType(contentType)
                     .setFileName(aiImage.getId().toString());
             BaseResponse<FileInfo> resp = fileInnerService.saveFile(fileSaveDTO);
-            ResponseUtils.throwIfNotSuccess(resp);
+            resp.check();
             FileInfo fileInfo = resp.getData();
 
             // 更新绘图记录信息
@@ -141,13 +141,24 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
     private ImageOptions buildImageOptions(AiImageDrawDTO aiImageDrawDTO, AiPlatform aiPlatform) {
         // 参数校验
-        ThrowUtils.throwIf(aiPlatform == null, ResponseCode.BAD_REQUEST, "不支持的平台");
+        if (aiPlatform == null) {
+            throw bizException(ErrorCode.BAD_REQUEST, "不支持的平台");
+        }
+
         String model = aiImageDrawDTO.getModel();
-        ThrowUtils.throwIf(StrUtil.isBlank(model), ResponseCode.BAD_REQUEST, "模型不能为空");
+        if (StrUtil.isBlank(model)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "模型不能为空");
+        }
+
         Integer height = aiImageDrawDTO.getHeight();
-        ThrowUtils.throwIf(height == null || height.compareTo(0) < 0, ResponseCode.BAD_REQUEST, "无效的高度");
+        if (height == null || height.compareTo(0) <= 0) {
+            throw bizException(ErrorCode.BAD_REQUEST, "无效的高度");
+        }
+
         Integer width = aiImageDrawDTO.getWidth();
-        ThrowUtils.throwIf(width == null || width.compareTo(0) < 0, ResponseCode.BAD_REQUEST, "无效的宽度");
+        if (width == null || width.compareTo(0) <= 0) {
+            throw bizException(ErrorCode.BAD_REQUEST, "无效的宽度");
+        }
 
         // 构建参数
         switch (aiPlatform) {
@@ -176,7 +187,9 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                 .eq(AiImage::getId, id)
                 .eq(AiImage::getUserId, user.getUserId())
                 .one();
-        ThrowUtils.throwIf(aiImage == null, ResponseCode.NOT_FOUND, "未找到记录");
+        if (aiImage == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "未找到记录");
+        }
         return aiImage.toVO(AiImageVO.class);
     }
 

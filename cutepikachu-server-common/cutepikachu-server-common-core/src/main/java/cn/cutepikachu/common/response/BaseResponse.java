@@ -1,5 +1,7 @@
 package cn.cutepikachu.common.response;
 
+import cn.cutepikachu.common.exception.BizException;
+import cn.cutepikachu.common.exception.SysException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,53 +45,26 @@ public class BaseResponse<T> implements Serializable {
     private String message;
 
     /**
-     * 响应，响应码
-     *
-     * @param responseCode 响应码
+     * 检查是否成功
+     * 不成功则抛出对应异常
      */
-    public BaseResponse(ResponseCode responseCode) {
-        this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), null, responseCode.getMessage());
+    public void check() {
+        if (this.isSuccess()) {
+            return;
+        }
+        ErrorCode errorCode = ErrorCode.getByCode(this.getCode());
+        if (errorCode.isBiz()) {
+            throw new BizException(this.getCode(), this.getMessage());
+        }
+        throw new SysException(this.getCode(), this.getMessage());
     }
 
-    /**
-     * 响应，带数据
-     *
-     * @param responseCode 响应码
-     * @param data         数据
-     */
-    public BaseResponse(ResponseCode responseCode, T data) {
-        this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), data, responseCode.getMessage());
+    public BaseResponse(boolean success, int code, T data) {
+        this(success, code, data, null);
     }
 
-    /**
-     * 响应，带信息
-     *
-     * @param responseCode 响应码
-     * @param message      信息
-     */
-    public BaseResponse(ResponseCode responseCode, String message) {
-        this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), null, message);
-    }
-
-    /**
-     * 响应，带信息和数据
-     *
-     * @param responseCode 响应码
-     * @param data         数据
-     * @param message      信息
-     */
-    public BaseResponse(ResponseCode responseCode, T data, String message) {
-        this(responseCode == ResponseCode.SUCCESS, responseCode.getCode(), data, message);
-    }
-
-    /**
-     * 响应，带自定响应码和信息
-     *
-     * @param responseCode 响应码
-     * @param message      信息
-     */
-    public BaseResponse(int responseCode, String message) {
-        this(responseCode == 0, responseCode, null, message);
+    public BaseResponse(boolean success, int code, String message) {
+        this(success, code, null, message);
     }
 
 }

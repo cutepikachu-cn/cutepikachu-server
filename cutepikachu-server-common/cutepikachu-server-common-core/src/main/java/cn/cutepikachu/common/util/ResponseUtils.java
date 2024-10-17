@@ -1,8 +1,9 @@
 package cn.cutepikachu.common.util;
 
-import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.response.BaseResponse;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
+
+import static cn.cutepikachu.common.response.ErrorCode.SUCCESS;
 
 /**
  * 响应工具
@@ -14,25 +15,12 @@ import cn.cutepikachu.common.response.ResponseCode;
 public class ResponseUtils {
 
     /**
-     * 如果响应码不是成功，则抛出异常
-     *
-     * @param response 响应对象
-     */
-    public static void throwIfNotSuccess(BaseResponse<?> response) {
-        if (response.isSuccess()) {
-            return;
-        }
-        ResponseCode responseCode = ResponseCode.getByCode(response.getCode());
-        ThrowUtils.throwIf(responseCode != null, new BusinessException(responseCode, response.getMessage()));
-    }
-
-    /**
      * 成功
      *
      * @return 响应对象
      */
     public static BaseResponse<?> success() {
-        return new BaseResponse<>(ResponseCode.SUCCESS);
+        return new BaseResponse<>(true, SUCCESS.getCode(), SUCCESS.getMessage());
     }
 
     /**
@@ -43,7 +31,7 @@ public class ResponseUtils {
      * @return 响应对象
      */
     public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(ResponseCode.SUCCESS, data);
+        return new BaseResponse<>(true, SUCCESS.getCode(), data);
     }
 
     /**
@@ -52,7 +40,7 @@ public class ResponseUtils {
      * @return 响应对象
      */
     public static BaseResponse<?> success(String message) {
-        return new BaseResponse<>(ResponseCode.SUCCESS, message);
+        return new BaseResponse<>(true, SUCCESS.getCode(), message);
     }
 
     /**
@@ -64,39 +52,39 @@ public class ResponseUtils {
      * @return 响应对象
      */
     public static <T> BaseResponse<T> success(String message, T data) {
-        return new BaseResponse<>(ResponseCode.SUCCESS, data, message);
+        return new BaseResponse<>(true, SUCCESS.getCode(), data, message);
     }
 
     /**
      * 失败
      *
-     * @param responseCode 响应码
+     * @param errorCode 响应码
+     * @param message   信息
      * @return 响应对象
      */
-    public static BaseResponse<?> error(ResponseCode responseCode) {
-        return new BaseResponse<>(responseCode);
+    public static BaseResponse<?> error(int errorCode, String message) {
+        return new BaseResponse<>(false, errorCode, message);
     }
 
     /**
-     * 失败，带信息
+     * 失败
      *
-     * @param responseCode 响应码
-     * @param message      信息
+     * @param errorCode 响应码
+     * @param message   信息
      * @return 响应对象
      */
-    public static BaseResponse<?> error(ResponseCode responseCode, String message) {
-        return new BaseResponse<>(responseCode, message);
+    public static BaseResponse<?> error(ErrorCode errorCode, String message) {
+        return new BaseResponse<>(false, errorCode.getCode(), message);
     }
 
     /**
-     * 失败，带自定响应码和信息
+     * 失败
      *
-     * @param responseCode 响应码
-     * @param message      信息
+     * @param errorCode 响应码
      * @return 响应对象
      */
-    public static BaseResponse<?> error(Integer responseCode, String message) {
-        return new BaseResponse<>(responseCode, message);
+    public static BaseResponse<?> error(ErrorCode errorCode) {
+        return new BaseResponse<>(false, errorCode.getCode(), errorCode.getMessage());
     }
 
 }

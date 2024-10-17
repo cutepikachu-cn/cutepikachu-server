@@ -1,5 +1,6 @@
 package cn.cutepikachu.xtimer.service.scheduler;
 
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.SchedulerConfiguration;
 import cn.cutepikachu.xtimer.service.trigger.TriggerWorker;
 import cn.cutepikachu.xtimer.util.TimerUtils;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * 调度器分片任务
@@ -52,7 +55,7 @@ public class SchedulerTask {
             }
         } catch (InterruptedException e) {
             log.info("asyncHandleSlice 获取分布式锁失败");
-            throw new RuntimeException(e);
+            throw sysException(ErrorCode.INTERNAL_WARN, e);
         }
         log.info("get scheduler lock success, key: {}", timeBucketLockKey);
 

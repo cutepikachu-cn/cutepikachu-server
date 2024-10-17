@@ -1,25 +1,26 @@
 package cn.cutepikachu.user.service.impl;
 
-import cn.cutepikachu.common.exception.BusinessException;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.BaseResponse;
-import cn.cutepikachu.common.response.ResponseCode;
+import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
-import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.common.util.ThrowUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
 import cn.cutepikachu.user.mapper.UserMapper;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
+import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 
 /**
  * 用户表 服务实现类
@@ -44,8 +45,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      */
     private void verifyUser(User user) {
         String nickName = user.getNickName();
-        if (!RegularExpressionUtils.isValidNickName(nickName)) {
-            throw new BusinessException(ResponseCode.BAD_REQUEST, "昵称不合法");
+        if (StrUtil.isBlank(nickName) || !RegularExpressionUtils.isValidNickName(nickName)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "昵称不合法");
         }
     }
 
@@ -60,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 未登录
         String cryptoPassword = passwordUtil.crypto(password);
         BaseResponse<AuthAccount> resp = authInnerService.getAuthAccountByUsernameAndPassword(username, cryptoPassword);
-        ResponseUtils.throwIfNotSuccess(resp);
+        resp.check();
         AuthAccount authAccount = resp.getData();
         Long userId = authAccount.getUserId();
         User user = this.getById(userId);
@@ -82,7 +83,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         BeanUtils.copyProperties(userUpdateDTO, user);
         this.verifyUser(user);
         // 更新用户信息
-        ThrowUtils.throwIf(!this.updateById(user), new BusinessException(ResponseCode.INTERNAL_SERVER_ERROR, "更新用户信息失败"));
+        boolean updateSuccess = this.updateById(user);
+        if (!updateSuccess) {
+            throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "更新用户信息失败");
+        }
         BeanUtils.copyProperties(this.getById(user.getUserId()), userInfo);
         // 更新登录状态
         session.set("user_info", userInfo);
