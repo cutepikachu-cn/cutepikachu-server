@@ -1,6 +1,7 @@
 package cn.cutepikachu.biz.service.impl;
 
 import cn.cutepikachu.biz.mapper.FileInfoMapper;
+import cn.cutepikachu.biz.model.convert.FileInfoConvert;
 import cn.cutepikachu.biz.model.enums.OssType;
 import cn.cutepikachu.biz.service.IFileInfoService;
 import cn.cutepikachu.biz.service.OssService;
@@ -41,6 +42,8 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
     @Resource
     private OssServiceFactory ossServiceFactory;
 
+    private static final FileInfoConvert FILE_INFO_CONVERT = FileInfoConvert.INSTANCE;
+
     @Override
     public FileInfoVO uploadFile(MultipartFile file, FileBizTag bizTag) {
         // 校验文件类型
@@ -54,7 +57,8 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         }
 
         FileInfo fileInfo = this.uploadFile(bytes, bizTag, file.getOriginalFilename(), file.getContentType());
-        return fileInfo.toVO(FileInfoVO.class);
+
+        return FILE_INFO_CONVERT.convert(fileInfo);
     }
 
     @Override

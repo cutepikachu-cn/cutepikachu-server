@@ -1,7 +1,6 @@
 package cn.cutepikachu.xtimer.model.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
-import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimerTaskVO extends BaseVO<TimerTask, TimerTaskVO> implements Serializable {
+public class TimerTaskVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

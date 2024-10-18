@@ -1,12 +1,12 @@
 package cn.cutepikachu.xtimer.service.executor;
 
 import cn.cutepikachu.common.response.ErrorCode;
+import cn.cutepikachu.xtimer.model.convert.TimerConvert;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import cn.cutepikachu.xtimer.model.enums.TaskStatus;
 import cn.cutepikachu.xtimer.model.enums.TimerStatus;
-import cn.cutepikachu.xtimer.model.vo.TimerVO;
 import cn.cutepikachu.xtimer.service.ITimerService;
 import cn.cutepikachu.xtimer.service.ITimerTaskService;
 import cn.cutepikachu.xtimer.util.TimerUtils;
@@ -36,6 +36,8 @@ public class ExecutorWorker {
 
     @Resource
     private ITimerTaskService taskService;
+
+    private static final TimerConvert TIMER_CONVERT = TimerConvert.INSTANCE;
 
     public void work(String timerIDUnixKey) {
         // 根据 timerId 和 runTime 获取任务
@@ -101,8 +103,7 @@ public class ExecutorWorker {
     }
 
     private ResponseEntity<String> executeTimerCallBack(Timer timer) {
-        TimerVO timerDTO = timer.toVO(TimerVO.class);
-        NotifyHTTPParam httpParam = timerDTO.getNotifyHttpParam();
+        NotifyHTTPParam httpParam = timer.getNotifyHttpParam();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> resp = null;
         if ("POST".equals(httpParam.getMethod())) {

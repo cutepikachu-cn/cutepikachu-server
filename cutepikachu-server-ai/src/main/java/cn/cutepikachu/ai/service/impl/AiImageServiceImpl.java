@@ -2,6 +2,7 @@ package cn.cutepikachu.ai.service.impl;
 
 import cn.cutepikachu.ai.factory.AiImageModelFactory;
 import cn.cutepikachu.ai.mapper.AiImageMapper;
+import cn.cutepikachu.ai.model.convert.AiImageConvert;
 import cn.cutepikachu.ai.model.enums.AiImageStatus;
 import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
@@ -57,6 +58,8 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
     @Resource
     private FileInnerService fileInnerService;
 
+    private static final AiImageConvert AI_IMAGE_CONVERT = AiImageConvert.INSTANCE;
+
     @Override
     public AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfoVO user) {
         // 构建绘图参数
@@ -85,7 +88,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
         aiImageService.drawImageAsync(platform, imageOptions, aiImage);
 
         // 返回绘图记录
-        return aiImage.toVO(AiImageVO.class);
+        return AI_IMAGE_CONVERT.convert(aiImage);
     }
 
     @Async
@@ -190,7 +193,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
         if (aiImage == null) {
             throw bizException(ErrorCode.NOT_FOUND, "未找到记录");
         }
-        return aiImage.toVO(AiImageVO.class);
+        return AI_IMAGE_CONVERT.convert(aiImage);
     }
 
 }

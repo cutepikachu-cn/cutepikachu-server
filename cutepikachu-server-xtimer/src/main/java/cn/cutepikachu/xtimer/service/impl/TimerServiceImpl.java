@@ -3,10 +3,10 @@ package cn.cutepikachu.xtimer.service.impl;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
-import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.xtimer.manager.MigratorManager;
 import cn.cutepikachu.xtimer.mapper.TimerMapper;
+import cn.cutepikachu.xtimer.model.convert.TimerConvert;
 import cn.cutepikachu.xtimer.model.dto.TimerCreateDTO;
 import cn.cutepikachu.xtimer.model.dto.TimerUpdateDTO;
 import cn.cutepikachu.xtimer.model.entity.Timer;
@@ -47,6 +47,8 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
     @Resource
     private MigratorManager migratorManager;
 
+    private static final TimerConvert TIMER_CONVERT = TimerConvert.INSTANCE;
+
     /**
      * 默认获取锁间隔时间
      */
@@ -77,7 +79,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
                 throw bizException(ErrorCode.TOO_MANY_REQUESTS, "操作过于频繁");
             }
 
-            Timer timer = timerCreateDTO.toEntity();
+            Timer timer = TIMER_CONVERT.convert(timerCreateDTO);
             // 校验参数
             verify(timer);
 
@@ -93,7 +95,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "创建失败");
             }
 
-            return timer.toVO(TimerVO.class);
+            return TIMER_CONVERT.convert(timer);
         } catch (InterruptedException e) {
             throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "创建失败");
         }
@@ -131,7 +133,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             throw bizException(ErrorCode.BAD_REQUEST, "定时任务不存在");
         }
 
-        BeanUtils.copyProperties(timerUpdateDTO, timer);
+        TIMER_CONVERT.copy(timerUpdateDTO, timer);
         // 校验参数
         verify(timer);
 
@@ -148,7 +150,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
         if (timer == null) {
             throw bizException(ErrorCode.NOT_FOUND, "定时任务不存在");
         }
-        return timer.toVO(TimerVO.class);
+        return TIMER_CONVERT.convert(timer);
     }
 
     @Override
@@ -226,7 +228,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
                 .eq(Timer::getApp, app)
                 .list()
                 .stream()
-                .map(timer -> timer.toVO(TimerVO.class))
+                .map(TIMER_CONVERT::convert)
                 .toList();
         return timerVOList;
     }

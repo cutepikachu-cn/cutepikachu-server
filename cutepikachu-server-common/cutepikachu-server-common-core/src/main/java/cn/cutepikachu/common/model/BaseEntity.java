@@ -1,11 +1,13 @@
 package cn.cutepikachu.common.model;
 
-import cn.cutepikachu.common.util.BeanUtils;
-import cn.hutool.core.util.ReflectUtil;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 基础 Entity 类
@@ -15,15 +17,36 @@ import java.io.Serializable;
  * @since 2024-0-28 17:55:55
  */
 @Data
-public abstract class BaseEntity<E extends BaseEntity<E, VO>, VO extends BaseVO<E, VO>> implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public VO toVO(Class<VO> voClass) {
-        VO vo = ReflectUtil.newInstance(voClass);
-        BeanUtils.copyProperties(this, vo);
-        return vo;
-    }
+    /**
+     * 创建时间
+     * 插入时自动填充
+     */
+    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     * 插入 / 更新时自动填充
+     */
+    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
+     * 是否删除
+     */
+    @TableField("`is_delete`")
+    @TableLogic
+    private Boolean isDelete;
+
+    public static final String CREATE_TIME = "create_time";
+
+    public static final String UPDATE_TIME = "update_time";
+
+    public static final String IS_DELETE = "is_delete";
 
 }

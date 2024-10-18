@@ -1,24 +1,22 @@
-package cn.cutepikachu.common.model.user.vo;
+package cn.cutepikachu.common.model.user.entity;
 
-import cn.cutepikachu.common.model.BaseVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
- * 用户表 VO
- *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
- * @version 0.0.1-SNAPSHOT
- * @since 2024-08-01 19:21:35
+ * @version 1.0
+ * @since 2024-10-18 16:51-09
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVO extends BaseVO implements Serializable {
+public class UserInfo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -29,6 +27,11 @@ public class UserVO extends BaseVO implements Serializable {
     private Long userId;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 用户昵称
      */
     private String nickName;
@@ -37,5 +40,10 @@ public class UserVO extends BaseVO implements Serializable {
      * 用户头像 URL
      */
     private String avatarUrl;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
 }

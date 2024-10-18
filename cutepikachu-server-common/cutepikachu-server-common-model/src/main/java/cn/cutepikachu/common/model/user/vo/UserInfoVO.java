@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户信息 VO
@@ -37,5 +38,10 @@ public class UserInfoVO implements Serializable {
      * 用户头像 URL
      */
     private String avatarUrl;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
 }

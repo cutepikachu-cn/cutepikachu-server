@@ -1,9 +1,10 @@
 import cn.cutepikachu.auth.AuthApplication;
+import cn.cutepikachu.auth.model.convert.UserConvert;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.util.BeanUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -13,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest(classes = AuthApplication.class)
 public class MainTest {
+
+    private static final UserConvert USER_CONVERT = UserConvert.INSTANCE;
+
     @Test
     void testCopyBean() {
         AuthAccount authAccount = new AuthAccount();

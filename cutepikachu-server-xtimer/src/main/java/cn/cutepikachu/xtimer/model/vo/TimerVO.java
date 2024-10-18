@@ -2,8 +2,6 @@ package cn.cutepikachu.xtimer.model.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
-import cn.cutepikachu.xtimer.model.entity.Timer;
-import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TimerVO extends BaseVO<Timer, TimerVO> implements Serializable {
+public class TimerVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,13 +53,5 @@ public class TimerVO extends BaseVO<Timer, TimerVO> implements Serializable {
      * 回调上下文
      */
     private NotifyHTTPParam notifyHttpParam;
-
-    @Override
-    public Timer toEntity(Class<Timer> timerClass) {
-        Timer entity = super.toEntity(timerClass);
-        String notifyHttpParam = JSONUtil.toJsonStr(this.getNotifyHttpParam());
-        entity.setNotifyHttpParam(notifyHttpParam);
-        return entity;
-    }
 
 }

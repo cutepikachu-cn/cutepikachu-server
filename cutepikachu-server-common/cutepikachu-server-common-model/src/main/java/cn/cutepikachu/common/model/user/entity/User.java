@@ -1,18 +1,15 @@
 package cn.cutepikachu.common.model.user.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
-import cn.cutepikachu.common.model.auth.entity.AuthAccount;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
-import cn.cutepikachu.common.model.user.vo.UserVO;
-import cn.cutepikachu.common.util.BeanUtils;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 用户表
@@ -25,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`user`", autoResultMap = true)
-public class User extends BaseEntity<User, UserVO> implements Serializable {
+public class User extends BaseEntity implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -49,42 +46,10 @@ public class User extends BaseEntity<User, UserVO> implements Serializable {
     @TableField("`avatar_url`")
     private String avatarUrl;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableField("`is_delete`")
-    @TableLogic
-    private Boolean isDelete;
-
     public static final String USER_ID = "user_id";
 
     public static final String NICK_NAME = "nick_name";
 
     public static final String AVATAR_URL = "avatar_url";
-
-    public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
-
-    public static final String IS_DELETE = "is_delete";
-
-    public UserInfoVO toUserInfoVO(AuthAccount authAccount) {
-        UserInfoVO userInfoVO = new UserInfoVO();
-        BeanUtils.copyProperties(this, userInfoVO);
-        BeanUtils.copyProperties(authAccount, userInfoVO);
-        return userInfoVO;
-    }
 
 }

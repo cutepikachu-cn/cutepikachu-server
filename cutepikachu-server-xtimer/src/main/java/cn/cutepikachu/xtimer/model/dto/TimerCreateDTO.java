@@ -40,13 +40,4 @@ public class TimerCreateDTO implements Serializable {
      */
     private NotifyHTTPParam notifyHttpParam;
 
-    public Timer toEntity() {
-        Timer timer = new Timer();
-        timer.setApp(app)
-                .setName(name)
-                .setCron(cron)
-                .setNotifyHttpParam(JSONUtil.toJsonStr(this.notifyHttpParam));
-        return timer;
-    }
-
 }

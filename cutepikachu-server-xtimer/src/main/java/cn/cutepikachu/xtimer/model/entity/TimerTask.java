@@ -1,15 +1,15 @@
 package cn.cutepikachu.xtimer.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
-import cn.cutepikachu.xtimer.model.vo.TimerTaskVO;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 任务执行信息
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`timer_task`", autoResultMap = true)
-public class TimerTask extends BaseEntity<TimerTask, TimerTaskVO> implements Serializable {
+public class TimerTask extends BaseEntity implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -70,25 +70,6 @@ public class TimerTask extends BaseEntity<TimerTask, TimerTaskVO> implements Ser
     @TableField("`cost_time`")
     private Long costTime;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableField("`is_delete`")
-    @TableLogic
-    private Boolean isDelete;
-
     public static final String TASK_ID = "task_id";
 
     public static final String TIMER_ID = "timer_id";
@@ -102,11 +83,5 @@ public class TimerTask extends BaseEntity<TimerTask, TimerTaskVO> implements Ser
     public static final String RUN_TIME = "run_time";
 
     public static final String COST_TIME = "cost_time";
-
-    public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
-
-    public static final String IS_DELETE = "is_delete";
 
 }

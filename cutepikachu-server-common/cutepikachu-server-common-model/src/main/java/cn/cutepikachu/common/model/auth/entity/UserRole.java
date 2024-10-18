@@ -1,15 +1,15 @@
 package cn.cutepikachu.common.model.auth.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
-import cn.cutepikachu.common.model.auth.vo.UserRoleVO;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 用户角色关联表
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`user_role`", autoResultMap = true)
-public class UserRole extends BaseEntity<UserRole, UserRoleVO> implements Serializable {
+public class UserRole extends BaseEntity implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -46,35 +46,10 @@ public class UserRole extends BaseEntity<UserRole, UserRoleVO> implements Serial
     @TableField("`role_id`")
     private Long roleId;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableField("`is_delete`")
-    @TableLogic
-    private Boolean isDelete;
-
     public static final String ID = "id";
 
     public static final String USER_ID = "user_id";
 
     public static final String ROLE_ID = "role_id";
-
-    public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
-
-    public static final String IS_DELETE = "is_delete";
 
 }

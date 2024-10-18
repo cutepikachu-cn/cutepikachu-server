@@ -1,15 +1,15 @@
 package cn.cutepikachu.common.model.biz.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
-import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 文件信息表
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`file_info`", autoResultMap = true)
-public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serializable {
+public class FileInfo extends BaseEntity implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -82,25 +82,6 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
     @TableField("`biz_tag`")
     private String bizTag;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableField("`is_delete`")
-    @TableLogic
-    private Boolean isDelete;
-
     public static final String FILE_ID = "file_id";
 
     public static final String PATH = "path";
@@ -112,11 +93,5 @@ public class FileInfo extends BaseEntity<FileInfo, FileInfoVO> implements Serial
     public static final String TYPE = "type";
 
     public static final String BIZ_TAG = "biz_tag";
-
-    public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
-
-    public static final String IS_DELETE = "is_delete";
 
 }

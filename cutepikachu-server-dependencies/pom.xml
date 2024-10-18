@@ -23,6 +23,8 @@
         <spring-ai.version>1.1.0</spring-ai.version>
 
         <!-- 其它依赖 -->
+        <lombok.version>1.18.34</lombok.version>
+        <mapstruct.version>1.6.2</mapstruct.version>
         <guava.version>33.3.0-jre</guava.version>
         <hutool.version>5.8.29</hutool.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -131,6 +133,18 @@
             <!--   <artifactId>guava</artifactId> -->
             <!--   <version>${guava.version}</version> -->
             <!-- </dependency> -->
+            <!-- MapStruct 代码生成 -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <!-- Lombok 代码简化 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
             <!-- Druid 数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -149,6 +163,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <!-- knife4j 接口文档 -->

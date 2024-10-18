@@ -1,4 +1,5 @@
-import cn.cutepikachu.biz.BizApplication;
+package cn.cutepikachu.biz;
+
 import cn.cutepikachu.biz.service.OssService;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import jakarta.annotation.Resource;

@@ -1,7 +1,6 @@
 package cn.cutepikachu.common.model.auth.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
-import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthAccountVO extends BaseVO<AuthAccount, AuthAccountVO> implements Serializable {
+public class AuthAccountVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

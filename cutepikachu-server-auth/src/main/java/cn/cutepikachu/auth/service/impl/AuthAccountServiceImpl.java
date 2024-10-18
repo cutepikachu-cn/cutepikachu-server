@@ -1,6 +1,8 @@
 package cn.cutepikachu.auth.service.impl;
 
 import cn.cutepikachu.auth.mapper.AuthAccountMapper;
+import cn.cutepikachu.auth.model.convert.AuthAccountConvert;
+import cn.cutepikachu.auth.model.convert.UserConvert;
 import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
 import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
 import cn.cutepikachu.auth.service.IAuthAccountService;
@@ -11,12 +13,13 @@ import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
+import cn.cutepikachu.common.model.user.convert.UserInfoConvert;
 import cn.cutepikachu.common.model.user.entity.User;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
-import cn.cutepikachu.common.util.BeanUtils;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.dev33.satoken.session.SaSession;
@@ -52,6 +55,12 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
 
     @Resource
     private DistributedIdInnerService distributedIdInnerService;
+
+    private static final AuthAccountConvert AUTH_ACCOUNT_CONVERT = AuthAccountConvert.INSTANCE;
+
+    private static final UserConvert USER_CONVERT = UserConvert.INSTANCE;
+
+    private static final UserInfoConvert USER_INFO_CONVERT = UserInfoConvert.INSTANCE;
 
     /**
      * 校验 AuthAccount 对象信息
@@ -90,14 +99,14 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         if (Objects.equals(password, confirmPassword)) {
             throw bizException(ErrorCode.BAD_REQUEST, "两次密码不一致");
         }
-        User newUser = BeanUtils.copyProperties(userRegisterDTO, User.class);
+        User newUser = USER_CONVERT.convert(userRegisterDTO);
         this.verifyUser(newUser);
 
         // 获取注册 IP
         String ip = request.getHeader("X-Client-IP");
 
         // 验证认证账户信息
-        AuthAccount authAccount = BeanUtils.copyProperties(userRegisterDTO, AuthAccount.class);
+        AuthAccount authAccount = AUTH_ACCOUNT_CONVERT.convert(userRegisterDTO);
         authAccount.setCreateIp(ip);
         this.verifyAuthAccount(authAccount);
 
@@ -147,7 +156,8 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户信息失败");
         }
 
-        UserInfoVO userInfoVO = newUser.toUserInfoVO(authAccount);
+        UserInfo userInfo = USER_INFO_CONVERT.convert(newUser, authAccount);
+        UserInfoVO userInfoVO = USER_INFO_CONVERT.convert(userInfo);
 
         return userInfoVO;
     }
@@ -156,8 +166,8 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     public void updateAuthAccount(AuthAccountUpdateDTO authAccountUpdateDTO) {
         SaSession session = StpUtil.getSession();
         UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
-        AuthAccount authAccount = BeanUtils.copyProperties(userInfo, AuthAccount.class);
-        BeanUtils.copyProperties(authAccountUpdateDTO, authAccount);
+        AuthAccount authAccount = AUTH_ACCOUNT_CONVERT.convert(authAccountUpdateDTO);
+        authAccount.setUserId(userInfo.getUserId());
         this.verifyAuthAccount(authAccount);
         String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
         authAccount.setPassword(cryptoPassword);

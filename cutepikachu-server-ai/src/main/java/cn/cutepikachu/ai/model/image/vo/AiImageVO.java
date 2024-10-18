@@ -1,6 +1,5 @@
 package cn.cutepikachu.ai.model.image.vo;
 
-import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.common.model.BaseVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AiImageVO extends BaseVO<AiImage, AiImageVO> implements Serializable {
+public class AiImageVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

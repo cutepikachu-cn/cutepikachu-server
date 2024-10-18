@@ -1,8 +1,9 @@
 package cn.cutepikachu.ai.model.image.entity;
 
-import cn.cutepikachu.ai.model.image.vo.AiImageVO;
 import cn.cutepikachu.common.model.BaseEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`ai_image`", autoResultMap = true)
-public class AiImage extends BaseEntity<AiImage, AiImageVO> implements Serializable {
+public class AiImage extends BaseEntity implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -102,25 +103,6 @@ public class AiImage extends BaseEntity<AiImage, AiImageVO> implements Serializa
     @TableField("`image_url`")
     private String imageUrl;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "`create_time`", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除
-     */
-    @TableField("`is_delete`")
-    @TableLogic
-    private Boolean delete;
-
     public static final String ID = "id";
 
     public static final String USER_ID = "user_id";
@@ -138,11 +120,5 @@ public class AiImage extends BaseEntity<AiImage, AiImageVO> implements Serializa
     public static final String ERROR_MESSAGE = "error_message";
 
     public static final String IMAGE_URL = "image_url";
-
-    public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
-
-    public static final String IS_DELETE = "is_delete";
 
 }

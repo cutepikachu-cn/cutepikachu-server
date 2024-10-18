@@ -1,7 +1,6 @@
 package cn.cutepikachu.shorturl.model.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
-import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UrlMapVO extends BaseVO<UrlMap, UrlMapVO> implements Serializable {
+public class UrlMapVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

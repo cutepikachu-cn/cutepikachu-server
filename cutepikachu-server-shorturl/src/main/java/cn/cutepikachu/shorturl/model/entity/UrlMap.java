@@ -1,7 +1,5 @@
 package cn.cutepikachu.shorturl.model.entity;
 
-import cn.cutepikachu.common.model.BaseEntity;
-import cn.cutepikachu.shorturl.model.vo.UrlMapVO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -25,7 +23,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "`url_map`", autoResultMap = true)
-public class UrlMap extends BaseEntity<UrlMap, UrlMapVO> implements Serializable {
+public class UrlMap implements Serializable {
 
     @Serial
     @TableField(exist = false)
@@ -55,12 +53,6 @@ public class UrlMap extends BaseEntity<UrlMap, UrlMapVO> implements Serializable
     @TableField(value = "`create_time`", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
-    @TableField(value = "`update_time`", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
     public static final String URL_ID = "url_id";
 
     public static final String LONG_URL = "long_url";
@@ -68,7 +60,5 @@ public class UrlMap extends BaseEntity<UrlMap, UrlMapVO> implements Serializable
     public static final String SHORT_URL = "short_url";
 
     public static final String CREATE_TIME = "create_time";
-
-    public static final String UPDATE_TIME = "update_time";
 
 }

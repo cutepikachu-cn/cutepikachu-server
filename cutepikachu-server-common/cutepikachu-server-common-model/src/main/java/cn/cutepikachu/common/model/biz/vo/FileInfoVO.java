@@ -1,7 +1,6 @@
 package cn.cutepikachu.common.model.biz.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
-import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileInfoVO extends BaseVO<FileInfo, FileInfoVO> implements Serializable {
+public class FileInfoVO extends BaseVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
