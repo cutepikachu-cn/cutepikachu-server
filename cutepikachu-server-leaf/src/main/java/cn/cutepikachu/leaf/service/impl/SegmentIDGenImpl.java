@@ -1,15 +1,15 @@
-package cn.cutepikachu.leaf.segment;
+package cn.cutepikachu.leaf.service.impl;
 
-import cn.cutepikachu.leaf.IDGen;
 import cn.cutepikachu.leaf.common.Result;
 import cn.cutepikachu.leaf.common.Status;
-import cn.cutepikachu.leaf.segment.dao.IDAllocDao;
-import cn.cutepikachu.leaf.segment.model.LeafAlloc;
-import cn.cutepikachu.leaf.segment.model.Segment;
-import cn.cutepikachu.leaf.segment.model.SegmentBuffer;
+import cn.cutepikachu.leaf.model.LeafAlloc;
+import cn.cutepikachu.leaf.model.Segment;
+import cn.cutepikachu.leaf.model.SegmentBuffer;
+import cn.cutepikachu.leaf.service.IDGen;
+import cn.cutepikachu.leaf.service.ILeafAllocService;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @version 1.0.1
  */
 @Slf4j
+@Service
 public class SegmentIDGenImpl implements IDGen {
 
     /**
@@ -50,14 +51,12 @@ public class SegmentIDGenImpl implements IDGen {
 
     private final ExecutorService service = new ThreadPoolExecutor(5, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new UpdateThreadFactory());
 
-    private volatile boolean initOK = false;
+    private volatile boolean initOk = false;
 
     @Getter
     private final Map<String, SegmentBuffer> cache = new ConcurrentHashMap<>();
 
-    @Setter
-    @Getter
-    private IDAllocDao dao;
+    private ILeafAllocService leafAllocService;
 
     private static final SecureRandom RANDOM = new SecureRandom();
 
@@ -70,20 +69,24 @@ public class SegmentIDGenImpl implements IDGen {
         }
 
         @Override
+        @SuppressWarnings("NullableProblems")
         public Thread newThread(Runnable r) {
             return new Thread(r, "Thread-Segment-Update-" + nextThreadNum());
         }
 
     }
 
-    @Override
-    public boolean init() {
+    public SegmentIDGenImpl(ILeafAllocService leafAllocService) {
+        this.leafAllocService = leafAllocService;
+        init();
+    }
+
+    public void init() {
         log.info("Init ...");
         // 确保加载到kv后才初始化成功
         updateCacheFromDb();
-        initOK = true;
+        initOk = true;
         updateCacheFromDbAtEveryMinute();
-        return initOK;
     }
 
     private void updateCacheFromDbAtEveryMinute() {
@@ -99,7 +102,7 @@ public class SegmentIDGenImpl implements IDGen {
     private void updateCacheFromDb() {
         log.info("update cache from db");
         try {
-            List<String> dbTags = dao.getAllTags();
+            List<String> dbTags = leafAllocService.getAllTags();
             if (dbTags == null || dbTags.isEmpty()) {
                 return;
             }
@@ -129,13 +132,13 @@ public class SegmentIDGenImpl implements IDGen {
                 log.info("Remove tag {} from IdCache", tag);
             }
         } catch (Exception e) {
-            log.warn("update cache from db exception", e);
+            log.error("update cache from db exception", e);
         }
     }
 
     @Override
     public Result get(final String key) {
-        if (!initOK) {
+        if (!initOk) {
             return new Result(EXCEPTION_ID_IDCACHE_INIT_FALSE, Status.EXCEPTION);
         }
         if (cache.containsKey(key)) {
@@ -162,12 +165,12 @@ public class SegmentIDGenImpl implements IDGen {
         SegmentBuffer buffer = segment.getBuffer();
         LeafAlloc leafAlloc;
         if (!buffer.isInitOk()) {
-            leafAlloc = dao.updateMaxIdAndGetLeafAlloc(key);
+            leafAlloc = leafAllocService.updateMaxIdAndGetLeafAlloc(key);
             buffer.setStep(leafAlloc.getStep());
             // leafAlloc中的step为DB中的step
             buffer.setMinStep(leafAlloc.getStep());
         } else if (buffer.getUpdateTimestamp() == 0) {
-            leafAlloc = dao.updateMaxIdAndGetLeafAlloc(key);
+            leafAlloc = leafAllocService.updateMaxIdAndGetLeafAlloc(key);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(leafAlloc.getStep());
             // leafAlloc中的step为DB中的step
@@ -188,9 +191,9 @@ public class SegmentIDGenImpl implements IDGen {
             }
             log.info("leafKey[{}], step[{}], duration[{}mins], nextStep[{}]", key, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
             LeafAlloc temp = new LeafAlloc();
-            temp.setKey(key);
+            temp.setBizTag(key);
             temp.setStep(nextStep);
-            leafAlloc = dao.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
+            leafAlloc = leafAllocService.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(nextStep);
             // leafAlloc的step为DB中的step
@@ -210,31 +213,28 @@ public class SegmentIDGenImpl implements IDGen {
             try {
                 final Segment segment = buffer.getCurrent();
                 if (!buffer.isNextReady() && (segment.getIdle() < 0.9 * segment.getStep()) && buffer.getThreadRunning().compareAndSet(false, true)) {
-                    service.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            Segment next = buffer.getSegments()[buffer.nextPos()];
-                            boolean updateOk = false;
-                            try {
-                                updateSegmentFromDb(buffer.getKey(), next);
-                                updateOk = true;
-                                log.info("update segment {} from db {}", buffer.getKey(), next);
-                            } catch (Exception e) {
-                                log.warn(buffer.getKey() + " updateSegmentFromDb exception", e);
-                            } finally {
-                                if (updateOk) {
-                                    buffer.wLock().lock();
-                                    buffer.setNextReady(true);
-                                    buffer.getThreadRunning().set(false);
-                                    buffer.wLock().unlock();
-                                } else {
-                                    buffer.getThreadRunning().set(false);
-                                }
+                    service.execute(() -> {
+                        Segment next = buffer.getSegments()[buffer.nextPos()];
+                        boolean updateOk = false;
+                        try {
+                            updateSegmentFromDb(buffer.getKey(), next);
+                            updateOk = true;
+                            log.info("update segment {} from db {}", buffer.getKey(), next);
+                        } catch (Exception e) {
+                            log.warn("{} updateSegmentFromDb exception", buffer.getKey(), e);
+                        } finally {
+                            if (updateOk) {
+                                buffer.wLock().lock();
+                                buffer.setNextReady(true);
+                                buffer.getThreadRunning().set(false);
+                                buffer.wLock().unlock();
+                            } else {
+                                buffer.getThreadRunning().set(false);
                             }
                         }
                     });
                 }
-                long value = segment.getValue().getAndIncrement();
+                long value;
 
                 // 随机步长
                 if (segment.getRandomStep() > 1) {
@@ -291,7 +291,7 @@ public class SegmentIDGenImpl implements IDGen {
     }
 
     public List<LeafAlloc> getAllLeafAllocs() {
-        return dao.getAllLeafAllocs();
+        return leafAllocService.getAllLeafAllocs();
     }
 
 }

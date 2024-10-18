@@ -41,11 +41,16 @@
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-inner-leaf</artifactId>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

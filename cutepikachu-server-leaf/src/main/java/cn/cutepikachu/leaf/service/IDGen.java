@@ -1,4 +1,4 @@
-package cn.cutepikachu.leaf;
+package cn.cutepikachu.leaf.service;
 
 import cn.cutepikachu.leaf.common.Result;
 
@@ -9,7 +9,5 @@ import cn.cutepikachu.leaf.common.Result;
 public interface IDGen {
 
     Result get(String key);
-
-    boolean init();
 
 }

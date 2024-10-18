@@ -1,4 +1,4 @@
-package cn.cutepikachu.leaf.segment.model;
+package cn.cutepikachu.leaf.model;
 
 import lombok.Data;
 
