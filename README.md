@@ -33,6 +33,8 @@ cutepikachu-server-biz -- 通用业务模块
 | 核心框架      | Spring Cloud Alibaba | 2023.0.1.0 |
 | 注册中心/服务发现 | Nacos                | 2.3.2      |
 | 工具库       | Hutool               | 5.8.29     |
+| 代码简化      | Lombok               | 1.18.34    |
+| 类型映射代码生成  | MapStruct            | 1.6.2      |
 | ORM 框架    | Mybatis-Plus         | 3.5.7      |
 | 接口文档      | knife4j              | 4.5.0      |
 | Redis 客户端 | redisson             | 3.33.0     |
@@ -45,7 +47,6 @@ cutepikachu-server-biz -- 通用业务模块
 - 通用业务模块-验证码服务（AjPlus Captcha / EasyCaptcha ?）
 - 搜索服务模块（Elasitcsearch ?）
 - 消息队列服务模块（RabbitMQ ?）
-- AI 模块（Spring AI ?）
 
 ## 开源协议
 
