@@ -8,4 +8,5 @@ cutepikachu_cn_leaf.sql -- 基于美团 leaf 的分布式 ID 服务模块数据�
 cutepikachu_cn_xtimer.sql -- 定时任务服务模块数据库表
 cutepikachu_cn_shorturl.sql -- 短链接服务模块数据库表
 cutepikachu_cn_biz.sql -- 通用业务模块数据库表
+cutepikachu_cn_ai.sql -- AI 服务模块数据库表
 ```

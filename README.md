@@ -20,6 +20,7 @@ cutepikachu-server-leaf -- 基于美团 leaf 的分布式 ID 服务模块
 cutepikachu-server-xtimer -- 定时任务服务模块
 cutepikachu-server-shorturl -- 短链接服务模块
 cutepikachu-server-biz -- 通用业务模块
+cutepikachu-server-ai -- AI 服务模块
 ```
 
 ## 技术选型
@@ -47,6 +48,7 @@ cutepikachu-server-biz -- 通用业务模块
 - 通用业务模块-验证码服务（AjPlus Captcha / EasyCaptcha ?）
 - 搜索服务模块（Elasitcsearch ?）
 - 消息队列服务模块（RabbitMQ ?）
+- 短信服务模块（支持多服务商短信服务 ?）
 
 ## 开源协议
 
