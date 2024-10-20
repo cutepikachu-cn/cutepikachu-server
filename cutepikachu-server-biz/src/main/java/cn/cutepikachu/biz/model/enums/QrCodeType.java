@@ -15,11 +15,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum QrCodeType implements BaseEnum<String> {
 
-    IMAGE("image", "image"),
-    BASE64("base64", "base64");
+    IMAGE("image"),
+    BASE64("base64");
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
 }

@@ -16,7 +16,7 @@ create table `ai_image`
     `height`        int unsigned    not null comment '高度',
     `width`         int unsigned    not null comment '宽度',
     `options`       varchar(1024)   null comment '选项',
-    `status`        varchar(16)     not null comment '状态',
+    `status`        varchar(16)     not null comment '状态（IN_PROGRESS 生成中，SUCCESS 成功，FAIL 失败）',
     `finish_time`   timestamp       null comment '完成时间',
     `error_message` varchar(512)    null comment '错误信息',
     `image_url`     varchar(512)    null comment '图片地址',

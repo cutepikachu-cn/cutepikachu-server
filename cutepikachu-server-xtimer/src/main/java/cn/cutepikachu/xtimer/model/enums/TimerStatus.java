@@ -13,14 +13,12 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum TimerStatus implements BaseEnum<Integer> {
+public enum TimerStatus implements BaseEnum<String> {
 
-    NEW("新建", 0),
-    UNABLE("未激活", 1),
-    ENABLE("激活", 2);
+    NEW("新建"),
+    ENABLE("激活"),
+    UNABLE("未激活");
 
-    private final String text;
-
-    private final Integer value;
+    private final String desc;
 
 }

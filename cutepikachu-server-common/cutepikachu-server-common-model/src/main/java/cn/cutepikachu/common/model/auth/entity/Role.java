@@ -32,7 +32,7 @@ public class Role extends BaseEntity implements Serializable {
      * 角色 id
      */
     @TableId(value = "`role_id`")
-    private Long roleId;
+    private Integer roleId;
 
     /**
      * 角色名称

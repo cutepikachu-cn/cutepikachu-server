@@ -67,7 +67,7 @@ public class QrCodeUtils {
         QrCodeFormat format = config.getFormat();
         byte[] qrCodeBytes = generate(content, config);
         String base64 = Base64.getEncoder().encodeToString(qrCodeBytes);
-        return "data:image/" + format.getText() + ";base64," + base64;
+        return "data:image/" + format.name() + ";base64," + base64;
     }
 
     /**
@@ -94,7 +94,7 @@ public class QrCodeUtils {
 
         // 将 BitMatrix 写入 ByteArrayOutputStream
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        MatrixToImageWriter.writeToStream(bitMatrix, format.getValue(), outputStream, matrixToImageConfig);
+        MatrixToImageWriter.writeToStream(bitMatrix, format.name(), outputStream, matrixToImageConfig);
 
         // 返回生成的二维码字节数组
         return outputStream.toByteArray();

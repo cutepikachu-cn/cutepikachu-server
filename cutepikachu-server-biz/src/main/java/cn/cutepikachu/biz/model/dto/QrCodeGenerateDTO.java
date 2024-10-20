@@ -1,5 +1,7 @@
 package cn.cutepikachu.biz.model.dto;
 
+import cn.cutepikachu.biz.model.enums.QrCodeFormat;
+import cn.cutepikachu.biz.model.enums.QrCodeType;
 import lombok.Data;
 
 import java.io.Serial;
@@ -26,11 +28,11 @@ public class QrCodeGenerateDTO implements Serializable {
     /**
      * 二维码类型
      */
-    private String type;
+    private QrCodeType type;
 
     /**
      * 二维码格式
      */
-    private String format;
+    private QrCodeFormat format;
 
 }

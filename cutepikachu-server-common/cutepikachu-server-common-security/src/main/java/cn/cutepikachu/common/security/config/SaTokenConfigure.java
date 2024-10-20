@@ -42,7 +42,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                                         })
                                         .check(r -> {
                                             if (router.getRole() != null) {
-                                                StpUtil.checkRole(router.getRole().getText());
+                                                StpUtil.checkRole(router.getRole().name());
                                             }
                                         })))))
                 .addPathPatterns("/**")

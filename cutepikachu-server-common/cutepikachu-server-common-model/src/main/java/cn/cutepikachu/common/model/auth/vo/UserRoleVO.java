@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 用户角色关联表 VO
@@ -37,16 +36,6 @@ public class UserRoleVO extends BaseVO implements Serializable {
     /**
      * 角色 id
      */
-    private Long roleId;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+    private Integer roleId;
 
 }

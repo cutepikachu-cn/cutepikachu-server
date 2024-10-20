@@ -1,6 +1,7 @@
 package cn.cutepikachu.xtimer.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
+import cn.cutepikachu.xtimer.model.enums.TaskStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -47,10 +48,10 @@ public class TimerTask extends BaseEntity implements Serializable {
     private String app;
 
     /**
-     * 0 待执行，1 成功，2 失败
+     * NOT_RUN 待执行，RUNNING 正在执行，SUCCESS 执行成功，FAIL 执行失败
      */
     @TableField("`status`")
-    private Integer status;
+    private TaskStatus status;
 
     /**
      * 执行结果输出

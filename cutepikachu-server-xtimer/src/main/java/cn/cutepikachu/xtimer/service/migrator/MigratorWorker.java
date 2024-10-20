@@ -87,7 +87,7 @@ public class MigratorWorker {
     private void migrate() {
         // 获取已激活的定时任务
         List<Timer> timers = timerService.lambdaQuery()
-                .eq(Timer::getStatus, TimerStatus.ENABLE.getValue())
+                .eq(Timer::getStatus, TimerStatus.ENABLE)
                 .list();
 
         if (CollectionUtils.isEmpty(timers)) {

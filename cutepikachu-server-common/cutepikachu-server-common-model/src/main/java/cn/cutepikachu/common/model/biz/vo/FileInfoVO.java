@@ -1,6 +1,7 @@
 package cn.cutepikachu.common.model.biz.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
+import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,6 @@ public class FileInfoVO extends BaseVO implements Serializable {
     /**
      * 业务标识
      */
-    private String bizTag;
+    private FileBizTag bizTag;
 
 }

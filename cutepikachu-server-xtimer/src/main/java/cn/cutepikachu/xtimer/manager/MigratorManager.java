@@ -51,7 +51,7 @@ public class MigratorManager {
     public void migrateTimer(Timer timer) {
         // 校验状态定时任务
         // 是否已激活
-        if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
+        if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE)) {
             throw sysException(ErrorCode.INTERNAL_WARN, "Timer 非 Enable 状态，迁移失败，timerId:" + timer.getTimerId());
         }
 
@@ -102,7 +102,7 @@ public class MigratorManager {
             task.setApp(timer.getApp())
                     .setTimerId(timer.getTimerId())
                     .setRunTime(runTime)
-                    .setStatus(TaskStatus.NOT_RUN.getValue());
+                    .setStatus(TaskStatus.NOT_RUN);
             taskList.add(task);
         }
         return taskList;

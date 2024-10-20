@@ -1,7 +1,7 @@
 package cn.cutepikachu.biz.service.factory;
 
-import cn.cutepikachu.biz.model.enums.OssType;
 import cn.cutepikachu.biz.service.OssService;
+import cn.cutepikachu.common.model.biz.enums.OssType;
 
 /**
  * OSS 服务工厂

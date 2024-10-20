@@ -15,11 +15,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AiPlatform implements BaseEnum<String> {
 
-    TONGTYI("通义", "tongyi"),
-    ZHIPU("智谱", "zhipu");
+    TONGTYI("通义"),
+    ZHIPU("智谱");
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
 }

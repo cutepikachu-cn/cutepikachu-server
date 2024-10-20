@@ -5,7 +5,6 @@ import cn.cutepikachu.biz.model.enums.QrCodeFormat;
 import cn.cutepikachu.biz.model.enums.QrCodeType;
 import cn.cutepikachu.biz.util.QrCodeUtils;
 import cn.cutepikachu.biz.util.QrCodeUtils.QrConfig;
-import cn.cutepikachu.common.model.BaseEnum;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.net.HttpHeaders;
@@ -73,12 +72,12 @@ public class QrCodeController {
     private QrConfig buildConfig(QrCodeGenerateDTO qrCodeGenerateDTO) {
         QrConfig config = new QrConfig();
 
-        QrCodeType type = BaseEnum.getEnumByValue(QrCodeType.class, qrCodeGenerateDTO.getType());
+        QrCodeType type = qrCodeGenerateDTO.getType();
         if (type == null) {
             throw bizException(ErrorCode.BAD_REQUEST, "二维码类型错误");
         }
 
-        QrCodeFormat format = BaseEnum.getEnumByValue(QrCodeFormat.class, qrCodeGenerateDTO.getFormat());
+        QrCodeFormat format = qrCodeGenerateDTO.getFormat();
         if (format == null) {
             throw bizException(ErrorCode.BAD_REQUEST, "二维码格式错误");
         }

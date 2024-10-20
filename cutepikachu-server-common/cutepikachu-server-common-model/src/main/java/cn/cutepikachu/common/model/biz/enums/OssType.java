@@ -1,4 +1,4 @@
-package cn.cutepikachu.biz.model.enums;
+package cn.cutepikachu.common.model.biz.enums;
 
 import cn.cutepikachu.common.model.BaseEnum;
 import lombok.AllArgsConstructor;
@@ -15,10 +15,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum OssType implements BaseEnum<String> {
 
-    MINIO("minio", "minio");
+    MINIO("MinIO");
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
 }

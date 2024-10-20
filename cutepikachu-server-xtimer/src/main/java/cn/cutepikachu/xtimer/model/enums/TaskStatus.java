@@ -13,14 +13,13 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum TaskStatus implements BaseEnum<Integer> {
+public enum TaskStatus implements BaseEnum<String> {
 
-    NOT_RUN("待执行", 0),
-    RUNNING("正在执行", 1),
-    SUCCESS("执行成功", 2),
-    FAIL("执行失败", 3);
+    NOT_RUN("待执行"),
+    RUNNING("正在执行"),
+    SUCCESS("执行成功"),
+    FAIL("执行失败");
 
-    private final String text;
+    private final String desc;
 
-    private final Integer value;
 }

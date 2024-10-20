@@ -2,6 +2,7 @@ package cn.cutepikachu.xtimer.model.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
+import cn.cutepikachu.xtimer.model.enums.TimerStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -49,10 +50,10 @@ public class Timer extends BaseEntity implements Serializable {
     private String name;
 
     /**
-     * 0 新建，1 激活，2 未激活
+     * NEW 新建，ENABLE 激活，UNABLE 未激活
      */
     @TableField("`status`")
-    private Integer status;
+    private TimerStatus status;
 
     /**
      * cron 表达式

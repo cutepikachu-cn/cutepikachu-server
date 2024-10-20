@@ -120,7 +120,7 @@ public class TriggerTimerTask extends java.util.TimerTask {
             try {
                 tasks = taskService.lambdaQuery()
                         .between(TimerTask::getRunTime, start.getTime(), end.getTime() - 1)
-                        .eq(TimerTask::getStatus, TaskStatus.NOT_RUN.getValue())
+                        .eq(TimerTask::getStatus, TaskStatus.NOT_RUN)
                         .list();
             } catch (Exception ei) {
                 log.error("getTasksFromDatabase error: ", ei);

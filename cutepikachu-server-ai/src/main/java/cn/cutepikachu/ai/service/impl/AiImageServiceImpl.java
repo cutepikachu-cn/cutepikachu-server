@@ -10,7 +10,6 @@ import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
 import cn.cutepikachu.ai.service.IAiImageService;
 import cn.cutepikachu.common.constant.DistributedBizTag;
-import cn.cutepikachu.common.model.BaseEnum;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
@@ -63,7 +62,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
     @Override
     public AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfoVO user) {
         // 构建绘图参数
-        AiPlatform platform = BaseEnum.getEnumByValue(AiPlatform.class, aiImageDrawDTO.getPlatform());
+        AiPlatform platform = aiImageDrawDTO.getPlatform();
         ImageOptions imageOptions = buildImageOptions(aiImageDrawDTO, platform);
 
         // 保存绘图记录
@@ -75,7 +74,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
                 .setHeight(aiImageDrawDTO.getHeight())
                 .setWidth(aiImageDrawDTO.getWidth())
                 .setOptions(aiImageDrawDTO.getOptions())
-                .setStatus(AiImageStatus.IN_PROGRESS.getValue());
+                .setStatus(AiImageStatus.IN_PROGRESS);
         // 获取分布式 ID
         BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
         resp.check();
@@ -125,18 +124,16 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
             this.lambdaUpdate()
                     .eq(AiImage::getId, aiImage.getId())
-                    .set(AiImage::getStatus, AiImageStatus.SUCCESS.getValue())
+                    .set(AiImage::getStatus, AiImageStatus.SUCCESS)
                     .set(AiImage::getFinishTime, LocalDateTime.now())
                     .set(AiImage::getImageUrl, imageUrl)
                     .update();
 
         } catch (Exception e) {
             log.error("绘图失败 {}", aiImage, e);
-            aiImage.setStatus(AiImageStatus.FAIL.getValue())
-                    .setErrorMessage(e.getMessage());
             this.lambdaUpdate()
                     .eq(AiImage::getId, aiImage.getId())
-                    .set(AiImage::getStatus, AiImageStatus.FAIL.getValue())
+                    .set(AiImage::getStatus, AiImageStatus.FAIL)
                     .set(AiImage::getErrorMessage, e.getMessage())
                     .update();
         }

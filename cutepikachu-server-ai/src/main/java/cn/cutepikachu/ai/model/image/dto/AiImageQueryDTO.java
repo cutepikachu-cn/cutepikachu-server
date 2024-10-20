@@ -1,5 +1,7 @@
 package cn.cutepikachu.ai.model.image.dto;
 
+import cn.cutepikachu.ai.model.enums.AiImageStatus;
+import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.common.request.PageDTO;
 import lombok.Data;
 
@@ -33,7 +35,7 @@ public class AiImageQueryDTO extends PageDTO implements Serializable {
     /**
      * 平台
      */
-    private String platform;
+    private AiPlatform platform;
 
     /**
      * 模型
@@ -43,7 +45,7 @@ public class AiImageQueryDTO extends PageDTO implements Serializable {
     /**
      * 状态
      */
-    private String status;
+    private AiImageStatus status;
 
     /**
      * 完成时间

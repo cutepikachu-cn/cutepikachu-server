@@ -2,7 +2,6 @@ package cn.cutepikachu.auth.inner;
 
 import cn.cutepikachu.auth.service.IAuthAccountService;
 import cn.cutepikachu.auth.service.IUserRoleService;
-import cn.cutepikachu.common.model.BaseEnum;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
@@ -10,6 +9,7 @@ import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
+import cn.hutool.core.util.EnumUtil;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,7 +69,7 @@ public class AuthInnerServiceController implements AuthInnerService {
                 .eq(UserRole::getUserId, userId)
                 .list()
                 .stream()
-                .map(userRole -> BaseEnum.getEnumByValue(RoleEnum.class, userRole.getRoleId()))
+                .map(userRole -> EnumUtil.getEnumAt(RoleEnum.class, userRole.getRoleId()))
                 .toList();
         return ResponseUtils.success(roleList);
     }

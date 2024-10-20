@@ -12,6 +12,7 @@ import cn.cutepikachu.common.constant.CommonConstant;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
+import cn.cutepikachu.common.model.auth.enums.AuthStatus;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
 import cn.cutepikachu.common.model.user.convert.UserInfoConvert;
 import cn.cutepikachu.common.model.user.entity.User;
@@ -125,7 +126,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         authAccount.setUserId(resp.getData());
 
         // 设置默认状态
-        authAccount.setStatus((byte) 1);
+        authAccount.setStatus(AuthStatus.ENABLE);
 
         // 加密密码
         String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
@@ -140,7 +141,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         // 保存用户角色信息
         UserRole userRole = new UserRole()
                 .setUserId(authAccount.getUserId())
-                .setRoleId(RoleEnum.USER.getValue());
+                .setRoleId(RoleEnum.USER.ordinal());
         boolean saveUserRoleSuccess = userRoleService.save(userRole);
         if (!saveUserRoleSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户角色信息失败");

@@ -87,7 +87,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER);
             resp.check();
 
-            timer.setStatus(0)
+            timer.setStatus(TimerStatus.NEW)
                     .setTimerId(resp.getData());
 
             boolean isSave = this.save(timer);
@@ -171,12 +171,12 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
 
             // 是否已激活
-            if (Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
+            if (Objects.equals(timer.getStatus(), TimerStatus.ENABLE)) {
                 throw bizException(ErrorCode.BAD_REQUEST, "定时任务已激活");
             }
 
             // 激活
-            timer.setStatus(TimerStatus.ENABLE.getValue());
+            timer.setStatus(TimerStatus.ENABLE);
             boolean isUpdate = this.updateById(timer);
             if (!isUpdate) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "激活失败");
@@ -207,12 +207,12 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
 
             // 是否已去激活
-            if (Objects.equals(timer.getStatus(), TimerStatus.UNABLE.getValue())) {
+            if (Objects.equals(timer.getStatus(), TimerStatus.UNABLE)) {
                 throw bizException(ErrorCode.BAD_REQUEST, "定时任务已去激活");
             }
 
             // 去激活
-            timer.setStatus(TimerStatus.UNABLE.getValue());
+            timer.setStatus(TimerStatus.UNABLE);
             boolean isUpdate = this.updateById(timer);
             if (!isUpdate) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "去激活失败");

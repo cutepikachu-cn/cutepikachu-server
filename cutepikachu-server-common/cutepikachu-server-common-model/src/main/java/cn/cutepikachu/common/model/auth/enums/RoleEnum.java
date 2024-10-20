@@ -13,15 +13,12 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum RoleEnum implements BaseEnum<Long> {
+public enum RoleEnum implements BaseEnum<String> {
 
-    SYSTEM("system", 0L),
-    USER("user", 1L),
-    USER_ADMIN("user_admin", 2L),
-    BLOG_ADMIN("blog_admin", 3L);
+    SYSTEM("系统管理员"),
+    ADMIN("管理员"),
+    USER("普通用户");
 
-    private final String text;
-
-    private final Long value;
+    private final String desc;
 
 }

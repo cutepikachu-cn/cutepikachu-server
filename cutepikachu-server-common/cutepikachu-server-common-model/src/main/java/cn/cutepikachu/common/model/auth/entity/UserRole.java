@@ -44,7 +44,7 @@ public class UserRole extends BaseEntity implements Serializable {
      * 角色 id
      */
     @TableField("`role_id`")
-    private Long roleId;
+    private Integer roleId;
 
     public static final String ID = "id";
 

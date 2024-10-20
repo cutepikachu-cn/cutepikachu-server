@@ -1,6 +1,7 @@
 package cn.cutepikachu.ai;
 
 import cn.cutepikachu.ai.model.enums.AiImageStatus;
+import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
@@ -31,13 +32,13 @@ public class DrawTest {
     @Test
     void typeHandler() {
         AiImage aiImage = new AiImage();
-        aiImage.setStatus(AiImageStatus.IN_PROGRESS.getValue())
+        aiImage.setStatus(AiImageStatus.IN_PROGRESS)
                 .setPrompt("一只皮卡丘")
                 .setHeight(1024)
                 .setWidth(1024)
                 .setOptions(Map.of("style", "cute", "color", "rainbow"))
                 .setModel("wanx-v1")
-                .setPlatform("tongyi")
+                .setPlatform(AiPlatform.TONGTYI)
                 .setUserId(1L);
         aiImageService.save(aiImage);
     }
@@ -45,7 +46,7 @@ public class DrawTest {
     @Test
     void draw() {
         AiImageDrawDTO aiImageDrawDTO = new AiImageDrawDTO();
-        aiImageDrawDTO.setPlatform("tongyi")
+        aiImageDrawDTO.setPlatform(AiPlatform.TONGTYI)
                 .setModel("wanx-v1")
                 .setWidth(1024)
                 .setHeight(1024)

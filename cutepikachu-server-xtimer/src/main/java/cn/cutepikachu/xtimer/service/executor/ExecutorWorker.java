@@ -53,7 +53,7 @@ public class ExecutorWorker {
                 .eq(TimerTask::getRunTime, unix)
                 .one();
         // 判断任务是否已执行
-        if (!Objects.equals(task.getStatus(), TaskStatus.NOT_RUN.getValue())) {
+        if (!Objects.equals(task.getStatus(), TaskStatus.NOT_RUN)) {
             log.warn("重复执行任务： timerId: {}, runTime: {}", timerId, unix);
             return;
         }
@@ -71,7 +71,7 @@ public class ExecutorWorker {
         }
 
         // 任务是否未激活
-        if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE.getValue())) {
+        if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE)) {
             log.warn("Timer 处于去激活状态。 timerId: {}", timerId);
             return;
         }
@@ -90,12 +90,12 @@ public class ExecutorWorker {
 
         // 更新任务状态
         if (resp == null) {
-            task.setStatus(TaskStatus.FAIL.getValue());
+            task.setStatus(TaskStatus.FAIL);
         } else if (resp.getStatusCode().is2xxSuccessful()) {
-            task.setStatus(TaskStatus.SUCCESS.getValue());
+            task.setStatus(TaskStatus.SUCCESS);
             task.setOutput(resp.toString());
         } else {
-            task.setStatus(TaskStatus.FAIL.getValue());
+            task.setStatus(TaskStatus.FAIL);
             task.setOutput(resp.toString());
         }
 

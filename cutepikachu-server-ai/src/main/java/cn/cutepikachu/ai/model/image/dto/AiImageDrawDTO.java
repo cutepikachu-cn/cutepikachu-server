@@ -1,5 +1,6 @@
 package cn.cutepikachu.ai.model.image.dto;
 
+import cn.cutepikachu.ai.model.enums.AiPlatform;
 import lombok.Data;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ public class AiImageDrawDTO {
     /**
      * AI 平台
      */
-    private String platform;
+    private AiPlatform platform;
 
     /**
      * 提示词

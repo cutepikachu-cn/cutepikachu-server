@@ -1,6 +1,7 @@
 package cn.cutepikachu.common.model.auth.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
+import cn.cutepikachu.common.model.auth.enums.AuthStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -47,10 +48,10 @@ public class AuthAccount extends BaseEntity implements Serializable {
     private String password;
 
     /**
-     * 用户状态（0 禁用；1 启用）
+     * 用户状态（DISABLE 禁用；ENABLE 启用）
      */
     @TableField("`status`")
-    private Byte status;
+    private AuthStatus status;
 
     /**
      * 创建 ip

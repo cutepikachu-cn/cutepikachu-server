@@ -15,16 +15,14 @@ import java.util.Map;
 @AllArgsConstructor
 public enum FileBizTag implements BaseEnum<String> {
 
-    IMAGE_OTHER("其它图片", "other", "image", Map.of(
+    IMAGE_OTHER("其它图片", "image", Map.of(
             "jpg", "FFD8FF",
             "jpeg", "FFD8FF",
             "png", "89504E47"
     )),
-    IMAGE_AI("AI 文生图", "ai", "image", Map.of());
+    IMAGE_AI("AI 文生图", "image", Map.of());
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
     private final String bucket;
 

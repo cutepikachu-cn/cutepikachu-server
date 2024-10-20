@@ -2,7 +2,6 @@ package cn.cutepikachu.biz.service.impl;
 
 import cn.cutepikachu.biz.mapper.FileInfoMapper;
 import cn.cutepikachu.biz.model.convert.FileInfoConvert;
-import cn.cutepikachu.biz.model.enums.OssType;
 import cn.cutepikachu.biz.service.IFileInfoService;
 import cn.cutepikachu.biz.service.OssService;
 import cn.cutepikachu.biz.service.factory.OssServiceFactory;
@@ -10,6 +9,7 @@ import cn.cutepikachu.biz.util.OssUtils;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
+import cn.cutepikachu.common.model.biz.enums.OssType;
 import cn.cutepikachu.common.model.biz.vo.FileInfoVO;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
@@ -136,10 +136,10 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
     private FileInfo buildFileInfo(FileBizTag bizTag, OssType ossType, String fileName, Long fileSize, String contentType) {
         FileInfo fileInfo = new FileInfo();
         String path = OssUtils.getObjectPath(bizTag);
-        fileInfo.setOssType(ossType.getValue())
+        fileInfo.setOssType(ossType)
                 .setBucket(bizTag.getBucket())
                 .setName(fileName)
-                .setBizTag(bizTag.getValue())
+                .setBizTag(bizTag.name())
                 .setSize(fileSize)
                 .setType(contentType)
                 .setPath(path);

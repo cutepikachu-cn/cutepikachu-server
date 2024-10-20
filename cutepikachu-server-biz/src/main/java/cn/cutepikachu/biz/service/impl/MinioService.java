@@ -1,9 +1,9 @@
 package cn.cutepikachu.biz.service.impl;
 
 import cn.cutepikachu.biz.config.MinioConfiguration;
-import cn.cutepikachu.biz.model.enums.OssType;
 import cn.cutepikachu.biz.service.OssService;
 import cn.cutepikachu.biz.service.factory.OssServiceFactory;
+import cn.cutepikachu.common.model.biz.enums.OssType;
 import cn.cutepikachu.common.response.ErrorCode;
 import io.minio.*;
 import io.minio.http.Method;

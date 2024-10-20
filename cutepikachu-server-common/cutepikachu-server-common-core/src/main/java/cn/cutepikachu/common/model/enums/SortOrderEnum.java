@@ -15,12 +15,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SortOrderEnum implements BaseEnum<String> {
 
-    ASCENDING("升序", "ASCENDING"),
-    DESCENDING("降序", "DESCENDING"),
-    UNSORTED("不排序", "UNSORTED");
+    ASCENDING("升序"),
+    DESCENDING("降序"),
+    UNSORTED("不排序");
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
 }

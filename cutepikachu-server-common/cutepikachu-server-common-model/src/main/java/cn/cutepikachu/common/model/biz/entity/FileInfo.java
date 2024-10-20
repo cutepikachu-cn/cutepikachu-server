@@ -1,6 +1,7 @@
 package cn.cutepikachu.common.model.biz.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
+import cn.cutepikachu.common.model.biz.enums.OssType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -38,7 +39,7 @@ public class FileInfo extends BaseEntity implements Serializable {
      * OSS 类型
      */
     @TableField("`oss_type`")
-    private String ossType;
+    private OssType ossType;
 
     /**
      * endpoint

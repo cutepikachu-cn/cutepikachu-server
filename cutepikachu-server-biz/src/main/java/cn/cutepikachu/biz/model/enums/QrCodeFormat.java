@@ -15,13 +15,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum QrCodeFormat implements BaseEnum<String> {
 
-    JPG("jpg", "jpg", "attachment; filename=\"qrcode.jpg\""),
-    PNG("png", "png", "attachment; filename=\"qrcode.png\""),
-    BASE64("base64", "base64", null);
+    JPG("jpg", "attachment; filename=\"qrcode.jpg\""),
+    PNG("png", "attachment; filename=\"qrcode.png\""),
+    BASE64("base64", null);
 
-    private final String text;
-
-    private final String value;
+    private final String desc;
 
     private final String contentDisposition;
 

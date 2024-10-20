@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.service;
 
-import cn.cutepikachu.biz.model.enums.OssType;
+import cn.cutepikachu.common.model.biz.enums.OssType;
 
 /**
  * 对象存储服务接口

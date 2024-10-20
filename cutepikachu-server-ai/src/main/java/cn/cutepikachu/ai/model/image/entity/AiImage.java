@@ -1,5 +1,7 @@
 package cn.cutepikachu.ai.model.image.entity;
 
+import cn.cutepikachu.ai.model.enums.AiImageStatus;
+import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.common.model.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -47,7 +49,7 @@ public class AiImage extends BaseEntity implements Serializable {
      * 平台
      */
     @TableField("`platform`")
-    private String platform;
+    private AiPlatform platform;
 
     /**
      * 模型
@@ -83,7 +85,7 @@ public class AiImage extends BaseEntity implements Serializable {
      * 状态
      */
     @TableField("`status`")
-    private String status;
+    private AiImageStatus status;
 
     /**
      * 完成时间
