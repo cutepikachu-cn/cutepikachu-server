@@ -2,6 +2,7 @@ package cn.cutepikachu.xtimer.model.vo;
 
 import cn.cutepikachu.common.model.BaseVO;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
+import cn.cutepikachu.xtimer.model.enums.TimerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class TimerVO extends BaseVO implements Serializable {
     /**
      * 0 新建，1 激活，2 未激活
      */
-    private Integer status;
+    private TimerStatus status;
 
     /**
      * cron 表达式

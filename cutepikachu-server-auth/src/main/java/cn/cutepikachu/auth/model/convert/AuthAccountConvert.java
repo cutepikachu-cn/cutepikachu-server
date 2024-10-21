@@ -4,6 +4,7 @@ import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
 import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -18,6 +19,6 @@ public interface AuthAccountConvert {
 
     AuthAccount convert(UserRegisterDTO userRegisterDTO);
 
-    AuthAccount convert(AuthAccountUpdateDTO authAccountUpdateDTO);
+    void copy(AuthAccountUpdateDTO source, @MappingTarget AuthAccount target);
 
 }

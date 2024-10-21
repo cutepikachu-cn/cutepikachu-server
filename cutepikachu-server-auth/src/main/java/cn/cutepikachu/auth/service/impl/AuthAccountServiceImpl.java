@@ -97,7 +97,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         // 验证 User 信息
         String password = userRegisterDTO.getPassword();
         String confirmPassword = userRegisterDTO.getConfirmPassword();
-        if (Objects.equals(password, confirmPassword)) {
+        if (!Objects.equals(password, confirmPassword)) {
             throw bizException(ErrorCode.BAD_REQUEST, "两次密码不一致");
         }
         User newUser = USER_CONVERT.convert(userRegisterDTO);
@@ -166,12 +166,11 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     @Override
     public void updateAuthAccount(AuthAccountUpdateDTO authAccountUpdateDTO) {
         SaSession session = StpUtil.getSession();
-        UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
-        AuthAccount authAccount = AUTH_ACCOUNT_CONVERT.convert(authAccountUpdateDTO);
-        authAccount.setUserId(userInfo.getUserId());
+        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
+        AuthAccount authAccount = this.getById(userInfo.getUserId());
+        AUTH_ACCOUNT_CONVERT.copy(authAccountUpdateDTO, authAccount);
         this.verifyAuthAccount(authAccount);
-        String cryptoPassword = passwordUtil.crypto(authAccount.getPassword());
-        authAccount.setPassword(cryptoPassword);
+        authAccount.setPassword(passwordUtil.crypto(authAccount.getPassword()));
         boolean updateSuccess = this.updateById(authAccount);
         if (!updateSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");

@@ -207,7 +207,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
 
             // 是否已去激活
-            if (Objects.equals(timer.getStatus(), TimerStatus.UNABLE)) {
+            if (!Objects.equals(timer.getStatus(), TimerStatus.ENABLE)) {
                 throw bizException(ErrorCode.BAD_REQUEST, "定时任务已去激活");
             }
 
