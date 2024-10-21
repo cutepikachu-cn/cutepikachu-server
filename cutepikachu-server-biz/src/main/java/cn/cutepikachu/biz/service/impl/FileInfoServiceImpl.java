@@ -139,7 +139,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         fileInfo.setOssType(ossType)
                 .setBucket(bizTag.getBucket())
                 .setName(fileName)
-                .setBizTag(bizTag.name())
+                .setBizTag(bizTag)
                 .setSize(fileSize)
                 .setType(contentType)
                 .setPath(path);

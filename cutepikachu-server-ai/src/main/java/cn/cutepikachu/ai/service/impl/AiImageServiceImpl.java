@@ -12,7 +12,7 @@ import cn.cutepikachu.ai.service.IAiImageService;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import cn.cutepikachu.common.model.biz.enums.FileBizTag;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.SpringUtils;
@@ -60,7 +60,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
     private static final AiImageConvert AI_IMAGE_CONVERT = AiImageConvert.INSTANCE;
 
     @Override
-    public AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfoVO user) {
+    public AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfo user) {
         // 构建绘图参数
         AiPlatform platform = aiImageDrawDTO.getPlatform();
         ImageOptions imageOptions = buildImageOptions(aiImageDrawDTO, platform);
@@ -162,7 +162,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
         // 构建参数
         switch (aiPlatform) {
-            case TONGTYI -> {
+            case TONGYI -> {
                 return TongYiImagesOptions.builder()
                         .withModel(model)
                         .withWidth(width)
@@ -182,7 +182,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
     }
 
     @Override
-    public AiImageVO getAiImage(Long id, UserInfoVO user) {
+    public AiImageVO getAiImage(Long id, UserInfo user) {
         AiImage aiImage = this.lambdaQuery()
                 .eq(AiImage::getId, id)
                 .eq(AiImage::getUserId, user.getUserId())

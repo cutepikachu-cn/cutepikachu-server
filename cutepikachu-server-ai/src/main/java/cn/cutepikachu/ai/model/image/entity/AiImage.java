@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.EnumTypeHandler;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -48,7 +49,7 @@ public class AiImage extends BaseEntity implements Serializable {
     /**
      * 平台
      */
-    @TableField("`platform`")
+    @TableField(value = "`platform`", typeHandler = EnumTypeHandler.class)
     private AiPlatform platform;
 
     /**

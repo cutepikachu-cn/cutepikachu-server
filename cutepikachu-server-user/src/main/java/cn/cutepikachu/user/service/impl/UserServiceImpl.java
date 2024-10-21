@@ -61,8 +61,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 是否已登录
         if (StpUtil.isLogin()) {
             SaSession session = StpUtil.getSession();
-            UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
-            return userInfo;
+            UserInfo userInfo = session.getModel("user_info", UserInfo.class);
+            return USER_INFO_CONVERT.convert(userInfo);
         }
         // 未登录
         String cryptoPassword = passwordUtil.crypto(password);
@@ -83,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public UserInfoVO updateUserInfo(UserUpdateDTO userUpdateDTO) {
         // 获取登录用户信息
         SaSession session = StpUtil.getSession();
-        UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
+        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
         // 校验用户信息
         User user = USER_CONVERT.convert(userInfo);
         USER_CONVERT.copy(userUpdateDTO, user);
@@ -96,7 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         USER_CONVERT.copy(this.getById(user.getUserId()), userInfo);
         // 更新登录状态
         session.set("user_info", userInfo);
-        return userInfo;
+        return USER_INFO_CONVERT.convert(userInfo);
     }
 
 }

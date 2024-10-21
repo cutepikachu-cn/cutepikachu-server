@@ -16,8 +16,8 @@ import lombok.Getter;
 public enum RoleEnum implements BaseEnum<String> {
 
     SYSTEM("系统管理员"),
-    ADMIN("管理员"),
-    USER("普通用户");
+    USER("普通用户"),
+    ADMIN("管理员");
 
     private final String desc;
 

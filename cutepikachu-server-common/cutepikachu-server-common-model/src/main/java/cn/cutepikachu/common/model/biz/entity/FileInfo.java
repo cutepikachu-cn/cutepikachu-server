@@ -1,6 +1,7 @@
 package cn.cutepikachu.common.model.biz.entity;
 
 import cn.cutepikachu.common.model.BaseEntity;
+import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.biz.enums.OssType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.EnumTypeHandler;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -38,7 +40,7 @@ public class FileInfo extends BaseEntity implements Serializable {
     /**
      * OSS 类型
      */
-    @TableField("`oss_type`")
+    @TableField(value = "`oss_type`", typeHandler = EnumTypeHandler.class)
     private OssType ossType;
 
     /**
@@ -80,8 +82,8 @@ public class FileInfo extends BaseEntity implements Serializable {
     /**
      * 业务标识
      */
-    @TableField("`biz_tag`")
-    private String bizTag;
+    @TableField(value = "`biz_tag`", typeHandler = EnumTypeHandler.class)
+    private FileBizTag bizTag;
 
     public static final String FILE_ID = "file_id";
 

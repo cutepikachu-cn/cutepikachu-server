@@ -6,7 +6,7 @@ import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
 import cn.cutepikachu.ai.service.IAiImageService;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +38,7 @@ public class DrawTest {
                 .setWidth(1024)
                 .setOptions(Map.of("style", "cute", "color", "rainbow"))
                 .setModel("wanx-v1")
-                .setPlatform(AiPlatform.TONGTYI)
+                .setPlatform(AiPlatform.TONGYI)
                 .setUserId(1L);
         aiImageService.save(aiImage);
     }
@@ -46,14 +46,14 @@ public class DrawTest {
     @Test
     void draw() {
         AiImageDrawDTO aiImageDrawDTO = new AiImageDrawDTO();
-        aiImageDrawDTO.setPlatform(AiPlatform.TONGTYI)
+        aiImageDrawDTO.setPlatform(AiPlatform.TONGYI)
                 .setModel("wanx-v1")
                 .setWidth(1024)
                 .setHeight(1024)
                 .setPrompt("一只皮卡丘");
-        UserInfoVO userInfoVO = new UserInfoVO();
-        userInfoVO.setUserId(100200L);
-        AiImageVO aiImageVO = aiImageService.drawImage(aiImageDrawDTO, userInfoVO);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(100200L);
+        AiImageVO aiImageVO = aiImageService.drawImage(aiImageDrawDTO, userInfo);
         System.out.println(aiImageVO);
     }
 

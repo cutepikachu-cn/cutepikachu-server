@@ -83,6 +83,7 @@ mybatis-plus:
   type-aliases-package: cn.cutepikachu.**.model
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
   global-config:
     db-config:
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名
@@ -131,8 +132,8 @@ sa-token:
 # 项目配置
 cutepikachu:
   security:
-    SALT: cutepikachu
-    ALGORITHM: md5
+    salt: cutepikachu
+    algorithm: MD5
     routers:
       common:
         - match: /**

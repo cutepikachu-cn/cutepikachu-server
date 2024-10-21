@@ -3,7 +3,7 @@ package cn.cutepikachu.ai.service;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -15,8 +15,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IAiImageService extends IService<AiImage> {
 
-    AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfoVO user);
+    AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfo user);
 
-    AiImageVO getAiImage(Long id, UserInfoVO user);
+    AiImageVO getAiImage(Long id, UserInfo user);
 
 }

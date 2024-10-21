@@ -3,7 +3,7 @@ package cn.cutepikachu.ai.controller;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
 import cn.cutepikachu.ai.service.IAiImageService;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
 import cn.dev33.satoken.session.SaSession;
@@ -27,7 +27,7 @@ public class AiImageController {
     @PostMapping("/draw")
     public BaseResponse<AiImageVO> draw(@RequestBody AiImageDrawDTO aiImageDrawDTO) {
         SaSession session = StpUtil.getSession();
-        UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
+        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
         AiImageVO aiImageVO = aiImageService.drawImage(aiImageDrawDTO, userInfo);
         return ResponseUtils.success(aiImageVO);
     }
@@ -35,7 +35,7 @@ public class AiImageController {
     @GetMapping("/get")
     public BaseResponse<AiImageVO> get(@RequestParam Long id) {
         SaSession session = StpUtil.getSession();
-        UserInfoVO userInfo = session.getModel("user_info", UserInfoVO.class);
+        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
         AiImageVO aiImageVO = aiImageService.getAiImage(id, userInfo);
         return ResponseUtils.success(aiImageVO);
     }

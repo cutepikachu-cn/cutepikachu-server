@@ -1,5 +1,7 @@
 package cn.cutepikachu.ai.model.image.vo;
 
+import cn.cutepikachu.ai.model.enums.AiImageStatus;
+import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.common.model.BaseVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,7 +40,7 @@ public class AiImageVO extends BaseVO implements Serializable {
     /**
      * 平台
      */
-    private String platform;
+    private AiPlatform platform;
 
     /**
      * 模型
@@ -68,7 +70,7 @@ public class AiImageVO extends BaseVO implements Serializable {
     /**
      * 状态
      */
-    private String status;
+    private AiImageStatus status;
 
     /**
      * 完成时间

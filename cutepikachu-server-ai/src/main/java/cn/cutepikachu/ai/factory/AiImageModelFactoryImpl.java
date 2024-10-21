@@ -20,7 +20,7 @@ public class AiImageModelFactoryImpl implements AiImageModelFactory {
     @Override
     public ImageModel getImageModel(AiPlatform aiPlatform) {
         switch (aiPlatform) {
-            case TONGTYI -> {
+            case TONGYI -> {
                 return SpringUtils.getBean(TongYiImagesModel.class);
             }
             case ZHIPU -> {

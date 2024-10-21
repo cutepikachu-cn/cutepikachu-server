@@ -1,7 +1,7 @@
 package cn.cutepikachu.user.model.convert;
 
 import cn.cutepikachu.common.model.user.entity.User;
-import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import org.mapstruct.Mapper;
@@ -22,11 +22,11 @@ public interface UserConvert {
 
     void copy(UserUpdateDTO source, @MappingTarget User target);
 
-    User convert(UserInfoVO userInfo);
+    User convert(UserInfo userInfo);
 
-    void copy(UserInfoVO source, @MappingTarget User target);
+    void copy(UserInfo source, @MappingTarget User target);
 
-    void copy(User source, @MappingTarget UserInfoVO target);
+    void copy(User source, @MappingTarget UserInfo target);
 
     UserVO convert(User user);
 

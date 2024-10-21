@@ -18,12 +18,5 @@ spring:
         server-addr: ${spring.cloud.nacos.config.server-addr}
         username: ${spring.cloud.nacos.config.username}
         password: ${spring.cloud.nacos.config.password}
-    ai:
-      tongyi:
-        connection:
-          api-key: sk-3ZiunO77Dv
   profiles:
     active: @profiles.active@
-  ai:
-    zhipuai:
-      api-key: c38730b2d1ec2ef7a8cf2d8360c2950c.Ps8MKwh7x1Aicyko

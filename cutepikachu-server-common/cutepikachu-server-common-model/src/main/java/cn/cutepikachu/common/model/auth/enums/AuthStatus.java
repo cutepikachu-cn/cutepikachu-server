@@ -12,6 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum AuthStatus implements BaseEnum<String> {
+
     ENABLE("启用"),
     DISABLE("禁用");
 
