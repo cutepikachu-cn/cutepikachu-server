@@ -51,12 +51,13 @@
             <artifactId>hutool-crypto</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-json</artifactId>
-        </dependency>
-        <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-model</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,7 +1,5 @@
 package cn.cutepikachu.common.constant;
 
-import cn.hutool.core.bean.copier.CopyOptions;
-
 /**
  * 通用常量
  *
@@ -10,18 +8,6 @@ import cn.hutool.core.bean.copier.CopyOptions;
  * @since 2024-0-28 17:55:55
  */
 public class CommonConstant {
-
-    /**
-     * 盐，混淆密码
-     */
-    public static final String SALT = "pikachu";
-
-    /**
-     * hutool 工具 BeanUtil.copyProperties() 方法默认拷贝选项
-     */
-    public static final CopyOptions DEFAULT_COPY_OPTIONS = CopyOptions.create()
-            .ignoreError()
-            .ignoreNullValue();
 
     /**
      * 默认头像 URL

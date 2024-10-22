@@ -22,7 +22,7 @@ public class GlobalGatewayFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         // 获取客户端 IP 地址
-        String clientIp = IpUtils.getIpAddr(request);
+        String clientIp = IpUtils.getIpAddr(exchange);
         // 将 IP 地址添加到请求头
         ServerHttpRequest modifiedRequest = request.mutate()
                 .header("X-Client-IP", clientIp)

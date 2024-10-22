@@ -1,7 +1,5 @@
 package cn.cutepikachu.xtimer.model.dto;
 
-import cn.cutepikachu.xtimer.model.entity.Timer;
-import cn.hutool.json.JSONUtil;
 import lombok.Data;
 
 import java.io.Serial;

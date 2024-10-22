@@ -1,20 +1,20 @@
-package cn.cutepikachu.gateway.util;
+package cn.cutepikachu.common.util;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
-
-import java.net.InetSocketAddress;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * IP 工具（网关使用）
+ * Servlet 工具类
  * <p>
  * 部分方法参考来自 cn.hutool.extra.servlet.JakartaServletUtil 类
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 1.0
- * @since 2024-0-28 17:55:55
+ * @since 2024-10-22 19:57-55
  */
-public class IpUtils {
+public class ServletUtils {
 
     private static final String UNKNOWN = "unknown";
 
@@ -28,27 +28,53 @@ public class IpUtils {
     };
 
     /**
-     * 获取 IP 地址
+     * 获得请求对象
      *
-     * @param exchange 服务器网络交换
-     * @return IP 地址
+     * @return HttpServletRequest
      */
-    public static String getIpAddr(ServerWebExchange exchange) {
-        ServerHttpRequest request = exchange.getRequest();
+    public static HttpServletRequest getRequest() {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (!(requestAttributes instanceof ServletRequestAttributes)) {
+            return null;
+        }
+        return ((ServletRequestAttributes) requestAttributes).getRequest();
+    }
+
+    /**
+     * 获得 User-Agent
+     *
+     * @return User-Agent
+     */
+    public static String getUserAgent() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
+        }
+        String ua = request.getHeader("User-Agent");
+        return ua != null ? ua : "";
+    }
+
+    /**
+     * 获得客户端 IP 地址
+     *
+     * @return 客户端 IP 地址
+     */
+    public static String getClientIp() {
+        HttpServletRequest request = getRequest();
+        if (request == null) {
+            return null;
+        }
+
         String ip;
         for (String header : IP_HEADERS) {
-            ip = request.getHeaders().getFirst(header);
+            ip = request.getHeader(header);
             if (isUnknown(ip)) {
                 return getMultistageReverseProxyIp(ip);
             }
         }
 
-        InetSocketAddress remoteAddress = request.getRemoteAddress();
-        if (remoteAddress == null) {
-            return null;
-        }
+        ip = request.getRemoteAddr();
 
-        ip = remoteAddress.getHostString();
         return getMultistageReverseProxyIp(ip);
     }
 
