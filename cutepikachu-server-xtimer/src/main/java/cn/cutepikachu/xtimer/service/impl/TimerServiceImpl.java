@@ -4,8 +4,8 @@ import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
+import cn.cutepikachu.xtimer.dao.repository.TimerRepository;
 import cn.cutepikachu.xtimer.manager.MigratorManager;
-import cn.cutepikachu.xtimer.mapper.TimerMapper;
 import cn.cutepikachu.xtimer.model.convert.TimerConvert;
 import cn.cutepikachu.xtimer.model.dto.TimerCreateDTO;
 import cn.cutepikachu.xtimer.model.dto.TimerUpdateDTO;
@@ -14,7 +14,6 @@ import cn.cutepikachu.xtimer.model.enums.TimerStatus;
 import cn.cutepikachu.xtimer.model.vo.TimerVO;
 import cn.cutepikachu.xtimer.service.ITimerService;
 import cn.cutepikachu.xtimer.util.TimerUtils;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.quartz.CronExpression;
 import org.redisson.api.RLock;
@@ -36,7 +35,10 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
  * @since 2024-08-12 22:24:49
  */
 @Service
-public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements ITimerService {
+public class TimerServiceImpl implements ITimerService {
+
+    @Resource
+    private TimerRepository timerRepository;
 
     @Resource
     private DistributedIdInnerService distributedIdInnerService;
@@ -90,7 +92,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             timer.setStatus(TimerStatus.NEW)
                     .setTimerId(resp.getData());
 
-            boolean isSave = this.save(timer);
+            boolean isSave = timerRepository.save(timer);
             if (!isSave) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "创建失败");
             }
@@ -113,7 +115,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             if (!isLocked) {
                 throw bizException(ErrorCode.TOO_MANY_REQUESTS, "操作过于频繁");
             }
-            boolean isRemove = this.removeById(timerId);
+            boolean isRemove = timerRepository.removeById(timerId);
             if (!isRemove) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "删除失败");
             }
@@ -126,7 +128,8 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
     public void updateTimer(TimerUpdateDTO timerUpdateDTO) {
         String app = timerUpdateDTO.getApp();
         Long timerId = timerUpdateDTO.getTimerId();
-        Timer timer = lambdaQuery().eq(Timer::getApp, app)
+        Timer timer = timerRepository.lambdaQuery()
+                .eq(Timer::getApp, app)
                 .eq(Timer::getTimerId, timerId)
                 .one();
         if (timer == null) {
@@ -137,7 +140,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
         // 校验参数
         verify(timer);
 
-        boolean isUpdate = this.updateById(timer);
+        boolean isUpdate = timerRepository.updateById(timer);
         if (!isUpdate) {
             throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "更新失败");
         }
@@ -146,7 +149,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
 
     @Override
     public TimerVO getTimer(String app, Long timerId) {
-        Timer timer = getById(timerId);
+        Timer timer = timerRepository.getById(timerId);
         if (timer == null) {
             throw bizException(ErrorCode.NOT_FOUND, "定时任务不存在");
         }
@@ -165,7 +168,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
 
             // 获取定时任务
-            Timer timer = getById(timerId);
+            Timer timer = timerRepository.getById(timerId);
             if (timer == null) {
                 throw bizException(ErrorCode.NOT_FOUND, "定时任务不存在");
             }
@@ -177,7 +180,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
 
             // 激活
             timer.setStatus(TimerStatus.ENABLE);
-            boolean isUpdate = this.updateById(timer);
+            boolean isUpdate = timerRepository.updateById(timer);
             if (!isUpdate) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "激活失败");
             }
@@ -201,7 +204,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
             }
 
             // 获取定时任务
-            Timer timer = getById(timerId);
+            Timer timer = timerRepository.getById(timerId);
             if (timer == null) {
                 throw bizException(ErrorCode.NOT_FOUND, "定时任务不存在");
             }
@@ -213,7 +216,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
 
             // 去激活
             timer.setStatus(TimerStatus.UNABLE);
-            boolean isUpdate = this.updateById(timer);
+            boolean isUpdate = timerRepository.updateById(timer);
             if (!isUpdate) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "去激活失败");
             }
@@ -224,7 +227,7 @@ public class TimerServiceImpl extends ServiceImpl<TimerMapper, Timer> implements
 
     @Override
     public List<TimerVO> getAppTimers(String app) {
-        List<TimerVO> timerVOList = lambdaQuery()
+        List<TimerVO> timerVOList = timerRepository.lambdaQuery()
                 .eq(Timer::getApp, app)
                 .list()
                 .stream()

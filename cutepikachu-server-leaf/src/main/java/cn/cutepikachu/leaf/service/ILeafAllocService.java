@@ -1,7 +1,6 @@
 package cn.cutepikachu.leaf.service;
 
 import cn.cutepikachu.leaf.model.LeafAlloc;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @version 1.0
  * @since 2024-10-18 19:44-28
  */
-public interface ILeafAllocService extends IService<LeafAlloc> {
+public interface ILeafAllocService {
 
     List<LeafAlloc> getAllLeafAllocs();
 

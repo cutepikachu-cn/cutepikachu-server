@@ -1,4 +1,4 @@
-package cn.cutepikachu.xtimer.mapper;
+package cn.cutepikachu.xtimer.dao.mapper;
 
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

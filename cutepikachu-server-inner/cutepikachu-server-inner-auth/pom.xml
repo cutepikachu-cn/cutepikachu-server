@@ -16,6 +16,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-common-model</artifactId>
         </dependency>
     </dependencies>

@@ -1,7 +1,7 @@
 package cn.cutepikachu.ai.service.impl;
 
+import cn.cutepikachu.ai.dao.repository.AiImageRepository;
 import cn.cutepikachu.ai.factory.AiImageModelFactory;
-import cn.cutepikachu.ai.mapper.AiImageMapper;
 import cn.cutepikachu.ai.model.convert.AiImageConvert;
 import cn.cutepikachu.ai.model.enums.AiImageStatus;
 import cn.cutepikachu.ai.model.enums.AiPlatform;
@@ -23,7 +23,6 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.cloud.ai.tongyi.image.TongYiImagesOptions;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.image.*;
@@ -46,7 +45,10 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
  */
 @Service
 @Slf4j
-public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> implements IAiImageService {
+public class AiImageServiceImpl implements IAiImageService {
+
+    @Resource
+    private AiImageRepository aiImageRepository;
 
     @Resource
     private AiImageModelFactory aiImageModelFactory;
@@ -79,7 +81,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
         BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
         resp.check();
         aiImage.setId(resp.getData());
-        this.save(aiImage);
+        aiImageRepository.save(aiImage);
 
         // 异步绘图
         // 获取注册为 Bean 的代理对象，否则无法执行 AOP 异步调用
@@ -122,7 +124,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
             String imageUrl = String.format("%s/%s/%s", fileInfo.getEndpoint(), fileInfo.getBucket(), fileInfo.getPath());
 
-            this.lambdaUpdate()
+            aiImageRepository.lambdaUpdate()
                     .eq(AiImage::getId, aiImage.getId())
                     .set(AiImage::getStatus, AiImageStatus.SUCCESS)
                     .set(AiImage::getFinishTime, LocalDateTime.now())
@@ -131,7 +133,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
         } catch (Exception e) {
             log.error("绘图失败 {}", aiImage, e);
-            this.lambdaUpdate()
+            aiImageRepository.lambdaUpdate()
                     .eq(AiImage::getId, aiImage.getId())
                     .set(AiImage::getStatus, AiImageStatus.FAIL)
                     .set(AiImage::getErrorMessage, e.getMessage())
@@ -183,7 +185,7 @@ public class AiImageServiceImpl extends ServiceImpl<AiImageMapper, AiImage> impl
 
     @Override
     public AiImageVO getAiImage(Long id, UserInfo user) {
-        AiImage aiImage = this.lambdaQuery()
+        AiImage aiImage = aiImageRepository.lambdaQuery()
                 .eq(AiImage::getId, id)
                 .eq(AiImage::getUserId, user.getUserId())
                 .one();

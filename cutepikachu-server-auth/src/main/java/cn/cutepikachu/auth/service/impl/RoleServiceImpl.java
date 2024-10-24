@@ -1,9 +1,8 @@
 package cn.cutepikachu.auth.service.impl;
 
-import cn.cutepikachu.auth.mapper.RoleMapper;
+import cn.cutepikachu.auth.dao.repository.RoleRepository;
 import cn.cutepikachu.auth.service.IRoleService;
-import cn.cutepikachu.common.model.auth.entity.Role;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Service;
  * @since 2024-08-01 19:22:35
  */
 @Service
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
+public class RoleServiceImpl implements IRoleService {
+
+    @Resource
+    private RoleRepository roleRepository;
 
 }

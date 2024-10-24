@@ -4,7 +4,8 @@ import cn.cutepikachu.common.redis.util.RedisUtils;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.snowflake.service.SnowflakeIdGenerateService;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
-import cn.cutepikachu.shorturl.mapper.UrlMapMapper;
+import cn.cutepikachu.shorturl.dao.mapper.UrlMapMapper;
+import cn.cutepikachu.shorturl.dao.repository.UrlMapRepository;
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
 import cn.cutepikachu.shorturl.util.Base62Utils;
@@ -29,6 +30,9 @@ import static cn.cutepikachu.shorturl.constant.ShortUrlConstant.*;
  */
 @Service
 public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> implements IUrlMapService, InitializingBean {
+
+    @Resource
+    private UrlMapRepository urlMapRepository;
 
     @Resource
     private RedisUtils redisUtils;
@@ -107,7 +111,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
             urlMap.setUrlId(urlId)
                     .setLongUrl(longUrl)
                     .setShortUrl(shortUrl);
-            boolean saveUrlMapSuccess = this.save(urlMap);
+            boolean saveUrlMapSuccess = urlMapRepository.save(urlMap);
             if (!saveUrlMapSuccess) {
                 throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "创建短链映射失败");
             }

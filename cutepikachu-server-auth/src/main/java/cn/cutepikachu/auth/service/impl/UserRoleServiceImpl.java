@@ -1,9 +1,8 @@
 package cn.cutepikachu.auth.service.impl;
 
-import cn.cutepikachu.auth.mapper.UserRoleMapper;
+import cn.cutepikachu.auth.dao.repository.UserRoleRepository;
 import cn.cutepikachu.auth.service.IUserRoleService;
-import cn.cutepikachu.common.model.auth.entity.UserRole;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Service;
  * @since 2024-08-01 19:22:35
  */
 @Service
-public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements IUserRoleService {
+public class UserRoleServiceImpl implements IUserRoleService {
+
+    @Resource
+    private UserRoleRepository userRoleRepository;
 
 }

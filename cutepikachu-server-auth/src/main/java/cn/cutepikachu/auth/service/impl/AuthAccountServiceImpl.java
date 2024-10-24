@@ -1,13 +1,13 @@
 package cn.cutepikachu.auth.service.impl;
 
-import cn.cutepikachu.auth.mapper.AuthAccountMapper;
+import cn.cutepikachu.auth.dao.repository.AuthAccountRepository;
+import cn.cutepikachu.auth.dao.repository.UserRepository;
+import cn.cutepikachu.auth.dao.repository.UserRoleRepository;
 import cn.cutepikachu.auth.model.convert.AuthAccountConvert;
 import cn.cutepikachu.auth.model.convert.UserConvert;
 import cn.cutepikachu.auth.model.dto.AuthAccountUpdateDTO;
 import cn.cutepikachu.auth.model.dto.UserRegisterDTO;
 import cn.cutepikachu.auth.service.IAuthAccountService;
-import cn.cutepikachu.auth.service.IUserRoleService;
-import cn.cutepikachu.auth.service.IUserService;
 import cn.cutepikachu.common.constant.CommonConstant;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
@@ -26,7 +26,6 @@ import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
@@ -43,13 +42,16 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
  * @since 2024-08-01 19:22:35
  */
 @Service
-public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthAccount> implements IAuthAccountService {
+public class AuthAccountServiceImpl implements IAuthAccountService {
 
     @Resource
-    private IUserRoleService userRoleService;
+    private AuthAccountRepository authAccountRepository;
 
     @Resource
-    private IUserService userService;
+    private UserRoleRepository userRoleRepository;
+
+    @Resource
+    private UserRepository userRepository;
 
     @Resource
     private PasswordUtil passwordUtil;
@@ -112,7 +114,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         this.verifyAuthAccount(authAccount);
 
         // 判断账户是否已存在
-        Long count = lambdaQuery()
+        Long count = authAccountRepository.lambdaQuery()
                 .eq(AuthAccount::getUsername, authAccount.getUsername())
                 .count();
 
@@ -133,7 +135,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         authAccount.setPassword(cryptoPassword);
 
         // 保存账户信息
-        boolean saveAuthAccountSuccess = this.save(authAccount);
+        boolean saveAuthAccountSuccess = authAccountRepository.save(authAccount);
         if (!saveAuthAccountSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存认证账户信息失败");
         }
@@ -142,7 +144,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         UserRole userRole = new UserRole()
                 .setUserId(authAccount.getUserId())
                 .setRoleId(RoleEnum.USER.ordinal());
-        boolean saveUserRoleSuccess = userRoleService.save(userRole);
+        boolean saveUserRoleSuccess = userRoleRepository.save(userRole);
         if (!saveUserRoleSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户角色信息失败");
         }
@@ -152,7 +154,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         if (StrUtil.isBlank(newUser.getAvatarUrl())) {
             newUser.setAvatarUrl(CommonConstant.DEFAULT_AVATAR_URL);
         }
-        boolean saveUserSuccess = userService.save(newUser);
+        boolean saveUserSuccess = userRepository.save(newUser);
         if (!saveUserSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "保存用户信息失败");
         }
@@ -167,11 +169,11 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     public void updateAuthAccount(AuthAccountUpdateDTO authAccountUpdateDTO) {
         SaSession session = StpUtil.getSession();
         UserInfo userInfo = session.getModel("user_info", UserInfo.class);
-        AuthAccount authAccount = this.getById(userInfo.getUserId());
+        AuthAccount authAccount = authAccountRepository.getById(userInfo.getUserId());
         AUTH_ACCOUNT_CONVERT.copy(authAccountUpdateDTO, authAccount);
         this.verifyAuthAccount(authAccount);
         authAccount.setPassword(passwordUtil.crypto(authAccount.getPassword()));
-        boolean updateSuccess = this.updateById(authAccount);
+        boolean updateSuccess = authAccountRepository.updateById(authAccount);
         if (!updateSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");
         }

@@ -1,9 +1,9 @@
 package cn.cutepikachu.leaf.service.impl;
 
-import cn.cutepikachu.leaf.mapper.LeafAllocMapper;
+import cn.cutepikachu.leaf.dao.repository.LeafAllocRepository;
 import cn.cutepikachu.leaf.model.LeafAlloc;
 import cn.cutepikachu.leaf.service.ILeafAllocService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +14,19 @@ import java.util.List;
  * @since 2024-10-18 19:44-50
  */
 @Service
-public class LeafAllocService extends ServiceImpl<LeafAllocMapper, LeafAlloc> implements ILeafAllocService {
+public class LeafAllocService implements ILeafAllocService {
+
+    @Resource
+    private LeafAllocRepository leafAllocRepository;
 
     @Override
     public List<LeafAlloc> getAllLeafAllocs() {
-        return this.list();
+        return leafAllocRepository.list();
     }
 
     @Override
     public LeafAlloc updateMaxIdAndGetLeafAlloc(String tag) {
-        this.lambdaUpdate()
+        leafAllocRepository.lambdaUpdate()
                 .eq(LeafAlloc::getBizTag, tag)
                 .setSql("max_id = max_id + step")
                 .update();
@@ -33,7 +36,7 @@ public class LeafAllocService extends ServiceImpl<LeafAllocMapper, LeafAlloc> im
     @Override
     public LeafAlloc updateMaxIdByCustomStepAndGetLeafAlloc(LeafAlloc leafAlloc) {
         String tag = leafAlloc.getBizTag();
-        this.lambdaUpdate()
+        leafAllocRepository.lambdaUpdate()
                 .eq(LeafAlloc::getBizTag, tag)
                 .setSql("max_id = max_id + " + leafAlloc.getStep())
                 .update();
@@ -41,14 +44,14 @@ public class LeafAllocService extends ServiceImpl<LeafAllocMapper, LeafAlloc> im
     }
 
     private LeafAlloc getLeafAlloc(String tag) {
-        return this.lambdaQuery()
+        return leafAllocRepository.lambdaQuery()
                 .eq(LeafAlloc::getBizTag, tag)
                 .one();
     }
 
     @Override
     public List<String> getAllTags() {
-        return this.lambdaQuery()
+        return leafAllocRepository.lambdaQuery()
                 .select(LeafAlloc::getBizTag)
                 .list()
                 .stream()

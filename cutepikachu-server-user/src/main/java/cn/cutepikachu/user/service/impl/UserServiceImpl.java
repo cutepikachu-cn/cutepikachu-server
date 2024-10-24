@@ -5,19 +5,19 @@ import cn.cutepikachu.common.model.user.convert.UserInfoConvert;
 import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
-import cn.cutepikachu.user.mapper.UserMapper;
+import cn.cutepikachu.user.dao.repository.UserRepository;
 import cn.cutepikachu.user.model.convert.UserConvert;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +32,10 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
  * @since 2024-08-01 19:21:35
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public class UserServiceImpl implements IUserService {
+
+    @Resource
+    private UserRepository repository;
 
     @Resource
     private AuthInnerService authInnerService;
@@ -70,7 +73,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         resp.check();
         AuthAccount authAccount = resp.getData();
         Long userId = authAccount.getUserId();
-        User user = this.getById(userId);
+        User user = repository.getById(userId);
         UserInfo userInfo = USER_INFO_CONVERT.convert(user, authAccount);
         // 存储登录状态
         StpUtil.login(userId);
@@ -89,14 +92,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         USER_CONVERT.copy(userUpdateDTO, user);
         this.verifyUser(user);
         // 更新用户信息
-        boolean updateSuccess = this.updateById(user);
+        boolean updateSuccess = repository.updateById(user);
         if (!updateSuccess) {
             throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "更新用户信息失败");
         }
-        USER_CONVERT.copy(this.getById(user.getUserId()), userInfo);
+        USER_CONVERT.copy(repository.getById(user.getUserId()), userInfo);
         // 更新登录状态
         session.set("user_info", userInfo);
         return USER_INFO_CONVERT.convert(userInfo);
+    }
+
+    @Override
+    public UserVO getUserVoById(Long userId) {
+        User user = repository.getById(userId);
+        if (user == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "用户不存在");
+        }
+        return USER_CONVERT.convert(user);
     }
 
 }

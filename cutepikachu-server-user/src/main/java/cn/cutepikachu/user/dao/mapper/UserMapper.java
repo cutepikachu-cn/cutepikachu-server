@@ -1,17 +1,17 @@
-package cn.cutepikachu.xtimer.mapper;
+package cn.cutepikachu.user.dao.mapper;
 
-import cn.cutepikachu.xtimer.model.entity.Timer;
+import cn.cutepikachu.common.model.user.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 定时任务信息表 Mapper 接口
+ * 用户表 Mapper 接口
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 0.0.1-SNAPSHOT
- * @since 2024-08-12 22:15:16
+ * @since 2024-08-01 19:21:35
  */
 @Mapper
-public interface TimerMapper extends BaseMapper<Timer> {
+public interface UserMapper extends BaseMapper<User> {
 
 }

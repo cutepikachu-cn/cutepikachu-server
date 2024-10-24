@@ -1,9 +1,8 @@
 package cn.cutepikachu.user.service;
 
-import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
+import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 0.0.1-SNAPSHOT
  * @since 2024-08-01 19:21:35
  */
-public interface IUserService extends IService<User> {
+public interface IUserService {
 
     /**
      * 获取登录用户信息（如果用户名和密码为空，则获取当前登录用户信息）
@@ -32,5 +31,13 @@ public interface IUserService extends IService<User> {
      */
     @Transactional(rollbackFor = Exception.class)
     UserInfoVO updateUserInfo(UserUpdateDTO userUpdateDTO);
+
+    /**
+     * 根据用户ID获取用户信息
+     *
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    UserVO getUserVoById(Long userId);
 
 }

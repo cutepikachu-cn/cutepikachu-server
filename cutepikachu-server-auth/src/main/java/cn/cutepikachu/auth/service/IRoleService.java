@@ -1,8 +1,5 @@
 package cn.cutepikachu.auth.service;
 
-import cn.cutepikachu.common.model.auth.entity.Role;
-import com.baomidou.mybatisplus.extension.service.IService;
-
 /**
  * 认证角色表 服务接口
  *
@@ -10,6 +7,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @version 0.0.1-SNAPSHOT
  * @since 2024-08-01 19:22:35
  */
-public interface IRoleService extends IService<Role> {
+public interface IRoleService {
 
 }

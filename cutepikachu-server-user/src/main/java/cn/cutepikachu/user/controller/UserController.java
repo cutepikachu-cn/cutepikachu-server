@@ -1,6 +1,5 @@
 package cn.cutepikachu.user.controller;
 
-import cn.cutepikachu.common.model.user.entity.User;
 import cn.cutepikachu.common.model.user.vo.UserInfoVO;
 import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.common.response.BaseResponse;
@@ -59,11 +58,10 @@ public class UserController {
 
     @GetMapping("/info")
     public BaseResponse<UserVO> info(@RequestParam Long userId) {
-        User user = userService.getById(userId);
-        if (user == null) {
-            throw bizException(ErrorCode.NOT_FOUND, "用户不存在");
+        if (userId == null) {
+            throw bizException(ErrorCode.NOT_FOUND, "用户 ID 不能为空");
         }
-        UserVO userVO = USER_CONVERT.convert(user);
+        UserVO userVO = userService.getUserVoById(userId);
         return ResponseUtils.success(userVO);
     }
 

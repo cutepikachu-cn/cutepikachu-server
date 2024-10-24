@@ -1,8 +1,5 @@
 package cn.cutepikachu.xtimer.service;
 
-import cn.cutepikachu.xtimer.model.entity.TimerTask;
-import com.baomidou.mybatisplus.extension.service.IService;
-
 /**
  * 任务执行信息 服务类
  *
@@ -10,6 +7,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @version 0.0.1-SNAPSHOT
  * @since 2024-08-12 22:24:49
  */
-public interface ITimerTaskService extends IService<TimerTask> {
+public interface ITimerTaskService {
 
 }

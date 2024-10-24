@@ -1,4 +1,4 @@
-package cn.cutepikachu.leaf.mapper;
+package cn.cutepikachu.leaf.dao.mapper;
 
 import cn.cutepikachu.leaf.model.LeafAlloc;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -1,14 +1,14 @@
 package cn.cutepikachu.xtimer.service.executor;
 
 import cn.cutepikachu.common.response.ErrorCode;
+import cn.cutepikachu.xtimer.dao.repository.TimerRepository;
+import cn.cutepikachu.xtimer.dao.repository.TimerTaskRepository;
 import cn.cutepikachu.xtimer.model.convert.TimerConvert;
 import cn.cutepikachu.xtimer.model.dto.NotifyHTTPParam;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import cn.cutepikachu.xtimer.model.enums.TaskStatus;
 import cn.cutepikachu.xtimer.model.enums.TimerStatus;
-import cn.cutepikachu.xtimer.service.ITimerService;
-import cn.cutepikachu.xtimer.service.ITimerTaskService;
 import cn.cutepikachu.xtimer.util.TimerUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +32,10 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 public class ExecutorWorker {
 
     @Resource
-    private ITimerService timerService;
+    private TimerRepository timerRepository;
 
     @Resource
-    private ITimerTaskService taskService;
+    private TimerTaskRepository taskRepository;
 
     private static final TimerConvert TIMER_CONVERT = TimerConvert.INSTANCE;
 
@@ -48,7 +48,7 @@ public class ExecutorWorker {
         }
         Long timerId = timerIDUnix.get(0);
         Long unix = timerIDUnix.get(1);
-        TimerTask task = taskService.lambdaQuery()
+        TimerTask task = taskRepository.lambdaQuery()
                 .eq(TimerTask::getTimerId, timerId)
                 .eq(TimerTask::getRunTime, unix)
                 .one();
@@ -64,7 +64,7 @@ public class ExecutorWorker {
 
     private void executeAndPostProcess(TimerTask task, Long timerId) {
         // 定时任务是否还存在
-        Timer timer = timerService.getById(timerId);
+        Timer timer = timerRepository.getById(timerId);
         if (timer == null) {
             log.error("执行回调错误，找不到对应的 Timer, timerId: {}", timerId);
             throw sysException(ErrorCode.INTERNAL_ERROR, "执行回调错误，找不到对应的 Timer, timerId: " + timerId);
@@ -99,7 +99,7 @@ public class ExecutorWorker {
             task.setOutput(resp.toString());
         }
 
-        taskService.updateById(task);
+        taskRepository.updateById(task);
     }
 
     private ResponseEntity<String> executeTimerCallBack(Timer timer) {

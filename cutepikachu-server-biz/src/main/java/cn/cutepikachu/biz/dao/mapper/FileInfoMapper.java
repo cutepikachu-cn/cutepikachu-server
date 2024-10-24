@@ -1,17 +1,17 @@
-package cn.cutepikachu.ai.mapper;
+package cn.cutepikachu.biz.dao.mapper;
 
-import cn.cutepikachu.ai.model.image.entity.AiImage;
+import cn.cutepikachu.common.model.biz.entity.FileInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * AI 文生图表 Mapper 接口
+ * 文件信息表 Mapper 接口
  *
  * @author <a href="https://github.com/cutepikachu-cn">笨蛋皮卡丘</a>
  * @version 0.0.1-SNAPSHOT
- * @since 2024-10-12 19:44:03
+ * @since 2024-09-13 16:23:28
  */
 @Mapper
-public interface AiImageMapper extends BaseMapper<AiImage> {
+public interface FileInfoMapper extends BaseMapper<FileInfo> {
 
 }

@@ -1,5 +1,6 @@
 package cn.cutepikachu.ai;
 
+import cn.cutepikachu.ai.dao.repository.AiImageRepository;
 import cn.cutepikachu.ai.model.enums.AiImageStatus;
 import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class DrawTest {
 
     @Resource
+    AiImageRepository aiImageRepository;
+
+    @Resource
     IAiImageService aiImageService;
 
     @Test
@@ -40,7 +44,7 @@ public class DrawTest {
                 .setModel("wanx-v1")
                 .setPlatform(AiPlatform.TONGYI)
                 .setUserId(1L);
-        aiImageService.save(aiImage);
+        aiImageRepository.save(aiImage);
     }
 
     @Test

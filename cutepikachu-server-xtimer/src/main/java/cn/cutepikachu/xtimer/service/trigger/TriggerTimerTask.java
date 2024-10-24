@@ -1,9 +1,9 @@
 package cn.cutepikachu.xtimer.service.trigger;
 
 import cn.cutepikachu.xtimer.config.TriggerConfiguration;
+import cn.cutepikachu.xtimer.dao.repository.TimerTaskRepository;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import cn.cutepikachu.xtimer.model.enums.TaskStatus;
-import cn.cutepikachu.xtimer.service.ITimerTaskService;
 import cn.cutepikachu.xtimer.util.TaskCacheUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
@@ -28,7 +28,7 @@ public class TriggerTimerTask extends java.util.TimerTask {
 
     TaskCacheUtils taskCacheUtils;
 
-    ITimerTaskService taskService;
+    TimerTaskRepository taskRepository;
 
     private final CountDownLatch latch;
 
@@ -46,11 +46,11 @@ public class TriggerTimerTask extends java.util.TimerTask {
 
     private final String timeBucketKey;
 
-    public TriggerTimerTask(TriggerConfiguration triggerConfiguration, TriggerPoolTask triggerPoolTask, TaskCacheUtils taskCacheUtils, ITimerTaskService taskService, CountDownLatch latch, Date startTime, Date endTime, String timeBucketKey) {
+    public TriggerTimerTask(TriggerConfiguration triggerConfiguration, TriggerPoolTask triggerPoolTask, TaskCacheUtils taskCacheUtils, TimerTaskRepository taskRepository, CountDownLatch latch, Date startTime, Date endTime, String timeBucketKey) {
         this.triggerConfiguration = triggerConfiguration;
         this.triggerPoolTask = triggerPoolTask;
         this.taskCacheUtils = taskCacheUtils;
-        this.taskService = taskService;
+        this.taskRepository = taskRepository;
         this.latch = latch;
         this.count = 0L;
         this.startTime = startTime;
@@ -118,7 +118,7 @@ public class TriggerTimerTask extends java.util.TimerTask {
             log.warn("getTasksFromCache error: ", e);
             // 缓存未命中，拆线呢数据库
             try {
-                tasks = taskService.lambdaQuery()
+                tasks = taskRepository.lambdaQuery()
                         .between(TimerTask::getRunTime, start.getTime(), end.getTime() - 1)
                         .eq(TimerTask::getStatus, TaskStatus.NOT_RUN)
                         .list();

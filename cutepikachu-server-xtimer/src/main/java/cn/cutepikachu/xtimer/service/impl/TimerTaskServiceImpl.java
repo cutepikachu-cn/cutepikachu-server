@@ -1,9 +1,8 @@
 package cn.cutepikachu.xtimer.service.impl;
 
-import cn.cutepikachu.xtimer.mapper.TimerTaskMapper;
-import cn.cutepikachu.xtimer.model.entity.TimerTask;
+import cn.cutepikachu.xtimer.dao.repository.TimerTaskRepository;
 import cn.cutepikachu.xtimer.service.ITimerTaskService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +13,9 @@ import org.springframework.stereotype.Service;
  * @since 2024-08-12 22:24:49
  */
 @Service
-public class TimerTaskServiceImpl extends ServiceImpl<TimerTaskMapper, TimerTask> implements ITimerTaskService {
+public class TimerTaskServiceImpl implements ITimerTaskService {
+
+    @Resource
+    private TimerTaskRepository timerTaskRepository;
 
 }

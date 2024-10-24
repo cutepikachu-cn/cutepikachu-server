@@ -1,7 +1,7 @@
 package cn.cutepikachu.xtimer.service.trigger;
 
 import cn.cutepikachu.xtimer.config.TriggerConfiguration;
-import cn.cutepikachu.xtimer.service.ITimerTaskService;
+import cn.cutepikachu.xtimer.dao.repository.TimerTaskRepository;
 import cn.cutepikachu.xtimer.util.TaskCacheUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class TriggerWorker {
     private TaskCacheUtils taskCacheUtils;
 
     @Resource
-    private ITimerTaskService taskService;
+    private TimerTaskRepository taskRepository;
 
     public void work(String timeBucketKey) {
         // 进行为时一分钟的 zRange
@@ -41,7 +41,7 @@ public class TriggerWorker {
         // 创建 Java 计时器任务
         CountDownLatch latch = new CountDownLatch(1);
         java.util.Timer timer = new java.util.Timer("Timer");
-        TriggerTimerTask task = new TriggerTimerTask(triggerConfiguration, triggerPoolTask, taskCacheUtils, taskService, latch, startTime, endTime, timeBucketKey);
+        TriggerTimerTask task = new TriggerTimerTask(triggerConfiguration, triggerPoolTask, taskCacheUtils, taskRepository, latch, startTime, endTime, timeBucketKey);
         // 开始调度分片中达到执行时间的任务
         // 每 zrangeGapSeconds 秒扫描一次分片中的任务，取出达到执行时间的任务执行
         timer.scheduleAtFixedRate(task, 0L, triggerConfiguration.getZrangeGapSeconds() * 1000L);

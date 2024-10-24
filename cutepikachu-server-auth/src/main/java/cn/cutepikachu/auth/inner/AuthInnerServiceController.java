@@ -1,7 +1,7 @@
 package cn.cutepikachu.auth.inner;
 
-import cn.cutepikachu.auth.service.IAuthAccountService;
-import cn.cutepikachu.auth.service.IUserRoleService;
+import cn.cutepikachu.auth.dao.repository.AuthAccountRepository;
+import cn.cutepikachu.auth.dao.repository.UserRoleRepository;
 import cn.cutepikachu.common.model.auth.entity.AuthAccount;
 import cn.cutepikachu.common.model.auth.entity.UserRole;
 import cn.cutepikachu.common.model.auth.enums.RoleEnum;
@@ -28,14 +28,14 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.bizException;
 public class AuthInnerServiceController implements AuthInnerService {
 
     @Resource
-    private IAuthAccountService authAccountService;
+    private AuthAccountRepository authAccountRepository;
 
     @Resource
-    private IUserRoleService userRoleService;
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public BaseResponse<AuthAccount> getAuthAccountByUserId(Long userId) {
-        AuthAccount authAccount = authAccountService.getById(userId);
+        AuthAccount authAccount = authAccountRepository.getById(userId);
         if (authAccount == null) {
             throw bizException(ErrorCode.NOT_FOUND, "账户不存在");
         }
@@ -45,7 +45,7 @@ public class AuthInnerServiceController implements AuthInnerService {
     @Override
     public BaseResponse<AuthAccount> getAuthAccountByUsernameAndPassword(String username, String password) {
         // 根据用户名和加密后的密码查询账户信息
-        AuthAccount authAccount = authAccountService.lambdaQuery()
+        AuthAccount authAccount = authAccountRepository.lambdaQuery()
                 .eq(AuthAccount::getUsername, username)
                 .one();
 
@@ -61,11 +61,11 @@ public class AuthInnerServiceController implements AuthInnerService {
 
     @Override
     public BaseResponse<List<RoleEnum>> getAuthAccountRoleByUserId(Long userId) {
-        AuthAccount authAccount = authAccountService.getById(userId);
+        AuthAccount authAccount = authAccountRepository.getById(userId);
         if (authAccount == null) {
             throw bizException(ErrorCode.NOT_FOUND, "账户不存在");
         }
-        List<RoleEnum> roleList = userRoleService.lambdaQuery()
+        List<RoleEnum> roleList = userRoleRepository.lambdaQuery()
                 .eq(UserRole::getUserId, userId)
                 .list()
                 .stream()

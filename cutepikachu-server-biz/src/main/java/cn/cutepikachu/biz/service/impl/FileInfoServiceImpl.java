@@ -1,6 +1,6 @@
 package cn.cutepikachu.biz.service.impl;
 
-import cn.cutepikachu.biz.mapper.FileInfoMapper;
+import cn.cutepikachu.biz.dao.repository.FileInfoRepository;
 import cn.cutepikachu.biz.model.convert.FileInfoConvert;
 import cn.cutepikachu.biz.service.IFileInfoService;
 import cn.cutepikachu.biz.service.OssService;
@@ -15,7 +15,6 @@ import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +33,10 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
  * @since 2024-09-13 16:23:28
  */
 @Service
-public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> implements IFileInfoService {
+public class FileInfoServiceImpl implements IFileInfoService {
+
+    @Resource
+    private FileInfoRepository fileInfoRepository;
 
     @Resource
     private DistributedIdInnerService distributedIdInnerService;
@@ -78,7 +80,7 @@ public class FileInfoServiceImpl extends ServiceImpl<FileInfoMapper, FileInfo> i
         resp.check();
         fileInfo.setFileId(resp.getData())
                 .setEndpoint(ossService.getEndpoint());
-        boolean saveFileInfoSuccess = this.save(fileInfo);
+        boolean saveFileInfoSuccess = fileInfoRepository.save(fileInfo);
         if (!saveFileInfoSuccess) {
             throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "保存文件信息失败");
         }

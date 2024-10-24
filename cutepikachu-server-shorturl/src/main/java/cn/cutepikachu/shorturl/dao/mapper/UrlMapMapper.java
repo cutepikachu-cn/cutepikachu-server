@@ -1,4 +1,4 @@
-package cn.cutepikachu.shorturl.mapper;
+package cn.cutepikachu.shorturl.dao.mapper;
 
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

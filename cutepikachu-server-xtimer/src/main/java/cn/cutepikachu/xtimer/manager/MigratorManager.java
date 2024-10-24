@@ -2,11 +2,11 @@ package cn.cutepikachu.xtimer.manager;
 
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.MigratorConfiguration;
+import cn.cutepikachu.xtimer.dao.repository.TimerTaskRepository;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.entity.TimerTask;
 import cn.cutepikachu.xtimer.model.enums.TaskStatus;
 import cn.cutepikachu.xtimer.model.enums.TimerStatus;
-import cn.cutepikachu.xtimer.service.ITimerTaskService;
 import cn.cutepikachu.xtimer.util.TaskCacheUtils;
 import cn.cutepikachu.xtimer.util.TimerUtils;
 import cn.hutool.core.collection.CollUtil;
@@ -35,7 +35,7 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 public class MigratorManager {
 
     @Resource
-    private ITimerTaskService taskService;
+    private TimerTaskRepository taskRepository;
 
     @Resource
     private MigratorConfiguration migratorConfiguration;
@@ -75,7 +75,7 @@ public class MigratorManager {
         // 将 [now, end] 时间内将要执行的任务信息加入数据库
         List<TimerTask> taskList = getTasksToExecuted(timer, executeTimes);
         // 基于 timer_id + run_time 唯一键，保证任务不被重复插入
-        taskService.saveBatch(taskList);
+        taskRepository.saveBatch(taskList, taskList.size());
 
         // 将 [now, end] 时间内将要执行的任务信息加入 Redis
         boolean cacheRes = taskCacheUtils.saveTasksToCache(taskList);

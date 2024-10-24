@@ -2,9 +2,7 @@ package cn.cutepikachu.xtimer.service;
 
 import cn.cutepikachu.xtimer.model.dto.TimerCreateDTO;
 import cn.cutepikachu.xtimer.model.dto.TimerUpdateDTO;
-import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.vo.TimerVO;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
  * @version 0.0.1-SNAPSHOT
  * @since 2024-08-12 22:24:49
  */
-public interface ITimerService extends IService<Timer> {
+public interface ITimerService {
 
     @Transactional(rollbackFor = Exception.class)
     TimerVO createTimer(TimerCreateDTO timerCreateDTO);

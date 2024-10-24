@@ -2,10 +2,10 @@ package cn.cutepikachu.xtimer.service.migrator;
 
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.xtimer.config.MigratorConfiguration;
+import cn.cutepikachu.xtimer.dao.repository.TimerRepository;
 import cn.cutepikachu.xtimer.manager.MigratorManager;
 import cn.cutepikachu.xtimer.model.entity.Timer;
 import cn.cutepikachu.xtimer.model.enums.TimerStatus;
-import cn.cutepikachu.xtimer.service.ITimerService;
 import cn.cutepikachu.xtimer.util.TimerUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
 public class MigratorWorker {
 
     @Resource
-    private ITimerService timerService;
+    private TimerRepository timerRepository;
 
     @Resource
     private MigratorConfiguration migratorConfiguration;
@@ -86,7 +86,7 @@ public class MigratorWorker {
 
     private void migrate() {
         // 获取已激活的定时任务
-        List<Timer> timers = timerService.lambdaQuery()
+        List<Timer> timers = timerRepository.lambdaQuery()
                 .eq(Timer::getStatus, TimerStatus.ENABLE)
                 .list();
 
