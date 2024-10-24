@@ -220,7 +220,7 @@
         <repository>
             <id>huaweicloud</id>
             <name>huawei</name>
-            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+            <url>https://mirrors.huaweicloud.com/repository/maven</url>
         </repository>
         <repository>
             <id>spring-milestones</id>

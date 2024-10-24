@@ -36,7 +36,7 @@ cutepikachu-server-ai -- AI 服务模块
 | 工具库       | Hutool               | 5.8.29     |
 | 代码简化      | Lombok               | 1.18.34    |
 | 类型映射代码生成  | MapStruct            | 1.6.2      |
-| ORM 框架    | Mybatis-Plus         | 3.5.7      |
+| ORM 框架    | Mybatis-Plus         | 3.5.9      |
 | 接口文档      | knife4j              | 4.5.0      |
 | Redis 客户端 | redisson             | 3.33.0     |
 | 认证鉴权框架    | Sa-Token             | 1.38.0     |
