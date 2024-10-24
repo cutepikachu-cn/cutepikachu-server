@@ -20,6 +20,7 @@
         <module>cutepikachu-server-common-security</module>
         <module>cutepikachu-server-common-model</module>
         <module>cutepikachu-server-common-snowflake</module>
+        <module>cutepikachu-server-common-protection</module>
     </modules>
 
 </project>
