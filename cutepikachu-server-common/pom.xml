@@ -21,6 +21,7 @@
         <module>cutepikachu-server-common-model</module>
         <module>cutepikachu-server-common-snowflake</module>
         <module>cutepikachu-server-common-protection</module>
+        <module>cutepikachu-server-common-mq</module>
     </modules>
 
 </project>

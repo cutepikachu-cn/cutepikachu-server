@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>cutepikachu-server-common</artifactId>
+        <groupId>cn.cutepikachu</groupId>
+        <version>${rversion}</version>
+    </parent>
+    <packaging>jar</packaging>
+
+    <artifactId>cutepikachu-server-common-mq</artifactId>
+    <description>Cutepikachu Server 公共模块-消息队列模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
