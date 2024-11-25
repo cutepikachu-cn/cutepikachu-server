@@ -68,15 +68,10 @@ public class AiImageServiceImpl implements IAiImageService {
         ImageOptions imageOptions = buildImageOptions(aiImageDrawDTO, platform);
 
         // 保存绘图记录
-        AiImage aiImage = new AiImage();
+        AiImage aiImage = AI_IMAGE_CONVERT.convert(aiImageDrawDTO);
         aiImage.setUserId(user.getUserId())
-                .setModel(aiImageDrawDTO.getModel())
-                .setPlatform(aiImageDrawDTO.getPlatform())
-                .setPrompt(aiImageDrawDTO.getPrompt())
-                .setHeight(aiImageDrawDTO.getHeight())
-                .setWidth(aiImageDrawDTO.getWidth())
-                .setOptions(aiImageDrawDTO.getOptions())
                 .setStatus(AiImageStatus.IN_PROGRESS);
+
         // 获取分布式 ID
         BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
         resp.check();
@@ -121,7 +116,6 @@ public class AiImageServiceImpl implements IAiImageService {
             FileInfo fileInfo = resp.getData();
 
             // 更新绘图记录信息
-
             String imageUrl = String.format("%s/%s/%s", fileInfo.getEndpoint(), fileInfo.getBucket(), fileInfo.getPath());
 
             aiImageRepository.lambdaUpdate()

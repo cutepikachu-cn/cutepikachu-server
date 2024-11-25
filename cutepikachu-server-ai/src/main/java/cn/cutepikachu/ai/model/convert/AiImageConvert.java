@@ -1,5 +1,6 @@
 package cn.cutepikachu.ai.model.convert;
 
+import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
 import org.mapstruct.Mapper;
@@ -16,5 +17,7 @@ public interface AiImageConvert {
     AiImageConvert INSTANCE = Mappers.getMapper(AiImageConvert.class);
 
     AiImageVO convert(AiImage aiImage);
+
+    AiImage convert(AiImageDrawDTO aiImageDrawDTO);
 
 }
