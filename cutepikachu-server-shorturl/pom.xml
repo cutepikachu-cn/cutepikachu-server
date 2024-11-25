@@ -59,10 +59,13 @@
             <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-inner-leaf</artifactId>
         </dependency>
-
         <dependency>
             <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-common-snowflake</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-protection</artifactId>
         </dependency>
     </dependencies>
 

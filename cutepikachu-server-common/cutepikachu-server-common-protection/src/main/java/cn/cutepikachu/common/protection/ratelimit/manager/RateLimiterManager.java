@@ -42,8 +42,8 @@ public class RateLimiterManager {
 
         // 配置相同
         if (Objects.equals(config.getRateType(), RateType.OVERALL)
-                || Objects.equals(config.getRate(), count)
-                || Objects.equals(config.getRateInterval(), time)) {
+                && Objects.equals(config.getRate(), count)
+                && Objects.equals(config.getRateInterval(), time)) {
             return rateLimiter;
         }
 

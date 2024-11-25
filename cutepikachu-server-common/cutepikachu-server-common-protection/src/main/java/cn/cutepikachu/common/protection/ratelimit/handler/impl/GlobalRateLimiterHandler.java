@@ -22,8 +22,8 @@ public class GlobalRateLimiterHandler implements RateLimiterHandler {
     @Override
     public String getKey(JoinPoint joinPoint, RateLimiter rateLimiter) {
         String methodName = joinPoint.getSignature().toString();
-        String args = StrUtil.join(",", joinPoint.getArgs());
-        String key = String.format("%s:%s", methodName, args);
+        String argsStr = StrUtil.join(",", joinPoint.getArgs());
+        String key = String.format("%s:%s", methodName, argsStr);
         return SecureUtil.md5(key);
     }
 

@@ -11,6 +11,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.redisson.api.RRateLimiter;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ import static cn.cutepikachu.common.exception.ExceptionFactory.sysException;
  * @since 2024-10-21 20:44-56
  */
 @Aspect
+@Component
 @Slf4j
 public class RateLimiterAspect {
 
