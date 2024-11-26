@@ -80,6 +80,10 @@
         </dependency>
         <dependency>
             <groupId>cn.cutepikachu</groupId>
+            <artifactId>cutepikachu-server-common-mq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cutepikachu</groupId>
             <artifactId>cutepikachu-server-inner-leaf</artifactId>
         </dependency>
         <dependency>

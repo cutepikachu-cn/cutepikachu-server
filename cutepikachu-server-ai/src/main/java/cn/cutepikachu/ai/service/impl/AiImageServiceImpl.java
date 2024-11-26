@@ -8,6 +8,8 @@ import cn.cutepikachu.ai.model.enums.AiPlatform;
 import cn.cutepikachu.ai.model.image.dto.AiImageDrawDTO;
 import cn.cutepikachu.ai.model.image.entity.AiImage;
 import cn.cutepikachu.ai.model.image.vo.AiImageVO;
+import cn.cutepikachu.ai.mq.model.AiImageMessage;
+import cn.cutepikachu.ai.mq.provider.AiImageProvider;
 import cn.cutepikachu.ai.service.IAiImageService;
 import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.model.biz.entity.FileInfo;
@@ -15,19 +17,15 @@ import cn.cutepikachu.common.model.biz.enums.FileBizTag;
 import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
-import cn.cutepikachu.common.util.SpringUtils;
 import cn.cutepikachu.inner.biz.FileInnerService;
 import cn.cutepikachu.inner.biz.dto.FileSaveDTO;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import com.alibaba.cloud.ai.tongyi.image.TongYiImagesOptions;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.image.*;
-import org.springframework.ai.zhipuai.ZhiPuAiImageOptions;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -59,13 +57,15 @@ public class AiImageServiceImpl implements IAiImageService {
     @Resource
     private FileInnerService fileInnerService;
 
+    @Resource
+    private AiImageProvider aiImageProvider;
+
     private static final AiImageConvert AI_IMAGE_CONVERT = AiImageConvert.INSTANCE;
 
     @Override
     public AiImageVO drawImage(AiImageDrawDTO aiImageDrawDTO, UserInfo user) {
-        // 构建绘图参数
-        AiPlatform platform = aiImageDrawDTO.getPlatform();
-        ImageOptions imageOptions = buildImageOptions(aiImageDrawDTO, platform);
+        // 参数校验
+        checkImageOptions(aiImageDrawDTO);
 
         // 保存绘图记录
         AiImage aiImage = AI_IMAGE_CONVERT.convert(aiImageDrawDTO);
@@ -80,17 +80,24 @@ public class AiImageServiceImpl implements IAiImageService {
 
         // 异步绘图
         // 获取注册为 Bean 的代理对象，否则无法执行 AOP 异步调用
-        AiImageServiceImpl aiImageService = SpringUtils.getBean(getClass());
-        aiImageService.drawImageAsync(platform, imageOptions, aiImage);
+        // AiImageServiceImpl aiImageService = SpringUtils.getBean(getClass());
+        // aiImageService.drawImageAsync(imageOptions, aiImage);
+
+        // 发送绘图任务信息
+        AiImageMessage aiImageMessage = AiImageMessage.builder()
+                .content(aiImage)
+                .build();
+        aiImageProvider.send(aiImageMessage);
 
         // 返回绘图记录
         return AI_IMAGE_CONVERT.convert(aiImage);
     }
 
-    @Async
-    public void drawImageAsync(AiPlatform aiPlatform, ImageOptions imageOptions, AiImage aiImage) {
+    @Deprecated
+    // @Async
+    public void drawImageAsync(ImageOptions imageOptions, AiImage aiImage) {
         try {
-            ImageModel imageModel = aiImageModelFactory.getImageModel(aiPlatform);
+            ImageModel imageModel = aiImageModelFactory.getImageModel(aiImage.getPlatform());
             ImagePrompt imagePrompt = new ImagePrompt(aiImage.getPrompt(), imageOptions);
             ImageResponse imageResponse = imageModel.call(imagePrompt);
             ImageGeneration result = imageResponse.getResult();
@@ -135,8 +142,11 @@ public class AiImageServiceImpl implements IAiImageService {
         }
     }
 
-    private ImageOptions buildImageOptions(AiImageDrawDTO aiImageDrawDTO, AiPlatform aiPlatform) {
-        // 参数校验
+    /**
+     * 参数校验
+     */
+    private void checkImageOptions(AiImageDrawDTO aiImageDrawDTO) {
+        AiPlatform aiPlatform = aiImageDrawDTO.getPlatform();
         if (aiPlatform == null) {
             throw bizException(ErrorCode.BAD_REQUEST, "不支持的平台");
         }
@@ -144,6 +154,11 @@ public class AiImageServiceImpl implements IAiImageService {
         String model = aiImageDrawDTO.getModel();
         if (StrUtil.isBlank(model)) {
             throw bizException(ErrorCode.BAD_REQUEST, "模型不能为空");
+        }
+
+        String prompt = aiImageDrawDTO.getPrompt();
+        if (StrUtil.isBlank(prompt)) {
+            throw bizException(ErrorCode.BAD_REQUEST, "提示不能为空");
         }
 
         Integer height = aiImageDrawDTO.getHeight();
@@ -154,26 +169,6 @@ public class AiImageServiceImpl implements IAiImageService {
         Integer width = aiImageDrawDTO.getWidth();
         if (width == null || width.compareTo(0) <= 0) {
             throw bizException(ErrorCode.BAD_REQUEST, "无效的宽度");
-        }
-
-        // 构建参数
-        switch (aiPlatform) {
-            case TONGYI -> {
-                return TongYiImagesOptions.builder()
-                        .withModel(model)
-                        .withWidth(width)
-                        .withHeight(height)
-                        .withN(1)
-                        .build();
-            }
-            case ZHIPU -> {
-                return ZhiPuAiImageOptions.builder()
-                        .withModel(model)
-                        .build();
-            }
-            default -> {
-                return null;
-            }
         }
     }
 
