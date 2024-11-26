@@ -4,7 +4,7 @@
 
 ## 项目简介
 
-个人开发学习项目，包含一些通用的服务后端代码，方便快速开发
+**个人开发学习项目，包含一些通用的服务后端代码，方便快速开发**
 
 ## 项目结构
 
@@ -29,25 +29,27 @@ cutepikachu-server-ai -- AI 服务模块
 |-----------|----------------------|------------|
 | 数据库       | MySQL                | 8.4.2      |
 | 缓存        | Redis                | 7.4.0      |
-| 核心框架      | Spring Boot          | 3.3.2      |
+| 核心框架      | Spring Boot          | 3.3.5      |
 | 核心框架      | Spring Cloud         | 2023.0.3   |
-| 核心框架      | Spring Cloud Alibaba | 2023.0.1.0 |
+| 核心框架      | Spring Cloud Alibaba | 2023.0.1.3 |
 | 注册中心/服务发现 | Nacos                | 2.3.2      |
 | 工具库       | Hutool               | 5.8.29     |
 | 代码简化      | Lombok               | 1.18.34    |
 | 类型映射代码生成  | MapStruct            | 1.6.2      |
 | ORM 框架    | Mybatis-Plus         | 3.5.9      |
+| 动态数据源     | Dynamic-Datasource   | 4.3.1      |
 | 接口文档      | knife4j              | 4.5.0      |
-| Redis 客户端 | redisson             | 3.33.0     |
+| Redis 客户端 | Redisson             | 3.33.0     |
 | 认证鉴权框架    | Sa-Token             | 1.38.0     |
 | 数据库连接池    | Druid                | 1.2.20     |
 | 对象存储      | MinIO                | 8.5.12     |
+| AI        | Spring-AI            | 1.1.0      |
+| 二维码/条码生成  | Zxing                | 3.5.3      |
 
 ## 后续开发计划
 
 - 通用业务模块-验证码服务（AjPlus Captcha / EasyCaptcha ?）
 - 搜索服务模块（Elasitcsearch ?）
-- 消息队列服务模块（RabbitMQ ?）
 - 短信服务模块（支持多服务商短信服务 ?）
 
 ## 开源协议
