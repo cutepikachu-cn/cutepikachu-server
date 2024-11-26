@@ -22,8 +22,8 @@ import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
+import cn.cutepikachu.common.util.SecurityUtils;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
@@ -167,9 +167,8 @@ public class AuthAccountServiceImpl implements IAuthAccountService {
 
     @Override
     public void updateAuthAccount(AuthAccountUpdateDTO authAccountUpdateDTO) {
-        SaSession session = StpUtil.getSession();
-        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
-        AuthAccount authAccount = authAccountRepository.getById(userInfo.getUserId());
+        UserInfo loginUser = SecurityUtils.getLoginUser();
+        AuthAccount authAccount = authAccountRepository.getById(loginUser.getUserId());
         AUTH_ACCOUNT_CONVERT.copy(authAccountUpdateDTO, authAccount);
         this.verifyAuthAccount(authAccount);
         authAccount.setPassword(passwordUtil.crypto(authAccount.getPassword()));
@@ -177,7 +176,7 @@ public class AuthAccountServiceImpl implements IAuthAccountService {
         if (!updateSuccess) {
             throw bizException(ErrorCode.INTERNAL_SERVER_ERROR, "更新认证账户信息失败");
         }
-        StpUtil.kickout(userInfo.getUserId());
+        StpUtil.kickout(loginUser.getUserId());
     }
 
 }

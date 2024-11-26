@@ -6,8 +6,7 @@ import cn.cutepikachu.ai.service.IAiImageService;
 import cn.cutepikachu.common.model.user.entity.UserInfo;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.util.ResponseUtils;
-import cn.dev33.satoken.session.SaSession;
-import cn.dev33.satoken.stp.StpUtil;
+import cn.cutepikachu.common.util.SecurityUtils;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,17 +25,15 @@ public class AiImageController {
 
     @PostMapping("/draw")
     public BaseResponse<AiImageVO> draw(@RequestBody AiImageDrawDTO aiImageDrawDTO) {
-        SaSession session = StpUtil.getSession();
-        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
+        UserInfo userInfo = SecurityUtils.getLoginUser();
         AiImageVO aiImageVO = aiImageService.drawImage(aiImageDrawDTO, userInfo);
         return ResponseUtils.success(aiImageVO);
     }
 
     @GetMapping("/get")
     public BaseResponse<AiImageVO> get(@RequestParam Long id) {
-        SaSession session = StpUtil.getSession();
-        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
-        AiImageVO aiImageVO = aiImageService.getAiImage(id, userInfo);
+        UserInfo loginUser = SecurityUtils.getLoginUser();
+        AiImageVO aiImageVO = aiImageService.getAiImage(id, loginUser);
         return ResponseUtils.success(aiImageVO);
     }
 

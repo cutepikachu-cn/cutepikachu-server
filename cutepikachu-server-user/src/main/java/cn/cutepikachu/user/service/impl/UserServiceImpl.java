@@ -10,12 +10,12 @@ import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.security.util.PasswordUtil;
 import cn.cutepikachu.common.util.RegularExpressionUtils;
+import cn.cutepikachu.common.util.SecurityUtils;
 import cn.cutepikachu.inner.auth.AuthInnerService;
 import cn.cutepikachu.user.dao.repository.UserRepository;
 import cn.cutepikachu.user.model.convert.UserConvert;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
@@ -63,9 +63,8 @@ public class UserServiceImpl implements IUserService {
     public UserInfoVO getLoginUserInfo(String username, String password) {
         // 是否已登录
         if (StpUtil.isLogin()) {
-            SaSession session = StpUtil.getSession();
-            UserInfo userInfo = session.getModel("user_info", UserInfo.class);
-            return USER_INFO_CONVERT.convert(userInfo);
+            UserInfo loginUser = SecurityUtils.getLoginUser();
+            return USER_INFO_CONVERT.convert(loginUser);
         }
         // 未登录
         String cryptoPassword = passwordUtil.crypto(password);
@@ -77,18 +76,16 @@ public class UserServiceImpl implements IUserService {
         UserInfo userInfo = USER_INFO_CONVERT.convert(user, authAccount);
         // 存储登录状态
         StpUtil.login(userId);
-        SaSession session = StpUtil.getSession();
-        session.set("user_info", userInfo);
+        SecurityUtils.setLoginUser(userInfo);
         return USER_INFO_CONVERT.convert(userInfo);
     }
 
     @Override
     public UserInfoVO updateUserInfo(UserUpdateDTO userUpdateDTO) {
         // 获取登录用户信息
-        SaSession session = StpUtil.getSession();
-        UserInfo userInfo = session.getModel("user_info", UserInfo.class);
+        UserInfo loginUser = SecurityUtils.getLoginUser();
         // 校验用户信息
-        User user = USER_CONVERT.convert(userInfo);
+        User user = USER_CONVERT.convert(loginUser);
         USER_CONVERT.copy(userUpdateDTO, user);
         this.verifyUser(user);
         // 更新用户信息
@@ -96,10 +93,10 @@ public class UserServiceImpl implements IUserService {
         if (!updateSuccess) {
             throw sysException(ErrorCode.INTERNAL_SERVER_ERROR, "更新用户信息失败");
         }
-        USER_CONVERT.copy(repository.getById(user.getUserId()), userInfo);
+        USER_CONVERT.copy(repository.getById(user.getUserId()), loginUser);
         // 更新登录状态
-        session.set("user_info", userInfo);
-        return USER_INFO_CONVERT.convert(userInfo);
+        SecurityUtils.setLoginUser(loginUser);
+        return USER_INFO_CONVERT.convert(loginUser);
     }
 
     @Override
