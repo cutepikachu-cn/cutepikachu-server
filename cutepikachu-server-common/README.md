@@ -7,3 +7,4 @@
 - cutepikachu-server-common-redis -- Redis 公共模块
 - cutepikachu-server-common-snowflake -- 雪花算法公共模块
 - cutepikachu-server-common-protection -- 服务保障公共模块
+- cutepikachu-server-common-mq -- 消息队列公共模块
