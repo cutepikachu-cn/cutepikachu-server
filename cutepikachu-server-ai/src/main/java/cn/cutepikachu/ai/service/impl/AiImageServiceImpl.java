@@ -73,7 +73,7 @@ public class AiImageServiceImpl implements IAiImageService {
                 .setStatus(AiImageStatus.IN_PROGRESS);
 
         // 获取分布式 ID
-        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AI_IMAGE.getKey());
         resp.check();
         aiImage.setId(resp.getData());
         aiImageRepository.save(aiImage);

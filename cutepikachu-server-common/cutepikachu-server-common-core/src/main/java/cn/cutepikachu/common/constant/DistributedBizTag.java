@@ -1,5 +1,8 @@
 package cn.cutepikachu.common.constant;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 分布式业务标识
  *
@@ -7,16 +10,18 @@ package cn.cutepikachu.common.constant;
  * @version 1.0
  * @since 2024-08-03 19:09-42
  */
-public class DistributedBizTag {
+@Getter
+@AllArgsConstructor
+public enum DistributedBizTag {
 
-    public static final String AUTH_ACCOUNT = "cutepikachu-server-auth-account";
+    AUTH_ACCOUNT("cutepikachu-server-auth-account"),
+    TIMER("cutepikachu-server-xtimer"),
+    SHORT_URL("cutepikachu-server-shorturl"),
+    FILE("cutepikachu-server-file"),
+    AI_IMAGE("cutepikachu-server-ai-image"),
+    ;
 
-    public static final String TIMER = "cutepikachu-server-xtimer";
+    private final String key;
 
-    public static final String SHORT_URL = "cutepikachu-server-shorturl";
-
-    public static final String FILE = "cutepikachu-server-file";
-
-    public static final String AI_IMAGE = "cutepikachu-server-ai-image";
 
 }

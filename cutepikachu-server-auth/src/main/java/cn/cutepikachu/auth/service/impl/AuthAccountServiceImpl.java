@@ -123,7 +123,7 @@ public class AuthAccountServiceImpl implements IAuthAccountService {
         }
 
         // 获取分布式用户 ID
-        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.AUTH_ACCOUNT.getKey());
         resp.check();
         authAccount.setUserId(resp.getData());
 

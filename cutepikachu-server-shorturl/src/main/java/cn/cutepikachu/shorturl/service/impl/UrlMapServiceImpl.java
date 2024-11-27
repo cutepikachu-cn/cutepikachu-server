@@ -100,7 +100,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
                 .one();
         if (urlMap == null) {
             // 不存在，新建短链
-            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
+            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL.getKey());
             resp.check();
             Long urlId = resp.getData();
             // long urlId = snowflakeIdGenerateService.nextId("short_url");

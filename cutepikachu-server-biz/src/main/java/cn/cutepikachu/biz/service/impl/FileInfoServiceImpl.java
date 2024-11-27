@@ -76,7 +76,7 @@ public class FileInfoServiceImpl implements IFileInfoService {
         ossService.upload(bytes, fileInfo.getBucket(), fileInfo.getPath(), fileInfo.getType());
 
         // 保存文件信息
-        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE);
+        BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.FILE.getKey());
         resp.check();
         fileInfo.setFileId(resp.getData())
                 .setEndpoint(ossService.getEndpoint());

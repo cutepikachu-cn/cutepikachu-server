@@ -86,7 +86,7 @@ public class TimerServiceImpl implements ITimerService {
             verify(timer);
 
             // 获取任务分布式 ID
-            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER);
+            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.TIMER.getKey());
             resp.check();
 
             timer.setStatus(TimerStatus.NEW)
