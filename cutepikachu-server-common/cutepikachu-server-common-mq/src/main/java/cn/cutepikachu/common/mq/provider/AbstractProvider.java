@@ -5,6 +5,8 @@ import cn.cutepikachu.common.mq.model.IMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 消息提供者抽象类
  *
@@ -35,6 +37,21 @@ public abstract class AbstractProvider<T, MSG extends IMessage<T>> {
     public void send(MSG message) {
         log.info("Sending message to exchange: {}, routingKey: {}, message: {}", exchange, routingKey, message);
         rabbitTemplate.convertAndSend(exchange, routingKey, message);
+    }
+
+    /**
+     * 发送延迟消息
+     *
+     * @param message  消息
+     * @param delay    延迟时间
+     * @param timeUnit 时间单位
+     */
+    public void sendDelay(MSG message, long delay, TimeUnit timeUnit) {
+        log.info("Sending delay message to exchange: {}, routingKey: {}, message: {}, delay: {}, timeUnit: {}", exchange, routingKey, message, delay, timeUnit);
+        rabbitTemplate.convertAndSend(exchange, routingKey, message, msg -> {
+            msg.getMessageProperties().setDelayLong(timeUnit.toMillis(delay));
+            return msg;
+        });
     }
 
 }

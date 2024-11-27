@@ -1,10 +1,7 @@
 package cn.cutepikachu.common.protection.ratelimit.enums;
 
 import cn.cutepikachu.common.protection.ratelimit.handler.RateLimiterHandler;
-import cn.cutepikachu.common.protection.ratelimit.handler.impl.ClientIpRateLimiterHandler;
-import cn.cutepikachu.common.protection.ratelimit.handler.impl.GlobalRateLimiterHandler;
-import cn.cutepikachu.common.protection.ratelimit.handler.impl.ServerNodeRateLimiterHandler;
-import cn.cutepikachu.common.protection.ratelimit.handler.impl.UserRateLimiterHandler;
+import cn.cutepikachu.common.protection.ratelimit.handler.impl.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,7 +21,8 @@ public enum RateLimitingLevel {
     GLOBAL("全局", new GlobalRateLimiterHandler()),
     USER("用户", new UserRateLimiterHandler()),
     CLIENT_IP("客户端 IP", new ClientIpRateLimiterHandler()),
-    SERVER_NODE("服务器节点", new ServerNodeRateLimiterHandler());
+    SERVER_NODE("服务器节点", new ServerNodeRateLimiterHandler()),
+    SESSION("会话", new SessionRateLimiterHandler());
 
     private final String desc;
 

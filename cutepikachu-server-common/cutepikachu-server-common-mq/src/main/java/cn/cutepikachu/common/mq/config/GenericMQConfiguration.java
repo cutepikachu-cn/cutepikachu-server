@@ -24,6 +24,8 @@ public interface GenericMQConfiguration {
 
     String getDeadQueue();
 
+    boolean getDelayed();
+
     @Bean
     default Queue smsQueue() {
         return QueueBuilder.durable(getQueue())
@@ -34,7 +36,9 @@ public interface GenericMQConfiguration {
 
     @Bean
     default Exchange smsExchange() {
-        return new DirectExchange(getExchange(), true, false);
+        DirectExchange exchange = new DirectExchange(getExchange(), true, false);
+        exchange.setDelayed(getDelayed());
+        return exchange;
     }
 
     @Bean

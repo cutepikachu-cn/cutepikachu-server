@@ -5,7 +5,6 @@ import cn.cutepikachu.common.protection.ratelimit.handler.RateLimiterHandler;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import org.aspectj.lang.JoinPoint;
-import org.springframework.stereotype.Component;
 
 /**
  * 全局限流处理器
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 2024-10-21 21:14-51
  */
-@Component
 public class GlobalRateLimiterHandler implements RateLimiterHandler {
 
     @Override

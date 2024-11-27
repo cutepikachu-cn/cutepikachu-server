@@ -53,4 +53,9 @@ public class AiImageMQConfiguration implements GenericMQConfiguration {
         return DEAD_QUEUE;
     }
 
+    @Override
+    public boolean getDelayed() {
+        return false;
+    }
+
 }

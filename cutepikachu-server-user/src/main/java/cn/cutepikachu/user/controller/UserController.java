@@ -5,7 +5,6 @@ import cn.cutepikachu.common.model.user.vo.UserVO;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.common.util.ResponseUtils;
-import cn.cutepikachu.user.model.convert.UserConvert;
 import cn.cutepikachu.user.model.dto.UserLoginDTO;
 import cn.cutepikachu.user.model.dto.UserUpdateDTO;
 import cn.cutepikachu.user.service.IUserService;
@@ -27,8 +26,6 @@ public class UserController {
 
     @Resource
     private IUserService userService;
-
-    private static final UserConvert USER_CONVERT = UserConvert.INSTANCE;
 
     @PostMapping("/login")
     public BaseResponse<UserInfoVO> login(@RequestBody UserLoginDTO userLoginDTO) {
