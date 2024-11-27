@@ -1,8 +1,9 @@
 package cn.cutepikachu.shorturl.service.impl;
 
+import cn.cutepikachu.common.constant.DistributedBizTag;
 import cn.cutepikachu.common.redis.util.RedisUtils;
+import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
-import cn.cutepikachu.common.snowflake.service.SnowflakeIdGenerateService;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
 import cn.cutepikachu.shorturl.dao.mapper.UrlMapMapper;
 import cn.cutepikachu.shorturl.dao.repository.UrlMapRepository;
@@ -45,8 +46,8 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
     @Resource
     private DistributedIdInnerService distributedIdInnerService;
 
-    @Resource
-    private SnowflakeIdGenerateService snowflakeIdGenerateService;
+    // @Resource
+    // private SnowflakeIdGenerateService snowflakeIdGenerateService;
 
     @Override
     public void afterPropertiesSet() {
@@ -99,10 +100,10 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
                 .one();
         if (urlMap == null) {
             // 不存在，新建短链
-            // BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
-            // resp.check();
-            // Long urlId = resp.getData();
-            long urlId = snowflakeIdGenerateService.nextId("short_url");
+            BaseResponse<Long> resp = distributedIdInnerService.getDistributedID(DistributedBizTag.SHORT_URL);
+            resp.check();
+            Long urlId = resp.getData();
+            // long urlId = snowflakeIdGenerateService.nextId("short_url");
             // 利用 Base62 编码生成短链接
             shortUrl = Base62Utils.generateBase62ShortUrl(urlId);
 
