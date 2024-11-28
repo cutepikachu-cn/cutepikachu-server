@@ -1,8 +1,5 @@
 package cn.cutepikachu.shorturl.service;
 
-import cn.cutepikachu.shorturl.model.entity.UrlMap;
-import com.baomidou.mybatisplus.extension.service.IService;
-
 /**
  * 短链接映射表 服务类
  *
@@ -10,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @version 0.0.1-SNAPSHOT
  * @since 2024-09-02 19:12:07
  */
-public interface IUrlMapService extends IService<UrlMap> {
+public interface IUrlMapService {
 
     String getLongUrlByShortUrl(String shortUrl);
 

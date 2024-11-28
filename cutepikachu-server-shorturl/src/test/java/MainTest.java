@@ -1,4 +1,5 @@
 import cn.cutepikachu.shorturl.ShortUrlApplication;
+import cn.cutepikachu.shorturl.dao.repository.UrlMapRepository;
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
 import cn.cutepikachu.shorturl.util.Base62Utils;
@@ -15,11 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MainTest {
 
     @Resource
+    UrlMapRepository urlMapRepository;
+
+    @Resource
     IUrlMapService urlMapService;
 
     @Test
     public void test() {
-        UrlMap urlMap = urlMapService.getById(1);
+        UrlMap urlMap = urlMapRepository.getById(1);
         System.out.println(urlMap);
     }
 

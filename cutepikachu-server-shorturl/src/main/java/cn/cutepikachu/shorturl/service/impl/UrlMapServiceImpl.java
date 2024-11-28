@@ -5,14 +5,12 @@ import cn.cutepikachu.common.redis.util.RedisUtils;
 import cn.cutepikachu.common.response.BaseResponse;
 import cn.cutepikachu.common.response.ErrorCode;
 import cn.cutepikachu.inner.leaf.DistributedIdInnerService;
-import cn.cutepikachu.shorturl.dao.mapper.UrlMapMapper;
 import cn.cutepikachu.shorturl.dao.repository.UrlMapRepository;
 import cn.cutepikachu.shorturl.model.entity.UrlMap;
 import cn.cutepikachu.shorturl.service.IUrlMapService;
 import cn.cutepikachu.shorturl.util.Base62Utils;
 import cn.cutepikachu.shorturl.util.ShortUrlUtils;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RedissonClient;
@@ -30,7 +28,7 @@ import static cn.cutepikachu.shorturl.constant.ShortUrlConstant.*;
  * @since 2024-09-02 19:12:07
  */
 @Service
-public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> implements IUrlMapService, InitializingBean {
+public class UrlMapServiceImpl implements IUrlMapService, InitializingBean {
 
     @Resource
     private UrlMapRepository urlMapRepository;
@@ -72,7 +70,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
         }
 
         // 查询数据库
-        UrlMap urlMap = lambdaQuery()
+        UrlMap urlMap = urlMapRepository.lambdaQuery()
                 .eq(UrlMap::getShortUrl, shortUrl)
                 .one();
         if (urlMap == null) {
@@ -95,7 +93,7 @@ public class UrlMapServiceImpl extends ServiceImpl<UrlMapMapper, UrlMap> impleme
             return shortUrl;
         }
         // 查询数据库
-        UrlMap urlMap = lambdaQuery()
+        UrlMap urlMap = urlMapRepository.lambdaQuery()
                 .eq(UrlMap::getLongUrl, longUrl)
                 .one();
         if (urlMap == null) {

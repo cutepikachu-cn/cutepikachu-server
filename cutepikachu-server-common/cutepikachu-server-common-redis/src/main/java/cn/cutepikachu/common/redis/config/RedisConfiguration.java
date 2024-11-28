@@ -45,4 +45,5 @@ public class RedisConfiguration {
         objectMapper.findAndRegisterModules();
         return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
+
 }
